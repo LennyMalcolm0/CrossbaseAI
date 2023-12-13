@@ -25,3 +25,6 @@ body {
 button {
   @apply rounded-[40px]
 }
+button:disabled {
+  @apply animate-pulse
+}

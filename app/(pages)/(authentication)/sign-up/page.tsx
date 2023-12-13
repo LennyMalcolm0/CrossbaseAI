@@ -1,12 +1,22 @@
 "use client"
 import Input from "@/app/components/Input";
 import Link from "next/link";
+import { useSignup } from "./useSignup";
 
 const SignUp = () => {
+    const { 
+        formik, 
+        loading, 
+        passwordFieldRef,
+        passwordRequirementPopup,
+        signupWithGoogle,
+        setPasswordRequirementPopup,
+    } = useSignup();
+
     return (  
         <main className="text-xs">
             <h1 className="text-light-100 text-xl leading-[2] mb-8">Create Account</h1>
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col gap-[15px]">
                     <div className="w-full flex gap-5">
                         <Input 
@@ -14,16 +24,24 @@ const SignUp = () => {
                             labelFor="firstName"
                             attributes={{
                                 type: "text",
-                                placeholder: "Enter first name"
+                                placeholder: "Enter first name",
+                                name: "firstName",
+                                value: formik.values.firstName,
+                                onChange: formik.handleChange,
                             }}
+                            error={formik.touched.firstName && formik.errors.firstName}
                         />
                         <Input 
                             label="Last Name"
                             labelFor="lastName"
                             attributes={{
                                 type: "text",
-                                placeholder: "Enter last name"
+                                placeholder: "Enter last name",
+                                name: "lastName",
+                                value: formik.values.lastName,
+                                onChange: formik.handleChange,
                             }}
+                            error={formik.touched.lastName && formik.errors.lastName}
                         />
                     </div>
                     <Input 
@@ -31,28 +49,79 @@ const SignUp = () => {
                         labelFor="emailAddress"
                         attributes={{
                             type: "text",
-                            placeholder: "Enter your email"
+                            placeholder: "Enter your email",
+                            name: "emailAddress",
+                            value: formik.values.emailAddress,
+                            onChange: formik.handleChange,
                         }}
+                        error={formik.touched.emailAddress && formik.errors.emailAddress}
+                        extraNodeElement={
+                            <p className="error-message text-[11px] text-[#F50449]"></p>
+                        }
                     />
-                    <Input 
-                        label="Password"
-                        labelFor="password"
-                        attributes={{
-                            placeholder: "Your password"
-                        }}
-                        passwordInput
-                    />
+                    <div ref={passwordFieldRef} className="relative z-[999999]">
+                        <Input 
+                            label="Password" 
+                            labelFor="password"
+                            attributes={{
+                                placeholder: "Your password",
+                                name: "password",
+                                value: formik.values.password,
+                                onChange: formik.handleChange,
+                                onFocus: () => setPasswordRequirementPopup(true), 
+                            }}
+                            passwordInput
+                            error={formik.touched.password && formik.errors.password}
+                            extraNodeElement={
+                                <p className="error-message text-[11px] text-[#F50449]"></p>
+                            }
+                        />
+                        {(passwordRequirementPopup && formik.errors.password) && (
+                            <ul className="absolute -mt-1 px-3 py-3 rounded-2xl bg-white border border-[#D4D4D4] text-xs">
+                                <li className="flex items-center">
+                                    <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
+                                    <span>Must be 8 chracters long.</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
+                                    <span>Must contain 1 small letter (a...z).</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
+                                    <span>Must contain 1 capital letter (A...Z).</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
+                                    <span>Must contain 1 special character (!...&).</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
+                                    <span>Must contain 1 number (0...9) </span>
+                                </li>
+                            </ul>
+                        )}
+                    </div>
                     <Input 
                         label="Confirm Password"
                         labelFor="confirmedPassword"
                         attributes={{
-                            placeholder: "Your password"
+                            placeholder: "Your password",
+                            name: "confirmedPassword",
+                            value: formik.values.confirmedPassword,
+                            onChange: formik.handleChange,
                         }}
                         passwordInput
+                        error={formik.touched.confirmedPassword && formik.errors.confirmedPassword}
                     />
                 </div>
-                <button type="submit" className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold">Sign Up</button>
+
+                <button 
+                    type="submit" 
+                    disabled={loading}
+                    className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold"
+                >Sign Up</button>
             </form>
+
             <p className="text-light-200 mt-4">
                 By signing up, you agree to our
                 <span className="text-primary-100"> Privacy Policy</span> and
@@ -63,8 +132,11 @@ const SignUp = () => {
                 <span className="text-white font-medium">Or</span>
                 <hr className="bg-white-400 grow" />
             </div>
+
             <button 
                 type="button" 
+                disabled={loading}
+                onClick={signupWithGoogle}
                 className="group w-full py-3 flex items-center justify-center border border-dark-100 hover:border-primary-100"
             >
                 <svg className="fill-light-400 group-hover:fill-primary-100 transition-01" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
