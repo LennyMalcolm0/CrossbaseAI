@@ -36,7 +36,7 @@ export const setNewPasswordSchema = yup.object().shape({
         .min(8, "Password must be at least 8 characters")
         .max(32, "Password must not exceed 32 characters")
         .matches(
-            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).+$/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).+$/,
             "Password must contain at least one capital letter, one small letter, one number, and one special character"
         )
         .required("Enter new password"),
