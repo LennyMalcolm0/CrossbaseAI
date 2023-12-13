@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup 
 import { useFormik } from "formik";
 import { signupSchema } from "../schemas";
 import { useRef, useState } from "react";
-import { useClickAway } from "ahooks";
+import { useClickAway, useLockFn } from "ahooks";
 
 export function useSignup() {
     const router = useRouter();
@@ -52,7 +52,7 @@ export function useSignup() {
         }
 	};
 
-    const signupWithGoogle = async () => {
+    const signupWithGoogle = useLockFn(async () => {
         try {
             await signInWithPopup(auth, googleProvider);
 
@@ -62,7 +62,7 @@ export function useSignup() {
             setLoading(false);
             alert("Something went wrong. Please try again.");
         }
-    };
+    });
 
     const formik = useFormik({
         initialValues: {

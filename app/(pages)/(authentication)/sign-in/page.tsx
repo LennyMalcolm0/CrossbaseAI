@@ -1,8 +1,11 @@
 "use client"
 import Input from "@/app/components/Input";
 import Link from "next/link";
+import { useSignin } from "./useSignin";
 
 const SignIn = () => {
+    const { formik, loading, signinWithGoogle } = useSignin();
+
     return (  
         <main className="text-xs">
             <h1 className="text-light-100 text-xl leading-[2] mb-8">Sign In</h1>
@@ -13,23 +16,43 @@ const SignIn = () => {
                         labelFor="emailAddress"
                         attributes={{
                             type: "text",
-                            placeholder: "Enter your email"
+                            placeholder: "Enter your email",
+                            name: "emailAddress",
+                            value: formik.values.emailAddress,
+                            onChange: formik.handleChange,
                         }}
+                        error={formik.touched.emailAddress && formik.errors.emailAddress}
+                        extraNodeElement={
+                            <p className="error-message text-[11px] text-[#F50449]"></p>
+                        }
                     />
                     <Input 
                         label="Password"
                         labelFor="password"
                         attributes={{
-                            placeholder: "Your password"
+                            placeholder: "Your password",
+                            name: "password",
+                            value: formik.values.password,
+                            onChange: formik.handleChange,
                         }}
                         passwordInput
+                        error={formik.touched.password && formik.errors.password}
+                        extraNodeElement={
+                            <p className="error-message text-[11px] text-[#F50449]"></p>
+                        }
                     />
                 </div>
                 <p className="text-light-200 mt-[15px]">
                     Forgot your password?
                     <Link href="/reset-password" className="text-primary-100"> Reset Password</Link>
                 </p>
-                <button type="submit" className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold">Sign In</button>
+                <button 
+                    type="submit" 
+                    disabled={loading} 
+                    className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold"
+                >
+                    Sign In
+                </button>
             </form>
             <div className="flex items-center gap-1.5 my-6">
                 <hr className="bg-white-400 grow" />
@@ -38,6 +61,8 @@ const SignIn = () => {
             </div>
             <button 
                 type="button" 
+                disabled={loading}
+                onClick={signinWithGoogle}
                 className="group w-full py-3 flex items-center justify-center border border-dark-100 hover:border-primary-100"
             >
                 <svg className="fill-light-400 group-hover:fill-primary-100 transition-01" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">

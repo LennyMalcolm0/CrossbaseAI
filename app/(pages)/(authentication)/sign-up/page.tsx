@@ -72,9 +72,6 @@ const SignUp = () => {
                             }}
                             passwordInput
                             error={formik.touched.password && formik.errors.password}
-                            extraNodeElement={
-                                <p className="error-message text-[11px] text-[#F50449]"></p>
-                            }
                         />
                         {(passwordRequirementPopup && formik.errors.password) && (
                             <ul className="absolute -mt-1 px-3 py-3 rounded-2xl bg-white border border-[#D4D4D4] text-xs">
@@ -119,7 +116,9 @@ const SignUp = () => {
                     type="submit" 
                     disabled={loading}
                     className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold"
-                >Sign Up</button>
+                >
+                    Sign Up
+                </button>
             </form>
 
             <p className="text-light-200 mt-4">
