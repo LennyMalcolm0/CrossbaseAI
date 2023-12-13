@@ -1,8 +1,11 @@
 "use client"
 import Input from "@/app/components/Input";
 import Link from "next/link";
+import { useResetPassword } from "./useResetPassword";
 
 const ResetPassword = () => {
+    const { formik, loading } = useResetPassword();
+
     return (  
         <main className="text-xs">
             <h1 className="text-light-100 text-xl leading-[2]">Reset Password</h1>
@@ -15,8 +18,15 @@ const ResetPassword = () => {
                     labelFor="emailAddress"
                     attributes={{
                         type: "text",
-                        placeholder: "Enter your email"
+                        placeholder: "Enter your email", 
+                        name: "emailAddress",
+                        value: formik.values.emailAddress,
+                        onChange: formik.handleChange,
                     }}
+                    error={formik.touched.emailAddress && formik.errors.emailAddress}
+                    extraNodeElement={
+                        <p className="error-message text-[11px] text-[#F50449]"></p>
+                    }
                 />
                 <button type="submit" className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold">
                     Get Verification Link
