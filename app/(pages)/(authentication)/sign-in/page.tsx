@@ -44,7 +44,7 @@ const SignIn = () => {
                 </div>
                 <p className="text-light-200 mt-[15px]">
                     Forgot your password?
-                    <Link href="/reset-password" className="text-primary-100"> Reset Password</Link>
+                    <Link href="/reset-password" className="text-primary-100 hover:text-white"> Reset Password</Link>
                 </p>
                 <button 
                     type="submit" 
@@ -75,7 +75,7 @@ const SignIn = () => {
             </button>
             <p className="text-light-200 text-center mt-[15px]">
                 {"Don't have an account?"}
-                <Link href="/sign-up" className="text-primary-100"> Sign up</Link>
+                <Link href="/sign-up" className="text-primary-100 hover:text-white"> Sign up</Link>
             </p>
         </main>
     );

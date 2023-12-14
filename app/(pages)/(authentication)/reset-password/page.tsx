@@ -34,7 +34,7 @@ const ResetPassword = () => {
             </form>
             <p className="text-light-200 text-center mt-[15px]">
                 {"Remember password?"}
-                <Link href="/sign-in" className="text-primary-100"> Sign in</Link>
+                <Link href="/sign-in" className="text-primary-100 hover:text-white"> Sign in</Link>
             </p>
         </main>
     );
