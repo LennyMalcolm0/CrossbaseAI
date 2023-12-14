@@ -22,6 +22,10 @@ body {
   background-color: #000000;
 }
 
+.app-container {
+  @apply px-5 xl:w-[85%] max-xl:w-[90%] max-sm:w-full max-w-[1300px] mx-auto
+}
+
 button {
   @apply rounded-[40px]
 }
@@ -29,6 +33,6 @@ button:disabled {
   @apply animate-pulse
 }
 
-.app-container {
-  @apply px-5 xl:w-[85%] max-xl:w-[90%] max-sm:w-full max-w-[1300px] mx-auto
+h1 {
+  @apply text-[18px] font-bold text-white
 }

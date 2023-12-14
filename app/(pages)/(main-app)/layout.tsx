@@ -34,7 +34,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
             </header>
 
             <div className="grow">
-                <div className="app-container flex flex-col">
+                <div className="app-container h-full flex flex-col">
                     <div className="py-5 flex items-center gap-4 text-sm text-light-400 font-medium">
                         <Link 
                             href="/" 
@@ -62,11 +62,11 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </div>
 
-            <footer className="max-sm:hidden w-full h-[60px] bg-dark-400 border-t-2 
+            {/* <footer className="max-sm:hidden w-full h-[60px] bg-dark-400 border-t-2 
                 border-dark-200 text-xs text-light-400 grid place-content-center"
             >
                 © 2023 Crossbase Inc.  All Rights Reserved
-            </footer>
+            </footer> */}
         </div>
     );
 }
