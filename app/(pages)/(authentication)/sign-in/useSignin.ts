@@ -30,6 +30,7 @@ export function useSignin() {
             setLoading(false);
             const errorMessage = error.message as string;
             console.log(errorMessage)
+            console.log(data)
             
             if (errorMessage.toLowerCase().includes("password")) {
                 errorFeedbackDisplay[1].textContent = authErrorsFeedbacks.wrongPassword;

@@ -3,13 +3,30 @@ import Image from "next/image";
 import { IoMdNotifications } from "react-icons/io";
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { auth } from "@/app/Firebase";
+import { getLsItem, setLsItem, removeLsItem } from "@/app/utils/secureLs";
+import { useEffect } from "react";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter();
     const pathname = usePathname();
-    const checkPath = (path: string) => {
-        return pathname === path;
-    };
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                if (!getLsItem("@user")) setLsItem("@user", "true");
+            } else {
+                if (getLsItem("@user")) removeLsItem("@user");
+                router.push("/sign-in");
+            }
+        });
+    
+        return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
+    const checkPath = (path: string) => pathname === path;
     
     return (
         <div className="w-full h-[100svh] flex flex-col">

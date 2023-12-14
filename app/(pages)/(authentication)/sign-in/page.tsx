@@ -9,7 +9,7 @@ const SignIn = () => {
     return (  
         <main className="text-xs">
             <h1 className="text-light-100 text-xl leading-[2] mb-8">Sign In</h1>
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col gap-[15px]">
                     <Input 
                         label="Email Address"

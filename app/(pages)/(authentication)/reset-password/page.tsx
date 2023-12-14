@@ -12,7 +12,7 @@ const ResetPassword = () => {
             <p className="text-xs text-light-400 mb-8">
                 Enter your email address and we will send you the verification link to reset your password
             </p>
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
                 <Input 
                     label="Email Address"
                     labelFor="emailAddress"
