@@ -3,23 +3,21 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
+    subsets: ['latin'],
+    display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Crossbase AI',
-  description: 'Manage your e-commerce store data',
+    title: 'Crossbase AI',
+    description: 'Manage your e-commerce store data',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+      </body>
     </html>
   )
 }

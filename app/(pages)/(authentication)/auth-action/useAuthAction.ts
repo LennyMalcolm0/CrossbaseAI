@@ -116,7 +116,7 @@ export function useAuthAction() {
             }
         } catch {
             setLoading(false);
-            alert("Error occurred during confirmation. The code might have expired, try getting a new password reset link.");
+            alert("An error occurred during confirmation. The code might have expired, try getting a new password reset link.");
         }
     });
 

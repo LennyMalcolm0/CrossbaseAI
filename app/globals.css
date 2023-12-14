@@ -28,3 +28,7 @@ button {
 button:disabled {
   @apply animate-pulse
 }
+
+.app-container {
+  @apply px-5 xl:w-[85%] max-xl:w-[90%] max-sm:w-full max-w-[1300px] mx-auto
+}
