@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { auth } from "@/app/Firebase";
 import { getLsItem, setLsItem, removeLsItem } from "@/app/utils/secureLs";
 import { useEffect, useRef, useState } from "react";
-import { useClickAway } from "ahooks";
+import { useClickAway, useLockFn } from "ahooks";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
@@ -20,6 +20,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
 
     useEffect(() => {
+        if (!getLsItem("@user")) router.push("/sign-in");
+
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 if (!getLsItem("@user")) setLsItem("@user", "true");
@@ -39,7 +41,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
         displayProfileMenu && setDisplayProfileMenu(false);
     }, [profileIconRef]);
     
-    const logoutUser = async () => {
+    const logoutUser = useLockFn(async () => {
         try {
             await auth.signOut();
             
@@ -48,7 +50,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
         } catch {
             alert("Something went wrong. Please try again.");
         }
-    };
+    });
     
     return (
         <div className="w-full h-full flex flex-col">
@@ -133,9 +135,9 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
             
             {displayLogoutPopup && (
                 <div className="fixed inset-0 h-[100svh] w-screen bg-dark-400 bg-opacity-70 grid place-content-center">
-                    <div className="w-[560px] flex flex-col p-5 rounded-[20px] bg-dark-400 border border-dark-200">
+                    <div className="w-[92%] max-w-[560px] mx-auto flex flex-col p-5 rounded-[20px] bg-dark-400 border border-dark-200">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-base sm:text-[18px] font-bold text-[#F2EBFC]">Logout</h3>
+                            <h3 className="text-[18px] font-bold text-[#F2EBFC]">Logout</h3>
                             <AiOutlineCloseCircle 
                                 onClick={() => setDisplayLogoutPopup(false)} 
                                 className="text-[40px] leading-[1] text-dark-100 hover:text-light-200 cursor-pointer" 
