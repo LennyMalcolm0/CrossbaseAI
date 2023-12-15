@@ -11,6 +11,18 @@
   scroll-behavior: smooth;
 }
 
+*::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #727272;
+  border-radius: 25px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 25px;
+}
+
 .transition-01 {
   transition: all 0.1s linear;
 }
@@ -35,5 +47,9 @@ button:disabled {
 }
 
 h1 {
-  @apply text-sm sm:text-[18px] font-bold text-white
+  @apply text-base sm:text-[18px] font-bold text-white
+}
+
+textarea.prompt::-webkit-scrollbar {
+  width: 10px;
 }

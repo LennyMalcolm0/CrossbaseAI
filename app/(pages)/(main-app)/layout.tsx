@@ -54,8 +54,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     
     return (
         <div className="w-full h-full flex flex-col">
-            <header className="w-full py-3 sm:py-5 bg-dark-300 border-b-2 border-dark-200">
-                <div className="app-container flex items-center justify-between">
+            <header className="w-full bg-dark-300 border-b-2 border-dark-200">
+                <div className="app-container h-[60px] flex items-center justify-between">
                     <Image 
                         src="/crossbase-logo-white.svg" 
                         alt="crossbase.ai" 
@@ -64,35 +64,35 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         className="h-auto w-auto sm:scale" 
                     />
                     <div className="flex items-center">
-                        <Link href="" className="py-2 px-3 border-r border-light-400 text-2xl text-light-400 mr-3">
+                        <Link href="" className="py-2 px-3 border-r border-light-400 text-xl text-light-400 mr-3">
                             <IoMdNotifications />
                         </Link>
                         <div className="relative">
                             <div 
                                 ref={profileIconRef}
                                 onClick={() => setDisplayProfileMenu(prev => !prev)}
-                                className="h-8 w-8 rounded-full bg-dark-200 text-xl text-light-400 border-2 
+                                className="h-8 w-8 rounded-full bg-dark-200 text-[19px] text-light-400 border-2 
                                 border-transparent hover:border-light-400 grid place-content-center cursor-pointer"
                             >
                                 <FiUser />
                             </div>
                             {displayProfileMenu && (
-                                <div className="absolute top-12 right-0 w-[230px] rounded-[15px] bg-dark-200 
-                                    border border-dark-100 text-sm text-light-300 overflow-hidden"
+                                <div className="absolute top-12 right-0 w-[200px] rounded-[15px] bg-dark-200 
+                                    border border-dark-100 text-xs text-light-300 overflow-hidden"
                                 >
                                     <Link 
                                         href="" 
                                         className="w-full py-3.5 px-5 flex items-center gap-5 
                                         hover:bg-dark-300 border-b border-dark-100"
                                     >
-                                        <IoSettingsOutline className="text-xl" />
+                                        <IoSettingsOutline className="text-base" />
                                         <span>Manage Account</span>
                                     </Link>
                                     <button 
                                         onClick={() => setDisplayLogoutPopup(true)} 
                                         className="w-full py-3.5 px-5 flex items-center gap-5 hover:bg-dark-300"
                                     >
-                                        <LuLogOut className="text-xl" />
+                                        <LuLogOut className="text-base" />
                                         <span>Logout</span>
                                     </button>
                                 </div>
@@ -102,9 +102,9 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </header>
 
-            <div className="grow flex flex-col">
+            <div className="flex flex-col" style={{ height: "calc(100% - 60px)" }}>
                 <div className="w-full bg-[rgba(17,17,17,0.60)] mb-5">
-                    <div className="app-container py-5 flex items-center gap-4 text-sm text-light-400 font-medium">
+                    <div className="app-container h-[50px] flex items-center gap-4 text-xs text-light-400 font-medium">
                         <Link 
                             href="/" 
                             className={`${checkPath("/") ? "text-light-200 font-bold border-light-200" : "border-transparent"} 
@@ -128,7 +128,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         </Link>
                     </div>
                 </div>
-                <div className="app-container grow flex flex-col">
+                <div style={{ height: "calc(100% - 70px)" }}>
                     {children}
                 </div>
             </div>
@@ -143,7 +143,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                                 className="text-[40px] leading-[1] text-dark-100 hover:text-light-200 cursor-pointer" 
                             />
                         </div>
-                        <p className="my-[30px] text-light-400">
+                        <p className="text-sm my-[30px] text-light-400">
                             You’re about to logout from Crossbase. Do you want to proceed?
                         </p>
                         <div className="self-end flex gap-3 text-sm font-bold">

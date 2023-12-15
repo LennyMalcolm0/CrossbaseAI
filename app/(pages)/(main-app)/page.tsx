@@ -5,10 +5,11 @@ import StoreCard from "./components/StoreCard";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa";
 import { HiOutlineSparkles } from "react-icons/hi";
+import { PiPaperPlaneRightFill } from "react-icons/pi";
 
 const Home = () => {
     return (  
-        <main className="grow flex flex-col pb-5">
+        <main className="h-full app-container">
             <section className="p-5 hidden max-sm:p-4 rounded-[20px] border-2 border-dark-200 relative mb-5">
                 <AiOutlineCloseCircle 
                     className="sm:hidden text-3xl leading-[1] text-dark-100 
@@ -48,50 +49,68 @@ const Home = () => {
                     <FaArrowRight className="transition-01" />
                 </Link>
             </section>
-            <section className="grow w-full flex gap-5">
-                <div className="w-full rounded-[20px] border-2 border-dark-200 flex flex-col">
-                    <h1 className="pt-5 pl-5 text-white flex items-center gap-1.5">
+            <section className="h-full w-full flex gap-5 pb-5">
+                <div className="h-full w-full rounded-[20px] border-2 border-dark-200 relative overflow-y-auto">
+                    <section className="pt-[80px] px-5">
+                        <Image 
+                            src="/crossbase-icon.svg"
+                            alt="crossbase icon"
+                            width={0} 
+                            height={0} 
+                            className="h-auto w-auto mx-auto" 
+                            quality={100}
+                        />
+                        <h2 className="text-light-100 text-base text-center font-medium mx-auto mt-[15px]">Hello, John 👋🏻</h2>
+                        <p className="text-light-400 text-xs text-center mt-1.5">
+                            Here are some information Crossbase AI can help you with.
+                        </p>
+                        <div className="w-full space-y-2.5 my-8">
+                            {defaultPrompts.map((prompt, index) => (
+                                <div key={index} className="py-[15px] px-[15px] rounded-[10px] bg-dark-300 flex items-center gap-[15px]">
+                                    <Image 
+                                        src={prompt.imageUrl}
+                                        alt=""
+                                        width={0} 
+                                        height={0} 
+                                        className="h-auto w-auto" 
+                                        quality={100}
+                                    />
+                                    <span className="text-sm text-light-300">{prompt.prompt}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                    <section className="sticky bottom-0 w-full p-5 bg-dark-400 text-sm text-light-200 flex">
+                        <div className="relative mr-[5px]">
+                            <Image 
+                                src="/home/message-plus-circle.svg"
+                                alt="+"
+                                width={0} 
+                                height={0} 
+                                className="h-auto w-auto peer p-[5px] bg-primary-100 rounded-full texl-xl cursor-pointer" 
+                                quality={100}
+                            />
+                            <div className="hidden peer-hover:block absolute -top-8 -left-1/2 px-4 py-1.5 bg-light-200 
+                                text-xs text-dark-400 whitespace-nowrap rounded-[5px]"
+                            > New thread
+                            </div>
+                        </div>
+                        <div className="h-[100px] w-full p-5 rounded-[10px] border border-dark-100 flex gap-2.5">
+                            <textarea 
+                                name="" 
+                                placeholder="Ask me anything about your store..."
+                                className="prompt w-full h-full bg-transparent focus:outline-none resize-none" 
+                            />
+                            <PiPaperPlaneRightFill className="text-xl text-primary-100 mt-auto cursor-pointer" />
+                        </div>
+                    </section>
+                </div>
+                <div className="w-full rounded-[20px] border-2 border-dark-200 hidden flex-col">
+                    <h1 className="p-5 border-b border-dark-200 text-white flex items-center gap-1.5">
                         <span>AI prompt</span>
                         <HiOutlineSparkles className="text-xl" />
                     </h1>
-                    <div className="grow flex flex-col mt-5 px-5 pb-5 border-t border-dark-200">
-                        <section className="grow pt-[100px]">
-                            <Image 
-                                src="/crossbase-icon.svg"
-                                alt="crossbase icon"
-                                width={0} 
-                                height={0} 
-                                className="h-auto w-auto mx-auto" 
-                                quality={100}
-                            />
-                            <h2 className="text-light-100 text-base text-center font-medium mx-auto mt-[15px]">Hello, John 👋🏻</h2>
-                            <p className="text-light-400 text-xs text-center mt-1.5">
-                                Here are some information Crossbase AI can help you with.
-                            </p>
-                            <div className="w-full space-y-2.5 mt-10">
-                                {defaultPrompts.map((prompt, index) => (
-                                    <div key={index} className="py-[15px] px-[15px] rounded-[10px] bg-dark-300 flex items-center gap-[15px]">
-                                        <Image 
-                                            src={prompt.imageUrl}
-                                            alt=""
-                                            width={0} 
-                                            height={0} 
-                                            className="h-auto w-auto" 
-                                            quality={100}
-                                        />
-                                        <span className="text-sm text-light-300">{prompt.prompt}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                        <section className="relative">
-                            <textarea 
-                                name="" 
-                                className="w-full bg-transparent rounded-[10px] border border-dark-100" 
-                            />
-                        </section>
-                    </div>
-                    <div className="grow hidden place-content-center text-center">
+                    <div className="grow grid place-content-center text-center">
                         <Image 
                             src="/home/chart-breakout-square.svg"
                             alt=""
@@ -106,7 +125,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="w-full rounded-[20px] border-2 border-dark-200 flex flex-col">
-                    <h1 className="pt-5 pl-5 text-white">Reports</h1>
+                    <h1 className="p-5 text-white border-b border-dark-200">Reports</h1>
                     <div className="grow grid place-content-center text-center">
                         <Image 
                             src="/home/star-06.svg"

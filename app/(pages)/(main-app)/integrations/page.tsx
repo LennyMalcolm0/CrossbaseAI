@@ -2,9 +2,9 @@ import StoreCard from "../components/StoreCard";
 
 const Integrations = () => {
     return (  
-        <main className="grow flex flex-col">
-            <h1 className="mb-5">Connect your online stores</h1>
-            <section className="grow overflow-y-auto">
+        <main className="h-full flex flex-col">
+            <h1 className="app-container mb-5">Connect your online stores</h1>
+            <section className="app-container grow overflow-y-auto pb-5" >
                 <div className="grid grid-cols-4 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[15px]">
                     <StoreCard 
                         logoUrl="/integrations/shopify-logo.svg"
