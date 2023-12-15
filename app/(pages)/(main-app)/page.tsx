@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import StoreCard from "./integrations/StoreCard";
+import StoreCard from "./components/StoreCard";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa";
 import { HiOutlineSparkles } from "react-icons/hi";
