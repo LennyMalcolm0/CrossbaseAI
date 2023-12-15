@@ -105,7 +105,6 @@ export function useAuthAction() {
             try {
                 await signInWithEmailAndPassword(auth, emailAddress, data.newPassword);
 
-                setLoading(false);
                 router.push("/");
                 setLsItem("@user", "true");
             } catch {

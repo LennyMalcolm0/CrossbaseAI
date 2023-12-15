@@ -23,7 +23,6 @@ export function useSignin() {
         try {
             await signInWithEmailAndPassword(auth, data.emailAddress, data.password);
             
-            setLoading(false);
             router.push("/");
             setLsItem("@user", "true");
         } catch (error: any) {

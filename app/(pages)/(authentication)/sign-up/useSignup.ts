@@ -32,11 +32,9 @@ export function useSignup() {
             try {
                 await sendEmailVerification(auth.currentUser);
     
-                setLoading(false);
                 router.push("/");
                 setLsItem("@user", "true");
             } catch {
-                setLoading(false);
                 router.push("/");
                 setLsItem("@user", "true");
             }
