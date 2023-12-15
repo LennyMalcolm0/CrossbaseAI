@@ -34,5 +34,5 @@ button:disabled {
 }
 
 h1 {
-  @apply text-[18px] font-bold text-white
+  @apply text-sm sm:text-[18px] font-bold text-white
 }

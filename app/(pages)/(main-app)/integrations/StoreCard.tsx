@@ -25,7 +25,7 @@ const StoreCard = ({
                         alt={logoAltText}
                         width={0} 
                         height={0} 
-                        className="h-auto w-auto" 
+                        className="h-[17px] w-auto" 
                     />
                     {connected && (
                         <div className="flex items-center gap-1">
@@ -48,12 +48,14 @@ const StoreCard = ({
                     alt={logoAltText}
                     width={0} 
                     height={0} 
-                    className="h-auto w-auto" 
+                    className="h-[17px] w-auto mr-auto" 
                 />
                 <p className="text-xs text-light-400">{description}</p>
-                <button className="w-full py-4 bg-dark-400 border border-dark-100 font-bold text-light-400">
+                <div className="w-full select-none py-4 rounded-[40px] bg-dark-400 border 
+                    border-dark-100 text-center font-bold text-light-400"
+                >
                     Coming Soon
-                </button>
+                </div>
             </div>
         )}
         </>

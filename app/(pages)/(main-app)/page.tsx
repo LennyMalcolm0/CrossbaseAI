@@ -9,12 +9,19 @@ import { HiOutlineSparkles } from "react-icons/hi";
 const Home = () => {
     return (  
         <main className="grow flex flex-col">
-            <section className="p-5 rounded-[20px] border-2 border-dark-200">
-                <div className="flex items-center justify-between mb-6">
+            <section className="p-5 max-sm:p-4 rounded-[20px] border-2 border-dark-200 relative">
+                <AiOutlineCloseCircle 
+                    className="sm:hidden text-3xl leading-[1] text-dark-100 
+                    hover:text-light-200 cursor-pointer absolute right-3 top-3" 
+                />
+                <div className="flex items-center justify-between mb-6 max-sm:whitespace-nowrap">
                     <h1>Connect your online stores to get started</h1>
-                    <AiOutlineCloseCircle className="text-3xl leading-[1] text-dark-100 hover:text-light-200 cursor-pointer" />
+                    <AiOutlineCloseCircle 
+                        className="max-sm:hidden text-3xl leading-[1] text-dark-100 
+                        hover:text-light-200 cursor-pointer" 
+                    />
                 </div>
-                <div className="grid grid-cols-3 gap-[15px]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px]">
                     <StoreCard 
                         logoUrl="/integrations/shopify-logo.svg"
                         logoAltText="Shopify"
