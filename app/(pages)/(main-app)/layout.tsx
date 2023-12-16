@@ -81,20 +81,20 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                                     border border-dark-100 text-xs text-light-300 overflow-hidden"
                                 >
                                     <Link 
-                                        href="" 
+                                        href="/account" 
                                         className="w-full py-3.5 px-5 flex items-center gap-5 
                                         hover:bg-dark-300 border-b border-dark-100"
                                     >
                                         <IoSettingsOutline className="text-base" />
                                         <span>Manage Account</span>
                                     </Link>
-                                    <button 
+                                    <div 
                                         onClick={() => setDisplayLogoutPopup(true)} 
                                         className="w-full py-3.5 px-5 flex items-center gap-5 hover:bg-dark-300"
                                     >
                                         <LuLogOut className="text-base" />
                                         <span>Logout</span>
-                                    </button>
+                                    </div>
                                 </div>
                             )}
                         </div>

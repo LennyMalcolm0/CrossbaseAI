@@ -26,19 +26,19 @@ const Home = () => {
                     <StoreCard 
                         logoUrl="/integrations/shopify-logo.svg"
                         logoAltText="Shopify"
-                        description="Lorem ipsum dolor sit amet consectetur."
+                        description="Get intelligent insights on your Shopify store."
                     />
                     <StoreCard 
                         logoUrl="/integrations/amazon.svg"
                         logoAltText="Amazon"
-                        description="Lorem ipsum dolor sit amet consectetur."
-                        connected
+                        description="Get intelligent insights on your Amazon FBA."
+                        comingSoon
                     />
                     <StoreCard 
                         logoUrl="/integrations/gumroad.svg"
                         logoAltText="Gumroad"
-                        description="Lorem ipsum dolor sit amet consectetur."
-                        connected
+                        description="Get intelligent insights on your Gumroad store."
+                        comingSoon
                     />
                 </div>
                 <Link 
