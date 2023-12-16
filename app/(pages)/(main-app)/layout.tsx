@@ -64,9 +64,9 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         className="h-auto w-auto sm:scale" 
                     />
                     <div className="flex items-center">
-                        <Link href="" className="py-2 px-3 border-r border-light-400 text-xl text-light-400 mr-3">
+                        {/* <Link href="" className="py-2 px-3 border-r border-light-400 text-xl text-light-400 mr-3">
                             <IoMdNotifications />
-                        </Link>
+                        </Link> */}
                         <div className="relative">
                             <div 
                                 ref={profileIconRef}
@@ -114,10 +114,10 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         </Link>
                         <Link 
                             href="/inventory"  
-                            className={`${checkPath("/inventory") ? "text-light-200 font-bold border-light-200" : "border-transparent"} 
+                            className={`${checkPath("/history") ? "text-light-200 font-bold border-light-200" : "border-transparent"} 
                                 pb-2.5 border-b-2 hover:text-light-200 `}
                         >
-                            Inventory
+                            History
                         </Link>
                         <Link 
                             href="/integrations"  

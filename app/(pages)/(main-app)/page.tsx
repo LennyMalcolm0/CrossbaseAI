@@ -6,8 +6,40 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa";
 import { HiOutlineSparkles } from "react-icons/hi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
+import { useRef } from "react";
+import { useClickAway } from "ahooks";
 
 const Home = () => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaContainerRef = useRef<HTMLDivElement>(null);
+ 
+    const handleInput = () => {
+        const textarea = textareaRef.current;
+        const parentDiv = textareaContainerRef.current;
+        if (!textarea || !parentDiv) return;
+
+        if (textarea.value.trim() === "") {
+            parentDiv.style.height = "100px";
+            return
+        }
+ 
+        // Adjust the height of the parent div according to the textarea's content
+        if (textarea.scrollHeight > textarea.offsetHeight) {
+            parentDiv.style.height = `${Math.min(textarea.scrollHeight + 50, 400)}px`;
+        }
+    };
+
+    useClickAway(() => {
+        const textarea = textareaRef.current;
+        const parentDiv = textareaContainerRef.current;
+        if (!textarea || !parentDiv) return;
+
+        if (textarea.value.trim() === "") {
+            parentDiv.style.height = "100px";
+            return
+        }
+    }, [textareaContainerRef]);
+    
     return (  
         <main className="h-full app-container">
             <section className="p-5 hidden max-sm:p-4 rounded-[20px] border-2 border-dark-200 relative mb-5">
@@ -95,11 +127,13 @@ const Home = () => {
                             > New thread
                             </div>
                         </div>
-                        <div className="h-[100px] w-full p-5 rounded-[10px] border border-dark-100 flex gap-2.5">
+                        <div ref={textareaContainerRef} className="h-[100px] w-full p-5 rounded-[10px] border border-dark-100 flex gap-2.5">
                             <textarea 
+                                ref={textareaRef}
                                 name="" 
                                 placeholder="Ask me anything about your store..."
-                                className="prompt w-full h-full bg-transparent focus:outline-none resize-none" 
+                                className="prompt w-full h-auto bg-transparent focus:outline-none resize-none"
+                                onInput={handleInput}
                             />
                             <PiPaperPlaneRightFill className="text-xl text-primary-100 mt-auto cursor-pointer" />
                         </div>
