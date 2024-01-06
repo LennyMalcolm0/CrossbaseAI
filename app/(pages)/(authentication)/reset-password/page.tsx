@@ -28,7 +28,11 @@ const ResetPassword = () => {
                         <p className="error-message text-[11px] text-[#F50449]"></p>
                     }
                 />
-                <button type="submit" className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold">
+                <button 
+                    disabled={loading} 
+                    type="submit" 
+                    className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold"
+                >
                     Get Verification Link
                 </button>
             </form>

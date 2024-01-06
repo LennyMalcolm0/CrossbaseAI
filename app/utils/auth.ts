@@ -1,8 +1,7 @@
 import { User } from "firebase/auth";
 import { auth } from "../Firebase";
-import { useEffect } from "react";
-import { getLsItem } from "./secureLs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useAsyncEffect } from "ahooks";
 
 export async function getCurrentUser() {
     const userPromise = new Promise<User | null>((resolve) => {
@@ -27,24 +26,24 @@ export const authErrorsFeedbacks = {
 
 // Checks if the user is signed out (used in pages where user needs to be authenticated before access is given)
 export const useUnauthenticatedUserCheck = (router: AppRouterInstance) => {
-    const user = getLsItem("@user");
+    useAsyncEffect(async () => {
+        const user = await getCurrentUser();
 
-    useEffect(() => {
         if (!user) {
             router.push("/sign-in")
         }
-    }, [router, user]);
+    }, [router]);
 }
 
 // Checks if the user is signed in (used in authentication pages to redirect signed in users)
 export const useAuthenticatedUserCheck = (router: AppRouterInstance) => {
-    const user = getLsItem("@user");
+    useAsyncEffect(async () => {
+        const user = await getCurrentUser();
 
-    useEffect(() => {
         if (user) {
             router.push("/")
         }
-    }, [router, user]);
+    }, [router]);
     
     return router
 }
