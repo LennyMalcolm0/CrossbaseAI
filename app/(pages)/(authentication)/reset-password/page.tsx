@@ -6,10 +6,10 @@ import { useResetPassword } from "./useResetPassword";
 const ResetPassword = () => {
     const { formik, loading } = useResetPassword();
 
-    return (  
-        <main className="text-xs">
-            <h1 className="text-light-100 text-xl leading-[2]">Reset Password</h1>
-            <p className="text-xs text-light-400 mb-8">
+    return (
+        <main className="text-xs pb-10">
+            <h1 className="text-dark-100 text-xl leading-[2]">Reset Password</h1>
+            <p className="text-xs text-dark-400 mb-5">
                 Enter your email address and we will send you the verification link to reset your password
             </p>
             <form onSubmit={formik.handleSubmit}>
@@ -31,14 +31,14 @@ const ResetPassword = () => {
                 <button 
                     disabled={loading} 
                     type="submit" 
-                    className="w-full py-[15px] mt-6 bg-primary-100 hover:bg-white font-bold"
+                    className="auth"
                 >
                     Get Verification Link
                 </button>
             </form>
-            <p className="text-light-200 text-center mt-[15px]">
+            <p className="text-dark-200 text-center mt-[15px]">
                 {"Remember password?"}
-                <Link href="/sign-in" className="text-primary-100 hover:text-white"> Sign in</Link>
+                <Link href="/sign-in" className="auth-sub-link"> Sign In</Link>
             </p>
         </main>
     );

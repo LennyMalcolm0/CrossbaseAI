@@ -46,6 +46,13 @@ button:disabled {
   @apply animate-pulse
 }
 
+button.auth {
+  @apply w-full py-[15px] mt-6 bg-primary-100 hover:bg-dark-100 hover:text-light-300 font-bold
+}
+.auth-sub-link {
+  @apply text-primary-400 hover:text-primary-100
+}
+
 h1 {
   @apply text-base sm:text-[18px] font-bold text-dark-100
 }

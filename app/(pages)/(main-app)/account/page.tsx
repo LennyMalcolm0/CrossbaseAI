@@ -4,11 +4,11 @@ import { CiEdit } from "react-icons/ci";
 import { CgCloseO } from "react-icons/cg";
 import { auth } from "@/app/Firebase";
 import { useLockFn } from "ahooks";
-import router from "next/router";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import { SlClose } from "react-icons/sl";
+import { useRouter } from "next/navigation";
 
 const Account = () => {
+    const router = useRouter();
     const [update, setUpdate] = useState(false);
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
     
@@ -17,7 +17,7 @@ const Account = () => {
             await auth.signOut();
             
             router.push("/sign-in");
-        } catch {
+        } catch(error) {
             alert("Something went wrong. Please try again.");
         }
     });

@@ -25,20 +25,20 @@ const Input = ({
 
     return ( 
         <div key={labelFor} className="w-full text-xs leading-[20px]">
-            {label && <label htmlFor={labelFor} className="text-[#D8D8D8] font-medium capitalize">{label}</label>}
+            {label && <label htmlFor={labelFor} className="text-dark-300 font-medium capitalize">{label}</label>}
 
             <div className="relative w-full mt-1">
                 <input 
                     type={type || (passwordVisible ? "text" : "password")}
-                    className={`w-full py-[9px] px-3.5 rounded-[40px] bg-transparent border border-dark-100 text-white 
-                    placeholder:text-light-400 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
+                    className={`w-full py-[15px] px-3.5 bg-white rounded-[40px] bg-transparent border border-light-100 text-dark-100
+                    placeholder:text-dark-400 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] focus:outline-none focus:border-primary-400
                     `}
                     {...attributes}
                 />
 
                 {passwordInput && (
                     <div 
-                        className="absolute right-[20px] top-1/2 -translate-y-1/2 text-[#98A2B3] cursor-pointer"
+                        className="absolute right-[20px] top-1/2 -translate-y-1/2 text-dark-400 cursor-pointer"
                         onClick={() => setPasswordVisible(prev => !prev)}
                     >
                         {!passwordVisible ? (

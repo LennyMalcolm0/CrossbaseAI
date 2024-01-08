@@ -18,13 +18,13 @@ const AuthAction = () => {
             {validActionCode ? (<>
                 {verifiedEmail ? (
                     <section>
-                        <h6>Email Verified</h6>
+                        <h1 className="text-dark-100 text-xl leading-[2]">Email Verified</h1>
                         <p className="text-sm">{"You'll be redirected to the app shortly..."}</p>
                     </section>
                 ):(
                     <form onSubmit={formik.handleSubmit} className="text-xs">
-                        <h1 className="text-light-100 text-xl leading-[2]">Set New Password</h1>
-                        <p className="text-xs text-light-400 mb-8">Enter your new password below</p>
+                        <h1 className="text-dark-100 text-xl leading-[2]">Set New Password</h1>
+                        <p className="text-xs text-dark-400 mb-5">Enter your new password below</p>
                         <div ref={passwordFieldRef} className="relative z-[999999] mb-[15px]">
                             <Input 
                                 label="New Password" 
