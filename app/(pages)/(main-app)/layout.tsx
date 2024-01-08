@@ -9,6 +9,7 @@ import { FaRegMoon } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
+import { BsBookmarkCheck } from "react-icons/bs";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
@@ -34,7 +35,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         <div className="h-[34px] pl-[15px] pr-2.5 bg-light-300 rounded-full 
                             flex items-center justify-center gap-1.5 text-sm cursor-pointer header-element"
                         >
-                            <span className="text-dark-100 font-medium max-w-[180px] ellipses">sample.myshopify.com</span>
+                            <span className="text-dark-100 font-medium max-w-[180px] max-sm:max-w-[120px] ellipses">sample.myshopify.com</span>
                             <FaChevronDown />
                         </div>
                         <Link 
@@ -44,24 +45,24 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         >
                             <FiUser />
                         </Link>
-                        <button className="h-[34px] w-[60px] p-[3px] bg-light-300 rounded-full flex text-light-400 header-element">
+                        <button className="max-sm:hidden h-[34px] w-[60px] p-[3px] bg-light-300 rounded-full flex text-light-400 header-element">
                             <div className="h-full w-[28px] bg-light-100 rounded-full text-xl grid place-content-center">
                                 <LuSun />
                                 <FaRegMoon className="hidden" />
                             </div>
                         </button>
                     </div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3">
+                    <div className="max-lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3">
                         <Link 
                             href="/"
-                            className={`nav-link ${checkPath("/") ? "active" : ""}`}
+                            className={`nav-link ${checkPath("/") ? "active" : "inactive"}`}
                         >
                             <TbHome2 className="text-[18px]" />
                             <span>Home</span>
                         </Link>
                         <Link 
                             href="/integrations"
-                            className={`nav-link ${checkPath("/integrations") ? "active" : ""}`}
+                            className={`nav-link ${checkPath("/integrations") ? "active" : "inactive"}`}
                         >
                             <FiLink className="text-[18px]" />
                             <span>Connect</span>
@@ -70,13 +71,35 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </header>
 
-            <div style={{ height: "calc(100% - 60px)" }}>
+            <div className="main-section">
                 {children}
             </div>
 
-            {/* <footer className="w-full py-5 bg-light-400 text-center text-xs text-dark-400 border-t-2 border-light-200">
-                © 2023 Crossbase Inc. All Rights Reserved
-            </footer> */}
+            <footer className="lg:hidden w-full py-3 bg-light-400 text-center text-xs text-dark-400 border-t border-light-200">
+                <div className="w-fit flex items-center gap-3 mx-auto">
+                    <Link 
+                        href="/"
+                        className={`nav-link ${checkPath("/") ? "active" : "inactive"}`}
+                    >
+                        <TbHome2 className="text-[18px]" />
+                        <span>Home</span>
+                    </Link>
+                    <Link 
+                        href="/integrations"
+                        className={`nav-link ${checkPath("/integrations") ? "active" : "inactive"}`}
+                    >
+                        <BsBookmarkCheck className="text-[18px]" />
+                        <span>History</span>
+                    </Link>
+                    <Link 
+                        href="/integrations"
+                        className={`nav-link ${checkPath("/integrations") ? "active" : "inactive"}`}
+                    >
+                        <FiLink className="text-[18px]" />
+                        <span>Connect</span>
+                    </Link>
+                </div>
+            </footer>
         </div>
     );
 }

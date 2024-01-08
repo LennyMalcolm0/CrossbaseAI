@@ -40,9 +40,9 @@ const Home = () => {
     }, [textareaContainerRef]);
     
     return (   
-        <main className="h-full py-5">
-            <div className="h-full app-container flex gap-5">
-                <section className="max-sm:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
+        <main className="h-full lg:py-5">
+            <div className="h-full app-container-2 flex gap-5">
+                <section className="max-lg:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
                     <div className="absolute top-0 h-[110px] w-full primary-gradient" />
                     <div className="w-full px-5 py-6 h-full flex flex-col relative z-[9999]">
                         <h1 className="text-[18px] font-bold text-dark-200">History</h1>
@@ -54,10 +54,10 @@ const Home = () => {
                         </div>
                     </div>
                 </section>
-                <section className="grow border-2 rounded-[20px] border-light-200 relative overflow-hidden">
-                    <div className="absolute top-0 h-[110px] w-full primary-gradient" />
-                    <div className="w-full h-full flex flex-col relative z-[9999]">
-                        <div className="px-7 py-4 text-[18px] font-bold text-dark-200 flex items-center justify-between">
+                <section className="grow lg:border-2 lg:rounded-[20px] lg:border-light-200 relative overflow-hidden">
+                    <div className="sm:hidden absolute top-0 h-[110px] w-full primary-gradient" />
+                    <div className="w-full h-full flex flex-col justify-between relative z-[9999]">
+                        <div className="max-sm:px-5 lg:px-7 py-4 text-[18px] font-bold text-dark-200 flex items-center justify-between">
                             <h1 className="flex items-center gap-1.5">
                                 <span className="max-w-[200px] line-clamp-1">Insights</span>
                                 <HiOutlineSparkles />
@@ -77,7 +77,7 @@ const Home = () => {
                                 </button>
                             </div>
                         </div>
-                        <section className="pt-[80px] px-7 overflow-y-auto">
+                        <section className="max-sm:px-5 lg:px-7 pt-8 overflow-y-auto">
                             <img 
                                 src="/logo.svg"
                                 alt="crossbase.ai icon"
@@ -87,7 +87,7 @@ const Home = () => {
                                 Hello, John 👋🏻
                             </h2>
                             <p className="text-dark-400 text-sm text-center mt-1.5">
-                                Here are some information Crossbase AI can help you with.
+                                Here are some information Crossbase AI <br className="sm:hidden" /> can help you with.
                             </p>
                             <div className="w-full space-y-2.5 my-8">
                                 {defaultPrompts.map((prompt, index) => (
@@ -106,7 +106,7 @@ const Home = () => {
                                 ))}
                             </div>
                         </section>
-                        <form className="sticky bottom-0 px-7 py-5 w-full bg-light-300 text-sm text-dark-300">
+                        <form className="sticky bottom-0 max-sm:px-5 lg:px-7 py-5 w-full bg-light-300 text-sm text-dark-300">
                             <div 
                                 ref={textareaContainerRef} 
                                 className="h-[100px] w-full px-3.5 py-3 bg-light-400 rounded-[15px] border 
