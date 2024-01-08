@@ -1,6 +1,5 @@
 import { auth, googleProvider } from "@/app/Firebase";
 import { useAuthenticatedUserCheck, authErrorsFeedbacks } from "@/app/utils/auth";
-import { setLsItem } from "@/app/utils/secureLs";
 import { useLockFn } from "ahooks";
 import { signInWithEmailAndPassword, AuthErrorCodes, signInWithPopup } from "firebase/auth";
 import { useFormik } from "formik";
@@ -24,7 +23,6 @@ export function useSignin() {
             await signInWithEmailAndPassword(auth, data.emailAddress, data.password);
             
             router.push("/");
-            setLsItem("@user", "true");
         } catch (error: any) {
             setLoading(false);
             const errorMessage = error.message as string;
@@ -46,7 +44,6 @@ export function useSignin() {
             await signInWithPopup(auth, googleProvider);
             setLoading(true);
             router.push("/");
-            setLsItem("@user", "true");
         } catch {
             setLoading(false);
             alert("Something went wrong. Please try again.");

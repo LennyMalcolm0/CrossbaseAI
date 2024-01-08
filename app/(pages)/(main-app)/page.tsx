@@ -1,11 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
-import Link from "next/link";
-import Image from "next/image";
-import StoreCard from "./components/StoreCard";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import { FaArrowRight } from "react-icons/fa";
 import { HiOutlineSparkles } from "react-icons/hi";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
+import { TbCloudDownload } from "react-icons/tb";
+import { RiPushpin2Line } from "react-icons/ri";
+import { FaPlus } from "react-icons/fa6";
 import { useRef } from "react";
 import { useClickAway } from "ahooks";
 
@@ -40,141 +39,94 @@ const Home = () => {
         }
     }, [textareaContainerRef]);
     
-    return (  
-        <main className="h-full app-container">
-            <section className="p-5 hidden max-sm:p-4 rounded-[20px] border-2 border-dark-200 relative mb-5">
-                <AiOutlineCloseCircle 
-                    className="sm:hidden text-3xl leading-[1] text-dark-100 
-                    hover:text-light-200 cursor-pointer absolute right-3 top-3" 
-                />
-                <div className="flex items-center justify-between mb-6 max-sm:whitespace-nowrap">
-                    <h1>Connect your online stores to get started</h1>
-                    <AiOutlineCloseCircle 
-                        className="max-sm:hidden text-3xl leading-[1] text-dark-100 
-                        hover:text-light-200 cursor-pointer" 
-                    />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px]">
-                    <StoreCard 
-                        logoUrl="/integrations/shopify-logo.svg"
-                        logoAltText="Shopify"
-                        description="Get intelligent insights on your Shopify store."
-                    />
-                    <StoreCard 
-                        logoUrl="/integrations/amazon.svg"
-                        logoAltText="Amazon"
-                        description="Get intelligent insights on your Amazon FBA."
-                        comingSoon
-                    />
-                    <StoreCard 
-                        logoUrl="/integrations/gumroad.svg"
-                        logoAltText="Gumroad"
-                        description="Get intelligent insights on your Gumroad store."
-                        comingSoon
-                    />
-                </div>
-                <Link 
-                    href="/integrations" 
-                    className="mt-3 text-xs text-light-400 hover:text-light-200 font-medium flex items-center gap-1"
-                >
-                    <span>See more options</span>
-                    <FaArrowRight className="transition-01" />
-                </Link>
-            </section>
-            <section className="h-full w-full flex gap-5 pb-5">
-                <div className="h-full w-full rounded-[20px] border-2 border-dark-200 relative overflow-y-auto">
-                    <section className="pt-[80px] px-5">
-                        <Image 
-                            src="/crossbase-icon.svg"
-                            alt="crossbase icon"
-                            width={0} 
-                            height={0} 
-                            className="h-auto w-auto mx-auto" 
-                            quality={100}
-                        />
-                        <h2 className="text-light-100 text-base text-center font-medium mx-auto mt-[15px]">Hello, John 👋🏻</h2>
-                        <p className="text-light-400 text-xs text-center mt-1.5">
-                            Here are some information Crossbase AI can help you with.
-                        </p>
-                        <div className="w-full space-y-2.5 my-8">
-                            {defaultPrompts.map((prompt, index) => (
-                                <div key={index} className="py-[15px] px-[15px] rounded-[10px] bg-dark-300 flex items-center gap-[15px]">
-                                    <Image 
-                                        src={prompt.imageUrl}
-                                        alt=""
-                                        width={0} 
-                                        height={0} 
-                                        className="h-auto w-auto" 
-                                        quality={100}
-                                    />
-                                    <span className="text-sm text-light-300">{prompt.prompt}</span>
-                                </div>
-                            ))}
+    return (   
+        <main className="py-5" style={{ height: "calc(100% - 60px)" }}>
+            <div className="h-full app-container flex gap-5">
+                <section className="w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
+                    <div className="absolute top-0 h-[110px] w-full primary-gradient" />
+                    <div className="w-full px-5 py-6 h-full flex flex-col relative z-[9999]">
+                        <h1 className="text-[18px] font-bold text-dark-200">History</h1>
+                        <div className="grow grid place-content-center">
+                            <div className="p-2 border border-dark-100 rounded-[8px] mx-auto">
+                                <HiOutlineSparkles className="text-xl text-dark-100" />
+                            </div>
+                            <p className="text-center text-sm text-light-100 mt-5">No history to show</p>
                         </div>
-                    </section>
-                    <section className="sticky bottom-0 w-full p-5 bg-dark-400 text-sm text-light-200 flex">
-                        <div className="relative mr-[5px]">
-                            <Image 
-                                src="/home/message-plus-circle.svg"
-                                alt="+"
-                                width={0} 
-                                height={0} 
-                                className="h-auto w-auto peer p-[5px] bg-primary-100 rounded-full texl-xl cursor-pointer" 
-                                quality={100}
-                            />
-                            <div className="hidden peer-hover:block absolute -top-8 -left-1/2 px-4 py-1.5 bg-light-200 
-                                text-xs text-dark-400 whitespace-nowrap rounded-[5px]"
-                            > New thread
+                    </div>
+                </section>
+                <section className="grow border-2 rounded-[20px] border-light-200 relative overflow-hidden">
+                    <div className="absolute top-0 h-[110px] w-full primary-gradient" />
+                    <div className="w-full h-full flex flex-col relative z-[9999]">
+                        <div className="px-7 py-4 text-[18px] font-bold text-dark-200 flex items-center justify-between">
+                            <h1 className="flex items-center gap-1.5">
+                                <span className="max-w-[200px] line-clamp-1">Insights</span>
+                                <HiOutlineSparkles />
+                            </h1>
+                            <div className="flex items-center gap-2.5 text-primary-400">
+                                <div className="p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                    <TbCloudDownload className="text-[18px]" />
+                                </div>
+                                <div className="p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                    <RiPushpin2Line className="text-[18px]" />
+                                </div>
+                                <button className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
+                                    text-sm font-bold flex items-center gap-2 hover:shadow-sm"
+                                >
+                                    <span>New Insight</span>
+                                    <FaPlus className="text-[18px]" />
+                                </button>
                             </div>
                         </div>
-                        <div ref={textareaContainerRef} className="h-[100px] w-full p-5 rounded-[10px] border border-dark-100 flex gap-2.5">
-                            <textarea 
-                                ref={textareaRef}
-                                name="" 
-                                placeholder="Ask me anything about your store..."
-                                className="prompt w-full h-auto bg-transparent focus:outline-none resize-none"
-                                onInput={handleInput}
+                        <section className="pt-[80px] px-7 overflow-y-auto">
+                            <img 
+                                src="/logo.svg"
+                                alt="crossbase.ai icon"
+                                className="h-10 w-auto mx-auto" 
                             />
-                            <PiPaperPlaneRightFill className="text-xl text-primary-100 mt-auto cursor-pointer" />
-                        </div>
-                    </section>
-                </div>
-                <div className="w-full rounded-[20px] border-2 border-dark-200 hidden flex-col">
-                    <h1 className="p-5 border-b border-dark-200 text-white flex items-center gap-1.5">
-                        <span>AI prompt</span>
-                        <HiOutlineSparkles className="text-xl" />
-                    </h1>
-                    <div className="grow grid place-content-center text-center">
-                        <Image 
-                            src="/home/chart-breakout-square.svg"
-                            alt=""
-                            width={0} 
-                            height={0} 
-                            className="h-auto w-auto p-2 rounded-[8px] border border-light-400 mx-auto" 
-                        />
-                        <h3 className="text-light-300 text-sm pt-3 pb-2">No Store Found</h3>
-                        <p className="text-light-400 text-xs">
-                            Kindly connect your online store so <br /> you can run intelligent analysis.
-                        </p>
+                            <h2 className="text-dark-100 text-xl text-center font-medium mx-auto mt-[15px]">
+                                Hello, John 👋🏻
+                            </h2>
+                            <p className="text-dark-400 text-sm text-center mt-1.5">
+                                Here are some information Crossbase AI can help you with.
+                            </p>
+                            <div className="w-full space-y-2.5 my-8">
+                                {defaultPrompts.map((prompt, index) => (
+                                    <div 
+                                        key={index} 
+                                        className="py-[13px] px-[15px] w-full rounded-[10px] bg-light-400 flex 
+                                        items-center gap-[15px] cursor-pointer hover:shadow-sm"
+                                    >
+                                        <img 
+                                            src={prompt.imageUrl}
+                                            alt=""
+                                            className="h-auto w-auto" 
+                                        />
+                                        <span className="text-sm text-dark-300">{prompt.prompt}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                        <form className="sticky bottom-0 px-7 py-5 w-full bg-light-300 text-sm text-dark-300">
+                            <div 
+                                ref={textareaContainerRef} 
+                                className="h-[100px] w-full px-3.5 py-3 bg-light-400 rounded-[15px] border 
+                                border-primary-100 shadow-[0px_0px_5px_4px_rgba(246,208,145,0.20)] flex gap-2.5"
+                            >
+                                <textarea 
+                                    ref={textareaRef}
+                                    name="prompt" 
+                                    placeholder="Ask me anything about your store..."
+                                    className="prompt w-full h-auto bg-transparent focus:outline-none resize-none"
+                                    onInput={handleInput}
+                                />
+                                <button type="submit" className="text-2xl text-primary-400 mt-auto">
+                                    <PiPaperPlaneRightFill />
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                <div className="w-full rounded-[20px] border-2 border-dark-200 flex flex-col">
-                    <h1 className="p-5 text-white border-b border-dark-200">Reports</h1>
-                    <div className="grow grid place-content-center text-center">
-                        <Image 
-                            src="/home/star-06.svg"
-                            alt=""
-                            width={0} 
-                            height={0} 
-                            className="h-auto w-auto p-2 rounded-[8px] border border-light-400 mx-auto" 
-                        />
-                        <h3 className="text-light-300 text-sm pt-3 pb-2">Waiting for prompt</h3>
-                        <p className="text-light-400 text-xs">
-                            Enter the information you’d like to <br /> see from your online store.
-                        </p>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
     );
 }

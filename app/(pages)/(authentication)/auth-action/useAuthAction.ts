@@ -1,6 +1,5 @@
 import { auth } from "@/app/Firebase";
 import { getCurrentUser } from "@/app/utils/auth";
-import { setLsItem } from "@/app/utils/secureLs";
 import { useClickAway, useLockFn } from "ahooks";
 import { 
     verifyPasswordResetCode, 
@@ -106,7 +105,6 @@ export function useAuthAction() {
                 await signInWithEmailAndPassword(auth, emailAddress, data.newPassword);
 
                 router.push("/");
-                setLsItem("@user", "true");
             } catch {
                 setLoading(false);
                 alert("An error occured while signing you in.");

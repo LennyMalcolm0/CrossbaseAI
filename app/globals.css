@@ -32,7 +32,7 @@ body {
   height: 100svh;
   width: 100vw;
   overflow: hidden;
-  background-color: #000000;
+  background-color: #F4F4F4;
 }
 
 .app-container {
@@ -47,9 +47,36 @@ button:disabled {
 }
 
 h1 {
-  @apply text-base sm:text-[18px] font-bold text-white
+  @apply text-base sm:text-[18px] font-bold text-dark-100
+}
+
+.header-element {
+  @apply border border-transparent hover:border-light-100
 }
 
 textarea.prompt::-webkit-scrollbar {
   width: 8px;
+}
+
+.nav-link {
+  @apply py-2 pl-3 pr-[15px] rounded-full border border-transparent text-light-100 
+  text-xs font-bold flex items-center gap-2 hover:text-primary-400
+}
+.nav-link.active {
+  @apply border-primary-400 text-primary-400
+}
+
+.ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.primary-gradient {
+  background: linear-gradient(180deg, #FFF 37.11%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+.profile-input {
+  @apply w-full py-[15px] px-3.5 rounded-[40px] bg-light-300 border border-light-100 mt-2 focus:outline-none
+  text-dark-100 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] focus:border-primary-400
 }

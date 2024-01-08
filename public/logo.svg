@@ -1,0 +1,24 @@
+<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 4">
+<g id="Vector">
+<path d="M8.72363 3.4079H10.2894V9.00001H8.72363V3.4079Z" fill="#727272"/>
+<path d="M8.72363 9.00001V7.43422H14.3157V9.00001H8.72363Z" fill="#727272"/>
+</g>
+<g id="Vector_2">
+<path d="M7.15796 2.0658H5.59217V7.65791H7.15796V2.0658Z" fill="#FEC25D"/>
+<path d="M7.15796 7.65791V6.09211H1.56585V7.65791H7.15796Z" fill="#FEC25D"/>
+</g>
+<g id="Vector_3">
+<path d="M8.72363 14.5921H7.15784V8.99999H8.72363V14.5921Z" fill="#727272"/>
+<path d="M8.72363 8.99999V10.5658H3.13152V8.99999H8.72363Z" fill="#727272"/>
+</g>
+<g id="Vector_4">
+<path d="M10.2896 15.9342H11.8553V10.3421H10.2896V15.9342Z" fill="#FEC25D"/>
+<path d="M10.2896 10.3421V11.9079H15.8817V10.3421H10.2896Z" fill="#FEC25D"/>
+</g>
+<rect id="Rectangle 10" x="5.59204" y="0.5" width="4.69737" height="1.56579" fill="#FEC25D"/>
+<rect id="Rectangle 12" x="15.8816" y="11.9079" width="4.69737" height="1.56579" transform="rotate(-90 15.8816 11.9079)" fill="#FEC25D"/>
+<rect id="Rectangle 13" y="10.7895" width="4.69737" height="1.56579" transform="rotate(-90 0 10.7895)" fill="#FEC25D"/>
+<rect id="Rectangle 11" x="7.15796" y="15.9342" width="4.69737" height="1.56579" fill="#FEC25D"/>
+</g>
+</svg>

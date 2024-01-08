@@ -23,18 +23,19 @@ const config: Config = {
       colors: {
         "primary-100": "#FEC25D",
         "primary-200": "#FF4343",
-        "primary-300": "#5DFE80",
+        "primary-300": "#12D13C",
         "primary-400": "#8E5901",
+        "primary-500": "#F7EFE3",
 
-        "light-100": "#FFFFFF",
-        "light-200": "#F4F4F4",
-        "light-300": "#D8D8D8",
-        "light-400": "#727272",
+        "light-100": "#727272",
+        "light-200": "#D8D8D8",
+        "light-300": "#F4F4F4",
+        "light-400": "#FFFFFF",
 
-        "dark-100": "#3C3C3C",
-        "dark-200": "#1E1E1E",
-        "dark-300": "#111111",
-        "dark-400": "#000000",
+        "dark-100": "#000000",
+        "dark-200": "#242424",
+        "dark-300": "#333333",
+        "dark-400": "#3C3C3C",
       }
     },
   },

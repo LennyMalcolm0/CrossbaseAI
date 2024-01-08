@@ -1,39 +1,28 @@
 "use client"
 import Image from "next/image";
-import { IoMdNotifications } from "react-icons/io";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { auth } from "@/app/Firebase";
+import { useRef, useState } from "react";
+import { useClickAway, useLockFn } from "ahooks";
+import { useUnauthenticatedUserCheck } from "@/app/utils/auth";
 import { FiUser } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { LuLogOut } from "react-icons/lu";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { auth } from "@/app/Firebase";
-import { getLsItem, setLsItem, removeLsItem } from "@/app/utils/secureLs";
-import { useEffect, useRef, useState } from "react";
-import { useClickAway, useLockFn } from "ahooks";
+import { LuSun } from "react-icons/lu";
+import { FaRegMoon } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa";
+import { TbHome2 } from "react-icons/tb";
+import { FiLink } from "react-icons/fi";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
+    useUnauthenticatedUserCheck(router);
     const pathname = usePathname();
     const profileIconRef = useRef<HTMLDivElement>(null);
     const [displayProfileMenu, setDisplayProfileMenu] = useState(false);
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
-
-    useEffect(() => {
-        if (!getLsItem("@user")) router.push("/sign-in");
-
-        const unsubscribe = auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                if (!getLsItem("@user")) setLsItem("@user", "true");
-            } else {
-                if (getLsItem("@user")) removeLsItem("@user");
-                router.push("/sign-in");
-            }
-        });
-    
-        return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     
     const checkPath = (path: string) => pathname === path;
 
@@ -45,7 +34,6 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
         try {
             await auth.signOut();
             
-            removeLsItem("@user");
             router.push("/sign-in");
         } catch {
             alert("Something went wrong. Please try again.");
@@ -54,84 +42,58 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     
     return (
         <div className="w-full h-full flex flex-col">
-            <header className="w-full bg-dark-300 border-b-2 border-dark-200">
-                <div className="app-container h-[60px] flex items-center justify-between">
-                    <Image 
-                        src="/crossbase-logo-white.svg" 
-                        alt="crossbase.ai" 
-                        width={0} 
-                        height={0} 
-                        className="h-auto w-auto sm:scale" 
-                    />
-                    <div className="flex items-center">
-                        {/* <Link href="" className="py-2 px-3 border-r border-light-400 text-xl text-light-400 mr-3">
-                            <IoMdNotifications />
-                        </Link> */}
-                        <div className="relative">
-                            <div 
-                                ref={profileIconRef}
-                                onClick={() => setDisplayProfileMenu(prev => !prev)}
-                                className="h-8 w-8 rounded-full bg-dark-200 text-[19px] text-light-400 border-2 
-                                border-transparent hover:border-light-400 grid place-content-center cursor-pointer"
-                            >
-                                <FiUser />
-                            </div>
-                            {displayProfileMenu && (
-                                <div className="absolute top-12 right-0 w-[200px] rounded-[15px] bg-dark-200 
-                                    border border-dark-100 text-xs text-light-300 overflow-hidden"
-                                >
-                                    <Link 
-                                        href="/account" 
-                                        className="w-full py-3.5 px-5 flex items-center gap-5 
-                                        hover:bg-dark-300 border-b border-dark-100"
-                                    >
-                                        <IoSettingsOutline className="text-base" />
-                                        <span>Manage Account</span>
-                                    </Link>
-                                    <div 
-                                        onClick={() => setDisplayLogoutPopup(true)} 
-                                        className="w-full py-3.5 px-5 flex items-center gap-5 hover:bg-dark-300"
-                                    >
-                                        <LuLogOut className="text-base" />
-                                        <span>Logout</span>
-                                    </div>
-                                </div>
-                            )}
+            <header className="w-full bg-light-400 border-b-2 border-light-200">
+                <div className="app-container h-[60px] flex items-center justify-between relative">
+                    <Link href="/">
+                        <Image 
+                            src="/crossbase-ai.svg" 
+                            alt="crossbase.ai" 
+                            width={0} 
+                            height={0} 
+                            className="h-auto w-auto sm:scale" 
+                        />
+                    </Link>
+                    <div className="flex items-center gap-2.5">
+                        <div className="h-[34px] pl-[15px] pr-2.5 bg-light-300 rounded-full 
+                            flex items-center justify-center gap-1.5 text-sm cursor-pointer header-element"
+                        >
+                            <span className="text-dark-100 font-medium max-w-[180px] ellipses">sample.myshopify.com</span>
+                            <FaChevronDown />
                         </div>
+                        <Link 
+                            href="/account"
+                            className="h-[34px] w-[34px] rounded-full bg-light-300 text-[19px] text-light-100
+                            grid place-content-center cursor-pointer header-element"
+                        >
+                            <FiUser />
+                        </Link>
+                        <button className="h-[34px] w-[60px] p-[3px] bg-light-300 rounded-full flex text-light-400 header-element">
+                            <div className="h-full w-[28px] bg-light-100 rounded-full text-xl grid place-content-center">
+                                <LuSun />
+                                <FaRegMoon className="hidden" />
+                            </div>
+                        </button>
+                    </div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3">
+                        <Link 
+                            href="/"
+                            className={`nav-link ${checkPath("/") ? "active" : ""}`}
+                        >
+                            <TbHome2 className="text-[18px]" />
+                            <span>Home</span>
+                        </Link>
+                        <Link 
+                            href="/integrations"
+                            className={`nav-link ${checkPath("/integrations") ? "active" : ""}`}
+                        >
+                            <FiLink className="text-[18px]" />
+                            <span>Connect</span>
+                        </Link>
                     </div>
                 </div>
             </header>
 
-            <div className="flex flex-col" style={{ height: "calc(100% - 60px)" }}>
-                <div className="w-full bg-[rgba(17,17,17,0.60)] mb-5">
-                    <div className="app-container h-[50px] flex items-center gap-4 text-xs text-light-400 font-medium">
-                        <Link 
-                            href="/" 
-                            className={`${checkPath("/") ? "text-light-200 font-bold border-light-200" : "border-transparent"} 
-                                pb-2.5 border-b-2 hover:text-light-200`}
-                        >
-                            Home
-                        </Link>
-                        <Link 
-                            href="/inventory"  
-                            className={`${checkPath("/history") ? "text-light-200 font-bold border-light-200" : "border-transparent"} 
-                                pb-2.5 border-b-2 hover:text-light-200 `}
-                        >
-                            History
-                        </Link>
-                        <Link 
-                            href="/integrations"  
-                            className={`${checkPath("/integrations") ? "text-light-200 font-bold border-light-200" : "border-transparent"}
-                                pb-2.5 border-b-2 hover:text-light-200`}
-                        >
-                            Integrations
-                        </Link>
-                    </div>
-                </div>
-                <div style={{ height: "calc(100% - 70px)" }}>
-                    {children}
-                </div>
-            </div>
+            {children}
             
             {displayLogoutPopup && (
                 <div className="fixed inset-0 h-[100svh] w-screen bg-dark-400 bg-opacity-70 grid place-content-center">
@@ -163,10 +125,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             )}
 
-            {/* <footer className="max-sm:hidden w-full h-[60px] bg-dark-400 border-t-2 
-                border-dark-200 text-xs text-light-400 grid place-content-center"
-            >
-                © 2023 Crossbase Inc.  All Rights Reserved
+            {/* <footer className="w-full py-5 bg-light-400 text-center text-xs text-dark-400 border-t-2 border-light-200">
+                © 2023 Crossbase Inc. All Rights Reserved
             </footer> */}
         </div>
     );

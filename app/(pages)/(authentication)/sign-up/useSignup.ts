@@ -2,8 +2,11 @@ import { authErrorsFeedbacks, useAuthenticatedUserCheck } from "@/app/utils/auth
 import { useRouter } from "next/navigation";
 import { SignupForm } from "../models";
 import { auth, googleProvider } from "@/app/Firebase";
-import { setLsItem } from "@/app/utils/secureLs";
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithPopup } from "firebase/auth";
+import { 
+    createUserWithEmailAndPassword, 
+    sendEmailVerification, 
+    signInWithPopup 
+} from "firebase/auth";
 import { useFormik } from "formik";
 import { signupSchema } from "../schemas";
 import { useRef, useState } from "react";
@@ -33,10 +36,8 @@ export function useSignup() {
                 await sendEmailVerification(auth.currentUser);
     
                 router.push("/");
-                setLsItem("@user", "true");
             } catch {
                 router.push("/");
-                setLsItem("@user", "true");
             }
         } catch (error: any) {
             setLoading(false);
@@ -55,7 +56,6 @@ export function useSignup() {
             await signInWithPopup(auth, googleProvider);
 
             router.push("/");
-            setLsItem("@user", "true");
         } catch (error) {
             setLoading(false);
             alert("Something went wrong. Please try again.");
