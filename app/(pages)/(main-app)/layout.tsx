@@ -2,14 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { auth } from "@/app/Firebase";
-import { useRef, useState } from "react";
-import { useClickAway, useLockFn } from "ahooks";
 import { useUnauthenticatedUserCheck } from "@/app/utils/auth";
 import { FiUser } from "react-icons/fi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import { LuLogOut } from "react-icons/lu";
 import { LuSun } from "react-icons/lu";
 import { FaRegMoon } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
@@ -20,25 +14,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     useUnauthenticatedUserCheck(router);
     const pathname = usePathname();
-    const profileIconRef = useRef<HTMLDivElement>(null);
-    const [displayProfileMenu, setDisplayProfileMenu] = useState(false);
-    const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
-    
-    const checkPath = (path: string) => pathname === path;
 
-    useClickAway(() => {
-        displayProfileMenu && setDisplayProfileMenu(false);
-    }, [profileIconRef]);
-    
-    const logoutUser = useLockFn(async () => {
-        try {
-            await auth.signOut();
-            
-            router.push("/sign-in");
-        } catch {
-            alert("Something went wrong. Please try again.");
-        }
-    });
+    const checkPath = (path: string) => pathname === path;
     
     return (
         <div className="w-full h-full flex flex-col">
@@ -94,36 +71,6 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
             </header>
 
             {children}
-            
-            {displayLogoutPopup && (
-                <div className="fixed inset-0 h-[100svh] w-screen bg-dark-400 bg-opacity-70 grid place-content-center">
-                    <div className="w-[92%] max-w-[560px] mx-auto flex flex-col p-5 rounded-[20px] bg-dark-400 border border-dark-200">
-                        <div className="flex items-center justify-between">
-                            <h3 className="text-[18px] font-bold text-[#F2EBFC]">Logout</h3>
-                            <AiOutlineCloseCircle 
-                                onClick={() => setDisplayLogoutPopup(false)} 
-                                className="text-[40px] leading-[1] text-dark-100 hover:text-light-200 cursor-pointer" 
-                            />
-                        </div>
-                        <p className="text-sm my-[30px] text-light-400">
-                            You’re about to logout from Crossbase. Do you want to proceed?
-                        </p>
-                        <div className="self-end flex gap-3 text-sm font-bold">
-                            <button 
-                                onClick={() => setDisplayLogoutPopup(false)} 
-                                className="py-3 px-[18px] text-primary-100 hover:bg-light-200"
-                            > Cancel
-                            </button>
-                            <button 
-                                onClick={logoutUser} 
-                                className="py-3 px-[18px] bg-primary-100 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
-                                text-dark-400 hover:bg-light-200"
-                            > Yes, Logout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* <footer className="w-full py-5 bg-light-400 text-center text-xs text-dark-400 border-t-2 border-light-200">
                 © 2023 Crossbase Inc. All Rights Reserved

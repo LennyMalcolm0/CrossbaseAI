@@ -42,7 +42,7 @@ const Home = () => {
     return (   
         <main className="py-5" style={{ height: "calc(100% - 60px)" }}>
             <div className="h-full app-container flex gap-5">
-                <section className="w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
+                <section className="max-sm:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
                     <div className="absolute top-0 h-[110px] w-full primary-gradient" />
                     <div className="w-full px-5 py-6 h-full flex flex-col relative z-[9999]">
                         <h1 className="text-[18px] font-bold text-dark-200">History</h1>
