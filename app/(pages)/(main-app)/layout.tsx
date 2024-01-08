@@ -70,7 +70,9 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </header>
 
-            {children}
+            <div style={{ height: "calc(100% - 60px)" }}>
+                {children}
+            </div>
 
             {/* <footer className="w-full py-5 bg-light-400 text-center text-xs text-dark-400 border-t-2 border-light-200">
                 © 2023 Crossbase Inc. All Rights Reserved

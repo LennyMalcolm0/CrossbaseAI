@@ -107,7 +107,7 @@ const Account = () => {
 
             {displayLogoutPopup && (
                 <div className="fixed inset-0 h-[100svh] w-screen bg-dark-100 bg-opacity-70 bg-blur-[12px] grid place-content-center">
-                    <div className="w-[560px] max-w-[92%] mx-auto flex flex-col p-5 rounded-[20px] bg-light-400 border border-light-200">
+                    <div className="w-[560px] max-w-[92vw] mx-auto flex flex-col p-5 rounded-[20px] bg-light-400 border border-light-200">
                         <div className="flex items-center justify-between">
                             <h3 className="text-[18px] font-bold text-dark-100">Logout</h3>
                             <SlClose

@@ -40,7 +40,7 @@ const Home = () => {
     }, [textareaContainerRef]);
     
     return (   
-        <main className="py-5" style={{ height: "calc(100% - 60px)" }}>
+        <main className="h-full py-5">
             <div className="h-full app-container flex gap-5">
                 <section className="max-sm:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
                     <div className="absolute top-0 h-[110px] w-full primary-gradient" />
