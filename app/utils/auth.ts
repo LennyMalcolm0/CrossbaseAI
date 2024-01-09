@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { auth } from "../Firebase";
+import { auth } from "../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAsyncEffect } from "ahooks";
 

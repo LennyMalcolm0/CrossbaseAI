@@ -7,7 +7,7 @@ import { RiPushpin2Line } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa6";
 import { useRef, useState } from "react";
 import { getCurrentUser } from "@/app/utils/auth";
-import { HttpClient } from "@/app/utils/axiosRequests";
+import InsightHistory from "./components/InsightHistory";
 
 const Home = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -66,18 +66,7 @@ const Home = () => {
     return (   
         <main className="h-full lg:py-5">
             <div className="h-full app-container-2 flex gap-5">
-                <section className="max-lg:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative overflow-hidden">
-                    <div className="absolute top-0 h-[110px] w-full primary-gradient" />
-                    <div className="w-full px-5 py-6 h-full flex flex-col relative z-[9999]">
-                        <h1 className="text-[18px] font-bold text-dark-200">History</h1>
-                        <div className="grow grid place-content-center">
-                            <div className="p-2 border border-dark-100 rounded-[8px] mx-auto">
-                                <HiOutlineSparkles className="text-xl text-dark-100" />
-                            </div>
-                            <p className="text-center text-sm text-light-100 mt-5">No history to show</p>
-                        </div>
-                    </div>
-                </section>
+                <InsightHistory />
                 <section className="conversation-box lg:border-2 lg:rounded-[20px] lg:border-light-200 relative overflow-hidden">
                     <div className="sm:hid den absolute top-0 h-[110px] w-full primary-gradient" />
                     <div className="w-full h-full flex flex-col justify-between relative z-[9999]">
@@ -136,10 +125,11 @@ const Home = () => {
                             ></div> */}
                             <div className="w-full flex flex-col mt-[80px]">
                                 <p className="user w-fit max-w-[95%] pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5">
-                                In this example, we set the Content-Type header to and include the data you want to send in the body. 
+                                In this example, we set the Content-Type header to and include the data you want to send in the body.
                                 </p>
                                 <p className="assistant w-fit max-w-[95%] pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5">
-                                Please note that if {"you're"} trying to implement server-sent events, the Content-Type is used for the server response, not for the client request.
+                                Please note that if {"you're"} trying to implement server-sent events, the Content-Type is used 
+                                for the server response, not for the client request.
                                 </p>
                             </div>
                         </section>
@@ -192,3 +182,16 @@ const defaultPrompts = [
         prompt: "Considering my current sales growth rate, how much can I make in the next six months? Don’t include my Amazon FBA sales.",
     },
 ]
+
+const insights: any[] = [
+    { id: '1', title: 'But how do they do it? What are their techniques?' },
+    { id: '2', title: 'As an answer, this book reports the 2' },
+    { id: '3', title: 'As an answer, this book reports the 3' },
+    { id: '4', title: 'As an answer, this book reports the 4' },
+    { id: '5', title: 'As an answer, this book reports the 5' },
+    { id: '6', title: 'As an answer, this book reports the 6' },
+    { id: '7', title: 'As an answer, this book reports the 7' },
+    { id: '8', title: 'As an answer, this book reports the 8' },
+    { id: '9', title: 'As an answer, this book reports the 9' },
+    { id: '10', title: 'As an answer, this book reports the 10' }
+];

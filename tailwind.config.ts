@@ -20,6 +20,7 @@ const config: Config = {
     },
     
     extend: {
+      /** Light Mode */
       colors: {
         "primary-100": "#FEC25D",
         "primary-200": "#FF4343",
@@ -37,6 +38,8 @@ const config: Config = {
         "dark-300": "#333333",
         "dark-400": "#3C3C3C",
       }
+
+      /** Dark Mode */
       // colors: {
       //   "primary-100": "#8E5901",
       //   "primary-200": "#FF4343",

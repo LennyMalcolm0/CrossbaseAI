@@ -50,7 +50,7 @@ export class HttpClient {
                 status: response.status
             };
         } catch (error) {
-            return { error: error }
+            return { error }
         }
     }
 
@@ -62,7 +62,7 @@ export class HttpClient {
                 status: response.status
             };
         } catch (error) {
-            return { error: error }
+            return { error }
         }
     }
 
@@ -74,7 +74,7 @@ export class HttpClient {
                 status: response.status
             };
         } catch (error) {
-            return { error: error }
+            return { error }
         }
     }
 
@@ -86,7 +86,7 @@ export class HttpClient {
                 status: response.status
             };
         } catch (error) {
-            return { error: error }
+            return { error }
         }
     }
 
@@ -98,7 +98,7 @@ export class HttpClient {
                 status: response.status
             };
         } catch (error) {
-            return { error: error }
+            return { error }
         }
     }
 }

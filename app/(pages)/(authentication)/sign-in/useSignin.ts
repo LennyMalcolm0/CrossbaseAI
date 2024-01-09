@@ -1,4 +1,4 @@
-import { auth, googleProvider } from "@/app/Firebase";
+import { auth, googleProvider } from "@/app/firebase";
 import { useAuthenticatedUserCheck, authErrorsFeedbacks } from "@/app/utils/auth";
 import { useLockFn } from "ahooks";
 import { 

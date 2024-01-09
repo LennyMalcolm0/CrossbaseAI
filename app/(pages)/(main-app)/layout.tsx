@@ -10,13 +10,15 @@ import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
+import { useSessionStorageState } from "ahooks";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     useUnauthenticatedUserCheck(router);
     const pathname = usePathname();
-
     const checkPath = (path: string) => pathname === path;
+
+    const [storeId, setStoreId] = useSessionStorageState<string>("activeStore");
     
     return (
         <div className="w-full h-full flex flex-col">
@@ -32,10 +34,10 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         />
                     </Link>
                     <div className="flex items-center gap-2.5">
-                        <div className="h-[34px] pl-[15px] pr-2.5 bg-light-300 rounded-full 
+                        <div className="h-[34px] pl-[15px] pr-2.5 bg-light-300 rounded-full text-dark-100 
                             flex items-center justify-center gap-1.5 text-sm cursor-pointer header-element"
                         >
-                            <span className="text-dark-100 font-medium max-w-[180px] max-sm:max-w-[120px] ellipses">sample.myshopify.com</span>
+                            <span className="font-medium max-w-[180px] max-sm:max-w-[120px] ellipses">sample.myshopify.com</span>
                             <FaChevronDown />
                         </div>
                         <Link 

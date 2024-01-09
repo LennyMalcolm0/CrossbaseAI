@@ -1,4 +1,4 @@
-import { ConnectedCard, DisconnectedCard } from "../components/StoreCard";
+import { ConnectedCard, DisconnectedCard } from "../components/StoreCards";
 
 
 const Integrations = () => {

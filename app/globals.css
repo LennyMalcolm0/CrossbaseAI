@@ -16,8 +16,8 @@
   width: 3px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #727272;
   border-radius: 25px;
+  @apply bg-light-100
 }
 *::-webkit-scrollbar-track {
   border-radius: 25px;
@@ -29,10 +29,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  height: 100svh;
-  width: 100vw;
-  overflow: hidden;
-  background-color: #F4F4F4;
+  @apply h-[100svh] w-screen bg-light-300 overflow-hidden
 }
 
 .app-container {
@@ -86,7 +83,8 @@ textarea.prompt::-webkit-scrollbar {
 }
 
 .primary-gradient {
-  background: linear-gradient(180deg, #FFF 37.11%, rgba(255, 255, 255, 0.00) 100%);
+  @apply bg-[linear-gradient(180deg,_#FFF_37.11%,_rgba(255,255,255,0.00)100%)]
+  /* @apply bg-[linear-gradient(180deg,_#3C3C3C_0%,_rgba(60,60,60,0.00)100%)] */ 
 }
 
 .profile-input {
@@ -119,4 +117,8 @@ textarea.prompt::-webkit-scrollbar {
 }
 .assistant {
   @apply text-dark-400 bg-light-400 rounded-tr-[8px] mr-auto shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
+}
+
+.active-insight {
+  @apply border border-primary-100 shadow-[0px_4px_15px_0px_rgba(0,0,0,0.07)]
 }
