@@ -103,3 +103,20 @@ textarea.prompt::-webkit-scrollbar {
     height: calc(100% - 118px);
   }
 }
+
+.conversation-box {
+  width: 100%;
+}
+
+@media (min-width: 1100px) {
+  .conversation-box {
+    width: calc(100% - 270px);
+  }
+}
+
+.user {
+  @apply text-primary-400 bg-primary-500 rounded-tl-[8px] ml-auto shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
+}
+.assistant {
+  @apply text-dark-400 bg-light-400 rounded-tr-[8px] mr-auto shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
+}
