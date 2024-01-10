@@ -14,7 +14,9 @@ export function useGetInsights() {
         if (!store) return;
         setLoading(true);
 
-        const { data, error } = await HttpClient.get<InsightHistory[]>(`/insights/${store}`);
+        const { data, error } = await HttpClient.get<InsightHistory[]>(
+            `/insights/${store}/all`
+        );
 
         if (error || !data) {
             throw new Error("Error")

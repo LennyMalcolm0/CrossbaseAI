@@ -1,0 +1,107 @@
+import { Insight, Message } from "@/app/models";
+import { getCurrentUser } from "@/app/utils/auth";
+import { HttpClient } from "@/app/utils/axiosRequests";
+import { useAsyncEffect, useLockFn, useSessionStorageState } from "ahooks";
+import { useSearchParams } from "next/navigation";
+import { useRef, useState } from "react";
+
+export function useManageInsight() {
+    const searchParams = useSearchParams();
+    const [store] = useSessionStorageState<string>("activeStore");
+    const insightsBoxRef = useRef<HTMLElement>(null);
+    const [conversation, setConversation] = useState<Message[]>([]);
+    const [activeInsight, setActiveInsight] = useState<Insight>({} as Insight);
+    const [textareaValue, setTextareaValue] = useState("");
+    const [loadingInsight, setLoadingInsight] = useState(false);
+    const [awaitingResponse, setAwaitingResponse] = useState(false);
+
+    useAsyncEffect(async () => {
+        const insightId = searchParams.get("insight");
+        if (!insightId || !insightsBoxRef.current) return;
+
+        setLoadingInsight(true);
+
+        const { data, error } = await HttpClient.get<Insight>(`/insights/${insightId}`);
+
+        if (error || !data) {
+            setLoadingInsight(false);
+            return
+        }
+
+        setActiveInsight(data);
+        setConversation(data.messages);
+
+        insightsBoxRef.current.scrollTo({
+            top: insightsBoxRef.current.scrollHeight,
+            behavior: "smooth"
+        });
+    }, [searchParams])
+
+    const updateConversation = (role: "user" | "assistant", content: string) => {
+        setConversation(prev => [...prev, { role, content }]);
+    };
+
+    const handlePrompt = useLockFn(async (e: any) => {
+        e.preventDefault();
+        if (!insightsBoxRef.current) return;
+        setAwaitingResponse(true);
+
+        const question = textareaValue;
+        setTextareaValue("");
+        updateConversation("user", question);
+
+        const user = await getCurrentUser();
+        if (!user || !question) return;
+
+        const userIdToken = await user.getIdToken();
+        const requestBody = JSON.stringify({
+            question, 
+            conversation, 
+            insightId: activeInsight.id || undefined, 
+            storeId: store
+        });
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/stream`, {
+            method: "POST",
+            body: requestBody,
+            headers: {
+                Accept: "text/event-stream",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userIdToken}`
+            }
+        });
+
+        setAwaitingResponse(false);
+        const newParagraph = document.createElement("p");
+        newParagraph.classList.add("assistant");
+        insightsBoxRef.current.appendChild(newParagraph);
+        
+        if (response.ok && response.body) {
+            const reader = response.body
+                .pipeThrough(new TextDecoderStream())
+                .getReader();
+        
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                console.log("Received: ", value);
+                newParagraph.textContent += newParagraph.textContent + value;
+            }
+
+            updateConversation("assistant", newParagraph.textContent || "");
+        } else {
+            console.error("Stream response was not ok.");
+        }
+    });
+
+    return {
+        insightsBoxRef,
+        conversation,
+        activeInsight,
+        textareaValue,
+        loadingInsight,
+        awaitingResponse,
+        setTextareaValue,
+        handlePrompt
+    }
+}

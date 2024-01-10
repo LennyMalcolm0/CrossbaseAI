@@ -19,16 +19,11 @@ export type Store = {
     updatedAt: string;
 };
    
-enum Role {
-    USER = "user",
-    ASSISTANT = "assistant",
-}
-   
 export type Message = {
-    role: Role;
+    role: "user" | "assistant";
     content: string;
 };
-   
+
 export type Insight = {
     id: string;
     title: string;

@@ -5,14 +5,22 @@ import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { TbCloudDownload } from "react-icons/tb";
 import { RiPushpin2Line } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa6";
-import { useRef, useState } from "react";
-import { getCurrentUser } from "@/app/utils/auth";
+import { useRef } from "react";
 import InsightHistory from "./components/InsightHistory";
+import { useManageInsight } from "./hooks/useManageInsight";
 
 const Home = () => {
+    const {
+        insightsBoxRef,
+        conversation,
+        activeInsight,
+        textareaValue,
+        loadingInsight,
+        awaitingResponse,
+        setTextareaValue,
+        handlePrompt
+    } = useManageInsight();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [textareaValue, setTextareaValue] = useState("");
-    const [response, setResponse] = useState("");
  
     const handleInput = () => {
         const textarea = textareaRef.current;
@@ -25,45 +33,8 @@ const Home = () => {
 
         textarea.style.height = `${newHeight}px`;
     };
-
-    const handlePrompt = async (e: any) => {
-        e.preventDefault();
-
-        const prompt = textareaValue;
-        setTextareaValue("");
-
-        const user = await getCurrentUser();
-        if (!user || !prompt) return;
-
-        const userIdToken = await user.getIdToken();
-
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/stream`, {
-            method: "POST",
-            body: JSON.stringify({ prompt }),
-            headers: {
-                Accept: "text/event-stream",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userIdToken}`
-            }
-        });
-        
-        if (response.ok && response.body) {
-            const reader = response.body
-                .pipeThrough(new TextDecoderStream())
-                .getReader();
-        
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                console.log("Received: ", value);
-                setResponse((prev) => prev + value);
-            }
-        } else {
-            console.error("Stream response was not ok.");
-        }
-    }
     
-    return (   
+    return (  
         <main className="h-full lg:py-5">
             <div className="h-full app-container-2 flex gap-5">
                 <InsightHistory />
@@ -90,7 +61,7 @@ const Home = () => {
                                 </button>
                             </div>
                         </div>
-                        <section className="max-sm:px-5 lg:px-7 pt-8 overflow-y-auto">
+                        <section ref={insightsBoxRef} className="max-sm:px-5 lg:px-7 pt-8 overflow-y-auto">
                             <img 
                                 src="/logo.svg"
                                 alt="crossbase.ai icon"
@@ -102,7 +73,7 @@ const Home = () => {
                             <p className="text-dark-400 text-sm text-center mt-1.5">
                                 Here are some information Crossbase AI <br className="sm:hidden" /> can help you with.
                             </p>
-                            <div className="w-full space-y-2.5 my-8">
+                            <div className="w-full space-y-2.5 mt-8 mb-[100px]">
                                 {defaultPrompts.map((prompt, index) => (
                                     <div 
                                         key={index} 
@@ -118,20 +89,10 @@ const Home = () => {
                                     </div>
                                 ))}
                             </div>
-                            {/* <div 
-                                className="py-[13px] px-[15px] w-full rounded-[10px] bg-light-400 flex 
-                                items-center gap-[15px] cursor-pointer hover:shadow-sm"
-                                dangerouslySetInnerHTML={{ __html: response }}
-                            ></div> */}
-                            <div className="w-full flex flex-col mt-[80px]">
-                                <p className="user w-fit max-w-[95%] pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5">
-                                In this example, we set the Content-Type header to and include the data you want to send in the body.
-                                </p>
-                                <p className="assistant w-fit max-w-[95%] pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5">
-                                Please note that if {"you're"} trying to implement server-sent events, the Content-Type is used 
-                                for the server response, not for the client request.
-                                </p>
-                            </div>
+                            {conversation.map((message, index) => (
+                                <p key={index} className={`${message.role}`}>{message.content}</p>
+                            ))}
+                            {awaitingResponse ? <div>Loading Response...</div> : null}
                         </section>
                         <form 
                             onSubmit={handlePrompt}
@@ -182,16 +143,3 @@ const defaultPrompts = [
         prompt: "Considering my current sales growth rate, how much can I make in the next six months? Don’t include my Amazon FBA sales.",
     },
 ]
-
-const insights: any[] = [
-    { id: '1', title: 'But how do they do it? What are their techniques?' },
-    { id: '2', title: 'As an answer, this book reports the 2' },
-    { id: '3', title: 'As an answer, this book reports the 3' },
-    { id: '4', title: 'As an answer, this book reports the 4' },
-    { id: '5', title: 'As an answer, this book reports the 5' },
-    { id: '6', title: 'As an answer, this book reports the 6' },
-    { id: '7', title: 'As an answer, this book reports the 7' },
-    { id: '8', title: 'As an answer, this book reports the 8' },
-    { id: '9', title: 'As an answer, this book reports the 9' },
-    { id: '10', title: 'As an answer, this book reports the 10' }
-];
