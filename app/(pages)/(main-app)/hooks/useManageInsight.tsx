@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 
 export function useManageInsight() {
     const searchParams = useSearchParams();
-    const [store] = useSessionStorageState<string>("activeStore");
+    const [storeId] = useSessionStorageState<string>("activeStore");
     const insightsBoxRef = useRef<HTMLElement>(null);
     const [conversation, setConversation] = useState<Message[]>([]);
     const [activeInsight, setActiveInsight] = useState<Insight>({} as Insight);
@@ -15,9 +15,22 @@ export function useManageInsight() {
     const [loadingInsight, setLoadingInsight] = useState(false);
     const [awaitingResponse, setAwaitingResponse] = useState(false);
 
-    useAsyncEffect(async () => {
+    const updateConversation = (role: "user" | "assistant", content: string) => {
+        setConversation(prev => [...prev, { role, content }]);
+    };
+
+    const scrollBoxToBottom = () => {
+        if (!insightsBoxRef.current) return;
+
+        insightsBoxRef.current.scrollTo({
+            top: insightsBoxRef.current.scrollHeight,
+            behavior: "smooth"
+        });
+    }
+
+    useAsyncEffect(useLockFn(async () => {
         const insightId = searchParams.get("insight");
-        if (!insightId || !insightsBoxRef.current) return;
+        if (!insightId) return;
 
         setLoadingInsight(true);
 
@@ -30,25 +43,23 @@ export function useManageInsight() {
 
         setActiveInsight(data);
         setConversation(data.messages);
-
-        insightsBoxRef.current.scrollTo({
-            top: insightsBoxRef.current.scrollHeight,
-            behavior: "smooth"
-        });
-    }, [searchParams])
-
-    const updateConversation = (role: "user" | "assistant", content: string) => {
-        setConversation(prev => [...prev, { role, content }]);
-    };
+        scrollBoxToBottom();
+    }), [searchParams])
 
     const handlePrompt = useLockFn(async (e: any) => {
         e.preventDefault();
         if (!insightsBoxRef.current) return;
-        setAwaitingResponse(true);
 
         const question = textareaValue;
         setTextareaValue("");
         updateConversation("user", question);
+
+        const newQuestion = document.createElement("p");
+        newQuestion.classList.add("user");
+        newQuestion.textContent = question;
+        insightsBoxRef.current.appendChild(newQuestion);
+        setAwaitingResponse(true);
+        scrollBoxToBottom();
 
         const user = await getCurrentUser();
         if (!user || !question) return;
@@ -57,11 +68,11 @@ export function useManageInsight() {
         const requestBody = JSON.stringify({
             question, 
             conversation, 
-            insightId: activeInsight.id || undefined, 
-            storeId: store
+            storeId: storeId || sessionStorage.getItem("activeStore"),
+            insightId: activeInsight.id || undefined
         });
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/stream`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/insights/question`, {
             method: "POST",
             body: requestBody,
             headers: {
@@ -72,9 +83,10 @@ export function useManageInsight() {
         });
 
         setAwaitingResponse(false);
-        const newParagraph = document.createElement("p");
-        newParagraph.classList.add("assistant");
-        insightsBoxRef.current.appendChild(newParagraph);
+        const newResponse = document.createElement("p");
+        newResponse.classList.add("assistant");
+        insightsBoxRef.current.appendChild(newResponse);
+        scrollBoxToBottom();
         
         if (response.ok && response.body) {
             const reader = response.body
@@ -84,11 +96,12 @@ export function useManageInsight() {
             while (true) {
                 const { value, done } = await reader.read();
                 if (done) break;
-                console.log("Received: ", value);
-                newParagraph.textContent += newParagraph.textContent + value;
+                
+                newResponse.textContent += value;
+                scrollBoxToBottom();
             }
 
-            updateConversation("assistant", newParagraph.textContent || "");
+            updateConversation("assistant", newResponse.textContent || "");
         } else {
             console.error("Stream response was not ok.");
         }

@@ -1,30 +1,31 @@
 import { Insight } from "@/app/models";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useAsyncEffect, useSessionStorageState } from "ahooks";
+import { useAsyncEffect, useLockFn, useSessionStorageState } from "ahooks";
 import { useState } from "react";
 
 type InsightHistory = Omit<Insight, "messages" | "updatedAt">;
 
 export function useGetInsights() {
     const [insights, setInsights] = useState<InsightHistory[]>([]);
-    const [store] = useSessionStorageState<string>("activeStore");
+    const [storeId] = useSessionStorageState<string>("activeStore");
     const [loading, setLoading] = useState(false);
 
-    useAsyncEffect(async () => {
-        if (!store) return;
+    useAsyncEffect(useLockFn(async () => {
+        if (!storeId) return;
         setLoading(true);
 
         const { data, error } = await HttpClient.get<InsightHistory[]>(
-            `/insights/${store}/all`
+            `/insights/${storeId}/all`
         );
 
         if (error || !data) {
-            throw new Error("Error")
+            setLoading(false);
+            return
         }
 
         setInsights(data);
         setLoading(false);
-    }, [store])
+    }), [storeId])
     
     return { insights, loading }
 }

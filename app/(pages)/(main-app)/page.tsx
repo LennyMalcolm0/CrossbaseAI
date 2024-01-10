@@ -12,7 +12,6 @@ import { useManageInsight } from "./hooks/useManageInsight";
 const Home = () => {
     const {
         insightsBoxRef,
-        conversation,
         activeInsight,
         textareaValue,
         loadingInsight,
@@ -89,9 +88,11 @@ const Home = () => {
                                     </div>
                                 ))}
                             </div>
-                            {conversation.map((message, index) => (
-                                <p key={index} className={`${message.role}`}>{message.content}</p>
-                            ))}
+                            {activeInsight.messages && <>
+                                {activeInsight.messages.map((message, index) => (
+                                    <p key={index} className={`${message.role}`}>{message.content}</p>
+                                ))}
+                            </>}
                             {awaitingResponse ? <div>Loading Response...</div> : null}
                         </section>
                         <form 

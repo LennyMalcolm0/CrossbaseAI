@@ -15,7 +15,6 @@ export type Store = {
     id: string;
     type: StoreType;
     storeUrl: string;
-    createdAt: string;
     updatedAt: string;
 };
    

@@ -12,9 +12,9 @@ const InsightHistory = () => {
             <div className="w-full px-5 py-6 h-full flex flex-col relative z-[9999]">
                 <h1 className="text-[18px] font-bold text-dark-200">History</h1>
                 {loading ? (
-                    <div>Loading...</div>
+                    <div className="text-dark-200">Loading...</div>
                 ):(<>
-                    {(insights.length < 1) ? (
+                    {(insights.length > 0) ? (
                         <div className="mt-6 flex flex-col gap-2">
                             {insights.map((insight) => (
                                 <InsightCard key={insight.id} {...insight} />

@@ -10,7 +10,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
-import { useSessionStorageState } from "ahooks";
+// import { useAsyncEffect, useLockFn, useSessionStorageState } from "ahooks";
+// import { HttpClient } from "@/app/utils/axiosRequests";
+// import { Store } from "@/app/models";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
@@ -18,7 +20,15 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();
     const checkPath = (path: string) => pathname === path;
 
-    const [storeId, setStoreId] = useSessionStorageState<string>("activeStore");
+    // const [storeId, setStoreId] = useSessionStorageState<string>("activeStore");
+
+    // useAsyncEffect(useLockFn(async () => {
+    //     const { data } = await HttpClient.get<Store[]>("/stores");
+    //     if (data) {
+    //         setStoreId(data[0].id)
+    //         // console.log(data[0].id)
+    //     }
+    // }), [])
     
     return (
         <div className="w-full h-full flex flex-col">
