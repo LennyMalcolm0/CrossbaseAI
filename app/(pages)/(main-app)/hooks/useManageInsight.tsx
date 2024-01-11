@@ -1,50 +1,54 @@
 import { Insight, Message } from "@/app/models";
 import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useAsyncEffect, useLockFn, useSessionStorageState } from "ahooks";
+import { useLockFn, useRequest, useSessionStorageState } from "ahooks";
 import { useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useManageInsight() {
     const searchParams = useSearchParams();
+    const insightId = searchParams.get("insight");
     const [storeId] = useSessionStorageState<string>("activeStore");
     const insightsBoxRef = useRef<HTMLElement>(null);
     const [conversation, setConversation] = useState<Message[]>([]);
     const [activeInsight, setActiveInsight] = useState<Insight>({} as Insight);
     const [textareaValue, setTextareaValue] = useState("");
-    const [loadingInsight, setLoadingInsight] = useState(false);
     const [awaitingResponse, setAwaitingResponse] = useState(false);
 
-    const updateConversation = (role: "user" | "assistant", content: string) => {
+    const updateConversation = useCallback((role: "user" | "assistant", content: string) => {
         setConversation(prev => [...prev, { role, content }]);
-    };
+    }, []);
 
-    const scrollBoxToBottom = () => {
+    const scrollBoxToBottom = useCallback(() => {
         if (!insightsBoxRef.current) return;
 
         insightsBoxRef.current.scrollTo({
             top: insightsBoxRef.current.scrollHeight,
             behavior: "smooth"
         });
-    }
+    }, [])
 
-    useAsyncEffect(useLockFn(async () => {
-        const insightId = searchParams.get("insight");
-        if (!insightId) return;
-
-        setLoadingInsight(true);
-
-        const { data, error } = await HttpClient.get<Insight>(`/insights/${insightId}`);
-
-        if (error || !data) {
-            setLoadingInsight(false);
-            return
+    // TODO: Apply useLockFn to run request once
+    const { run: fetchInsight, loading: loadingInsight } = useRequest(
+        () => HttpClient.get<Insight>(`/insights/${insightId}`),
+        {
+            manual: true,
+            onSuccess: (result) => {
+                const { data } = result;
+                if (data) {
+                    setActiveInsight(data);
+                    setTimeout(() => scrollBoxToBottom(), 200);
+                    setConversation(data.messages);
+                }
+            },
         }
+    );
 
-        setActiveInsight(data);
-        setTimeout(() => scrollBoxToBottom(), 200);
-        setConversation(data.messages);
-    }), [searchParams])
+    useEffect(() => {
+        if (insightId) {
+            fetchInsight();
+        }
+    }, [insightId, fetchInsight]);
 
     const handlePrompt = useLockFn(async (e: any) => {
         e.preventDefault();

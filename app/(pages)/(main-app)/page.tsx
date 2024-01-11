@@ -10,6 +10,7 @@ import InsightHistory from "./components/InsightHistory";
 import { useManageInsight } from "./hooks/useManageInsight";
 
 const Home = () => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const {
         insightsBoxRef,
         activeInsight,
@@ -19,7 +20,6 @@ const Home = () => {
         setTextareaValue,
         handlePrompt
     } = useManageInsight();
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
  
     const handleInput = () => {
         const textarea = textareaRef.current;
