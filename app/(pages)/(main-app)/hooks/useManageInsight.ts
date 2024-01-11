@@ -1,23 +1,17 @@
 import { Insight, Message } from "@/app/models";
 import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useLockFn, useRequest, useSessionStorageState } from "ahooks";
-import { useSearchParams } from "next/navigation";
+import { useLockFn, useRequest } from "ahooks";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import useActiveStore from "./useActiveStore";
 
-export function useManageInsight() {
+function useGetInsight() {
     const searchParams = useSearchParams();
     const insightId = searchParams.get("insight");
-    const [storeId] = useSessionStorageState<string>("activeStore");
     const insightsBoxRef = useRef<HTMLElement>(null);
     const [conversation, setConversation] = useState<Message[]>([]);
     const [activeInsight, setActiveInsight] = useState<Insight>({} as Insight);
-    const [textareaValue, setTextareaValue] = useState("");
-    const [awaitingResponse, setAwaitingResponse] = useState(false);
-
-    const updateConversation = useCallback((role: "user" | "assistant", content: string) => {
-        setConversation(prev => [...prev, { role, content }]);
-    }, []);
 
     const scrollBoxToBottom = useCallback(() => {
         if (!insightsBoxRef.current) return;
@@ -27,8 +21,8 @@ export function useManageInsight() {
             behavior: "smooth"
         });
     }, [])
-
-    // TODO: Apply useLockFn to run request once
+    
+    // TODO: Apply useLockFn to run request once. Use runAsync and useAsyncEffect
     const { run: fetchInsight, loading: loadingInsight } = useRequest(
         () => HttpClient.get<Insight>(`/insights/${insightId}`),
         {
@@ -50,16 +44,44 @@ export function useManageInsight() {
         }
     }, [insightId, fetchInsight]);
 
+    return {
+        insightId,
+        insightsBoxRef,
+        conversation,
+        activeInsight,
+        loadingInsight,
+        scrollBoxToBottom,
+        setConversation,
+        setActiveInsight
+    }
+}
+
+export function useManageInsight() {
+    const router = useRouter();
+    const pathname = usePathname();
+    const {
+        insightId,
+        insightsBoxRef,
+        conversation,
+        activeInsight,
+        loadingInsight,
+        scrollBoxToBottom,
+        setConversation,
+        setActiveInsight
+    } = useGetInsight();
+    const { store, updateInsightTitle, addNewInsight } = useActiveStore();
+    const [textareaValue, setTextareaValue] = useState("");
+    const [awaitingResponse, setAwaitingResponse] = useState(false);
+
     const handlePrompt = useLockFn(async (e: any) => {
         e.preventDefault();
         if (!insightsBoxRef.current) return;
 
         const question = textareaValue;
         setTextareaValue("");
-        updateConversation("user", question);
 
         const newQuestion = document.createElement("p");
-        newQuestion.classList.add("user");
+        newQuestion.classList.add("user", "conversation");
         newQuestion.textContent = question;
         insightsBoxRef.current.appendChild(newQuestion);
         setAwaitingResponse(true);
@@ -72,8 +94,8 @@ export function useManageInsight() {
         const requestBody = JSON.stringify({
             question, 
             conversation, 
-            storeId: storeId || sessionStorage.getItem("activeStore"),
-            insightId: activeInsight.id || undefined
+            storeId: store,
+            insightId: insightId || undefined
         });
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/insights/question`, {
@@ -88,7 +110,7 @@ export function useManageInsight() {
 
         setAwaitingResponse(false);
         const newResponse = document.createElement("p");
-        newResponse.classList.add("assistant");
+        newResponse.classList.add("assistant", "conversation");
         insightsBoxRef.current.appendChild(newResponse);
         scrollBoxToBottom();
         
@@ -101,11 +123,31 @@ export function useManageInsight() {
                 const { value, done } = await reader.read();
                 if (done) break;
                 
+                if (value.startsWith("___id: ")) {
+                    addNewInsight({ 
+                        id: value.split("___id: ")[1], 
+                        title: question 
+                    });
+                }
+                
                 newResponse.textContent += value;
                 scrollBoxToBottom();
             }
 
-            updateConversation("assistant", newResponse.textContent || "");
+            if (insightId) {
+                updateInsightTitle({ 
+                    id: insightId, 
+                    title: question 
+                });
+            }
+
+            setConversation(prev => [
+                ...prev, 
+                { 
+                    role: "assistant", 
+                    content: newResponse.textContent || "" 
+                }
+            ]);
         } else {
             console.error("Stream response was not ok.");
         }
@@ -119,6 +161,6 @@ export function useManageInsight() {
         loadingInsight,
         awaitingResponse,
         setTextareaValue,
-        handlePrompt
+        handlePrompt,
     }
 }

@@ -1,10 +1,11 @@
 import { Insight } from "@/app/models";
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useAsyncEffect, useLockFn, useRequest, useSessionStorageState } from "ahooks";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import useActiveStore from "./useActiveStore";
 
-type BaseInsight = Omit<Insight, "messages">;
-type BaseInsightsByDate = {
+export type BaseInsight = Omit<Insight, "messages">;
+export type BaseInsightsByDate = {
     id: string;
     date: string;
     insights: BaseInsight[];
@@ -35,27 +36,28 @@ function formatInsights(insights: BaseInsight[]) {
 }
 
 export function useGetInsights() {
-    const [insightsByDate, setInsightsByDate] = useState<BaseInsightsByDate[]>([]);
-    const [storeId] = useSessionStorageState<string>("activeStore");
+    const { store, insights, setInsights } = useActiveStore();
     
     const { run: fetchInsights, loading } = useRequest(
-        () => HttpClient.get<BaseInsight[]>(`/insights/${storeId}/all`),
+        () => HttpClient.get<BaseInsight[]>(`/insights/${store}/all`),
         {
             manual: true,
             onSuccess: (result) => {
                 const { data } = result;
-                if (data) {
-                    setInsightsByDate(formatInsights(data));
-                }
+                if (data) setInsights(data);
             },
         }
     );
 
     useEffect(() => {
-        if (storeId) {
+        if (store) {
             fetchInsights();
         }
-    }, [storeId, fetchInsights]);
+    }, [store, fetchInsights]);
+
+    const insightsByDate = useMemo(() => {
+        return formatInsights(insights)
+    }, [insights])
     
     return { insightsByDate, loading }
 }

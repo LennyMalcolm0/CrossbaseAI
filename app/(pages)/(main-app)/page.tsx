@@ -18,7 +18,7 @@ const Home = () => {
         loadingInsight,
         awaitingResponse,
         setTextareaValue,
-        handlePrompt
+        handlePrompt,
     } = useManageInsight();
  
     const handleInput = () => {
@@ -52,7 +52,8 @@ const Home = () => {
                                 <div className="p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
                                     <RiPushpin2Line className="text-[18px]" />
                                 </div>
-                                <button className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
+                                <button 
+                                    className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
                                     text-sm font-bold flex items-center gap-2 hover:shadow-sm"
                                 >
                                     <span>New Insight</span>
@@ -90,7 +91,7 @@ const Home = () => {
                             </div>
                             {activeInsight.messages && <>
                                 {activeInsight.messages.map((message, index) => (
-                                    <p key={index} className={`${message.role}`}>{message.content}</p>
+                                    <p key={index} className={`${message.role} conversation`}>{message.content}</p>
                                 ))}
                             </>}
                             {awaitingResponse ? <div>Loading Response...</div> : null}

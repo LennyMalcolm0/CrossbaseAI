@@ -10,9 +10,10 @@ import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
-// import { useAsyncEffect, useLockFn, useSessionStorageState } from "ahooks";
-// import { HttpClient } from "@/app/utils/axiosRequests";
-// import { Store } from "@/app/models";
+import { useAsyncEffect, useLockFn } from "ahooks";
+import { HttpClient } from "@/app/utils/axiosRequests";
+import { Store } from "@/app/models";
+import useActiveStore from "./hooks/useActiveStore";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
@@ -20,15 +21,15 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();
     const checkPath = (path: string) => pathname === path;
 
-    // const [storeId, setStoreId] = useSessionStorageState<string>("activeStore");
+    const { setStore } = useActiveStore();
 
-    // useAsyncEffect(useLockFn(async () => {
-    //     const { data } = await HttpClient.get<Store[]>("/stores");
-    //     if (data) {
-    //         setStoreId(data[0].id)
-    //         // console.log(data[0].id)
-    //     }
-    // }), [])
+    useAsyncEffect(useLockFn(async () => {
+        const { data } = await HttpClient.get<Store[]>("/stores");
+        if (data) {
+            setStore(data[0].id)
+            // console.log(data[0].id)
+        }
+    }), [])
     
     return (
         <div className="w-full h-full flex flex-col">
