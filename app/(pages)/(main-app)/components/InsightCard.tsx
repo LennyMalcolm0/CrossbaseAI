@@ -9,6 +9,8 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
+    // TODO: Route to "/?insights=dvavfv" directly
+    // TODO: Update page title based on active insights
     const handleClick = () => {
         const queryParams = new URLSearchParams(searchParams.toString());
         queryParams.set("insight", id);

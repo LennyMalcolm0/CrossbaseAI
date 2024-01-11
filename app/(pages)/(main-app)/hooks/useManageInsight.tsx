@@ -42,8 +42,8 @@ export function useManageInsight() {
         }
 
         setActiveInsight(data);
+        setTimeout(() => scrollBoxToBottom(), 200);
         setConversation(data.messages);
-        scrollBoxToBottom();
     }), [searchParams])
 
     const handlePrompt = useLockFn(async (e: any) => {
