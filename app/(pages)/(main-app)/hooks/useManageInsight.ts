@@ -153,6 +153,19 @@ export function useManageInsight() {
         }
     });
 
+    const handleNewInsight = () => {
+        router.push(pathname);
+        setActiveInsight({} as Insight);
+        setConversation([]);
+
+        if (!insightsBoxRef.current) return;
+        const conversations = document.querySelectorAll(".conversation");
+
+        conversations.forEach(conversation => {
+            insightsBoxRef.current?.removeChild(conversation);
+        });
+    };
+
     return {
         insightsBoxRef,
         conversation,
@@ -162,5 +175,6 @@ export function useManageInsight() {
         awaitingResponse,
         setTextareaValue,
         handlePrompt,
+        handleNewInsight,
     }
 }

@@ -19,6 +19,7 @@ const Home = () => {
         awaitingResponse,
         setTextareaValue,
         handlePrompt,
+        handleNewInsight
     } = useManageInsight();
  
     const handleInput = () => {
@@ -53,6 +54,7 @@ const Home = () => {
                                     <RiPushpin2Line className="text-[18px]" />
                                 </div>
                                 <button 
+                                    onClick={handleNewInsight}
                                     className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
                                     text-sm font-bold flex items-center gap-2 hover:shadow-sm"
                                 >
