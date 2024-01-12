@@ -1,17 +1,18 @@
-import { Insight, Message } from "@/app/models";
+import { BaseInsight, Insight, Message } from "@/app/models";
 import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useLockFn, useRequest } from "ahooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useActiveStore from "./useActiveStore";
+import useUpdateSearchParams from "./useCustomSearchParams";
 
 function useGetInsight() {
     const searchParams = useSearchParams();
     const insightId = searchParams.get("insight");
     const insightsBoxRef = useRef<HTMLElement>(null);
     const [conversation, setConversation] = useState<Message[]>([]);
-    const [activeInsight, setActiveInsight] = useState<Insight>({} as Insight);
+    const [activeInsight, setActiveInsight] = useState<BaseInsight>();
 
     const scrollBoxToBottom = useCallback(() => {
         if (!insightsBoxRef.current) return;
@@ -30,11 +31,13 @@ function useGetInsight() {
             onSuccess: (result) => {
                 const { data } = result;
                 if (data) {
-                    setActiveInsight(data);
-                    setTimeout(() => scrollBoxToBottom(), 200);
                     setConversation(data.messages);
+                    setTimeout(() => scrollBoxToBottom(), 100);
+                    delete (data as any).messages;
+                    setActiveInsight(data);
                 }
             },
+            cacheKey: "activeInsight"
         }
     );
 
@@ -56,9 +59,10 @@ function useGetInsight() {
     }
 }
 
-export function useManageInsight() {
+function useManageInsight() {
     const router = useRouter();
     const pathname = usePathname();
+    const { updateSearchParams } = useUpdateSearchParams();
     const {
         insightId,
         insightsBoxRef,
@@ -80,10 +84,10 @@ export function useManageInsight() {
         const question = textareaValue;
         setTextareaValue("");
 
-        const newQuestion = document.createElement("p");
-        newQuestion.classList.add("user", "conversation");
-        newQuestion.textContent = question;
-        insightsBoxRef.current.appendChild(newQuestion);
+        setConversation(prev => [
+            ...prev, 
+            { role: "user", content: question }
+        ]);
         setAwaitingResponse(true);
         scrollBoxToBottom();
 
@@ -107,14 +111,11 @@ export function useManageInsight() {
                 Authorization: `Bearer ${userIdToken}`
             }
         });
-
-        setAwaitingResponse(false);
-        const newResponse = document.createElement("p");
-        newResponse.classList.add("assistant", "conversation");
-        insightsBoxRef.current.appendChild(newResponse);
-        scrollBoxToBottom();
         
         if (response.ok && response.body) {
+            setAwaitingResponse(false);
+            scrollBoxToBottom();
+
             const reader = response.body
                 .pipeThrough(new TextDecoderStream())
                 .getReader();
@@ -124,13 +125,29 @@ export function useManageInsight() {
                 if (done) break;
                 
                 if (value.startsWith("___id: ")) {
-                    addNewInsight({ 
-                        id: value.split("___id: ")[1], 
-                        title: question 
-                    });
+                    const id = value.split("___id: ")[1];
+                    
+                    addNewInsight({ id, title: question });
+                    updateSearchParams({ insight: id });
+                    return
                 }
                 
-                newResponse.textContent += value;
+                setConversation(prev => {
+                    if (prev[prev.length - 1].role === "user") {
+                        return [
+                            ...prev,
+                            { role: "assistant", content: value }
+                        ]
+                    }
+
+                    return [
+                        ...prev.slice(0, prev.length - 1),
+                        { 
+                            role: "assistant", 
+                            content: prev[prev.length - 1].content + value
+                        }
+                    ]
+                });
                 scrollBoxToBottom();
             }
 
@@ -140,30 +157,16 @@ export function useManageInsight() {
                     title: question 
                 });
             }
-
-            setConversation(prev => [
-                ...prev, 
-                { 
-                    role: "assistant", 
-                    content: newResponse.textContent || "" 
-                }
-            ]);
         } else {
             console.error("Stream response was not ok.");
         }
     });
 
     const handleNewInsight = () => {
-        router.push(pathname);
-        setActiveInsight({} as Insight);
         setConversation([]);
+        setActiveInsight(undefined);
 
-        if (!insightsBoxRef.current) return;
-        const conversations = document.querySelectorAll(".conversation");
-
-        conversations.forEach(conversation => {
-            insightsBoxRef.current?.removeChild(conversation);
-        });
+        router.push(pathname);
     };
 
     return {
@@ -178,3 +181,5 @@ export function useManageInsight() {
         handleNewInsight,
     }
 }
+
+export default useManageInsight;

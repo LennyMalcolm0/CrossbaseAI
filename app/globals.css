@@ -117,7 +117,7 @@ textarea.prompt::-webkit-scrollbar {
   bg-primary-500 rounded-tl-[8px] ml-auto shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
 }
 .assistant {
-  @apply w-fit max-w-[95%] pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5 text-dark-400 
+  @apply w-fit pt-2.5 pb-[15px] px-3.5 rounded-b-[8px] mb-5 text-dark-400 
   bg-light-400 rounded-tr-[8px] mr-auto shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
 }
 

@@ -30,3 +30,11 @@ export type Insight = {
     pinned: boolean;
     updatedAt: string;
 };
+
+export type BaseInsight = Omit<Insight, "messages">;
+
+export type BaseInsightsByDate = {
+    id: string;
+    date: string;
+    insights: BaseInsight[];
+};

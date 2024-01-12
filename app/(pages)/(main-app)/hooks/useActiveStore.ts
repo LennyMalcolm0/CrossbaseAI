@@ -1,6 +1,6 @@
+import { BaseInsight } from "@/app/models";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { BaseInsight } from "./useGetInsights";
 
 type ManageInsight = {
     id: string;
@@ -47,13 +47,13 @@ export const useActiveStore = create(
                 set((state) => ({
                     ...state,
                     insights: [
-                        ...state.insights,
                         {
                             id,
                             title,
                             pinned: false,
                             updatedAt: (new Date()).toISOString()
-                        }
+                        },
+                        ...state.insights
                     ]
                 }))
             },

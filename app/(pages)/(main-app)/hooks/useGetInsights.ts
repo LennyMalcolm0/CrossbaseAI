@@ -1,15 +1,8 @@
-import { Insight } from "@/app/models";
+import { BaseInsight, BaseInsightsByDate, Insight } from "@/app/models";
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useAsyncEffect, useLockFn, useRequest, useSessionStorageState } from "ahooks";
 import { useEffect, useMemo, useState } from "react";
 import useActiveStore from "./useActiveStore";
-
-export type BaseInsight = Omit<Insight, "messages">;
-export type BaseInsightsByDate = {
-    id: string;
-    date: string;
-    insights: BaseInsight[];
-};
 
 function formatInsights(insights: BaseInsight[]) {
     const insightsByDate: BaseInsightsByDate[] = [];

@@ -1,28 +1,17 @@
 "use client"
 import { Insight } from '@/app/models';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useUpdateSearchParams from '../hooks/useCustomSearchParams';
 
 type InsightCardProps = Omit<Insight, "messages" | "updatedAt">;
 
+// TODO-NN: Route to "/?insights=dvavfv" directly
+// TODO-NN: Update page title based on active insights
 export default function InsightCard({ id, title, pinned }: InsightCardProps) {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    // TODO: Route to "/?insights=dvavfv" directly
-    // TODO: Update page title based on active insights
-    const handleClick = () => {
-        const queryParams = new URLSearchParams(searchParams.toString());
-        queryParams.set("insight", id);
-    
-        const newUrl = `${pathname}?${queryParams.toString()}`;
-    
-        router.push(newUrl);
-    };
+    const { searchParams, updateSearchParams } = useUpdateSearchParams();
 
     return (
         <div
-            onClick={handleClick}
+            onClick={() => updateSearchParams({ insight: id })}
             className={`w-full py-3 px-2.5 bg-light-400 rounded-[10px] flex items-center gap-1.5 text-xs cursor-pointer
                 ${searchParams.get("insight") === id ? "active-insight" : "hover:shadow-md"} text-dark-400
             `}

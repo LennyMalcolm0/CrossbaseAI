@@ -7,12 +7,13 @@ import { RiPushpin2Line } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa6";
 import { useRef } from "react";
 import InsightHistory from "./components/InsightHistory";
-import { useManageInsight } from "./hooks/useManageInsight";
+import useManageInsight from "./hooks/useManageInsight";
 
 const Home = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const {
         insightsBoxRef,
+        conversation,
         activeInsight,
         textareaValue,
         loadingInsight,
@@ -91,11 +92,20 @@ const Home = () => {
                                     </div>
                                 ))}
                             </div>
-                            {activeInsight.messages && <>
-                                {activeInsight.messages.map((message, index) => (
-                                    <p key={index} className={`${message.role} conversation`}>{message.content}</p>
-                                ))}
-                            </>}
+                            {conversation?.map((message, index) => (
+                                <div key={index} className="w-full flex gap-3">
+                                    {message.role === "assistant" && (
+                                        <img 
+                                            src="/home/assistant.png" 
+                                            alt="AI" 
+                                            className="rounded-full h-[28px] w-[28px] object-cover" 
+                                        />
+                                    )}
+                                    <p className={`${message.role} conversation`}>
+                                        {message.content}
+                                    </p>
+                                </div>
+                            ))}
                             {awaitingResponse ? <div>Loading Response...</div> : null}
                         </section>
                         <form 
