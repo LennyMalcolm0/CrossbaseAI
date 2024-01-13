@@ -14,14 +14,14 @@ function useGetInsight() {
     const [conversation, setConversation] = useState<Message[]>([]);
     const [activeInsight, setActiveInsight] = useState<BaseInsight>();
 
-    const scrollBoxToBottom = useCallback(() => {
+    const scrollBoxToBottom = useCallback(() => setTimeout(() => {
         if (!insightsBoxRef.current) return;
 
         insightsBoxRef.current.scrollTo({
             top: insightsBoxRef.current.scrollHeight,
             behavior: "smooth"
         });
-    }, [])
+    }, 100), [])
     
     // TODO: Apply useLockFn to run request once. Use runAsync and useAsyncEffect
     const { run: fetchInsight, loading: loadingInsight } = useRequest(
@@ -32,7 +32,7 @@ function useGetInsight() {
                 const { data } = result;
                 if (data) {
                     setConversation(data.messages);
-                    setTimeout(() => scrollBoxToBottom(), 100);
+                    scrollBoxToBottom();
                     delete (data as any).messages;
                     setActiveInsight(data);
                 }
@@ -59,6 +59,8 @@ function useGetInsight() {
     }
 }
 
+const controller = new AbortController();
+
 function useManageInsight() {
     const router = useRouter();
     const pathname = usePathname();
@@ -76,58 +78,66 @@ function useManageInsight() {
     const { store, updateInsightTitle, addNewInsight } = useActiveStore();
     const [textareaValue, setTextareaValue] = useState("");
     const [awaitingResponse, setAwaitingResponse] = useState(false);
+    const [streamingResponse, setStreamingResponse] = useState(false);
 
-    const handlePrompt = useLockFn(async (e: any) => {
+    const streamResponse = useLockFn(async (e: any) => {
         e.preventDefault();
         if (!insightsBoxRef.current) return;
 
-        const question = textareaValue;
+        const prompt = textareaValue;
         setTextareaValue("");
 
         setConversation(prev => [
             ...prev, 
-            { role: "user", content: question }
+            { role: "user", content: prompt }
         ]);
         setAwaitingResponse(true);
         scrollBoxToBottom();
 
         const user = await getCurrentUser();
-        if (!user || !question) return;
+        if (!user || !prompt) return;
 
         const userIdToken = await user.getIdToken();
         const requestBody = JSON.stringify({
-            question, 
+            prompt, 
             conversation, 
             storeId: store,
             insightId: insightId || undefined
         });
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/insights/question`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/insights/prompt`, {
             method: "POST",
             body: requestBody,
             headers: {
                 Accept: "text/event-stream",
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${userIdToken}`
-            }
+            },
+            signal: controller.signal
         });
+
+        let responseChunkCount = 0;
         
         if (response.ok && response.body) {
-            setAwaitingResponse(false);
-            scrollBoxToBottom();
-
             const reader = response.body
                 .pipeThrough(new TextDecoderStream())
                 .getReader();
         
-            while (true) {
+            while (true && !controller.signal.aborted) {
                 const { value, done } = await reader.read();
                 if (done) break;
+
+                if (responseChunkCount === 0) {
+                    setAwaitingResponse(false);
+                    setStreamingResponse(true);
+                    scrollBoxToBottom();
+                    responseChunkCount++
+                }
                 
                 if (value.startsWith("___id: ")) {
                     const id = value.split("___id: ")[1];
-                    
-                    addNewInsight({ id, title: question });
+
+                    addNewInsight({ id, title: prompt });
                     updateSearchParams({ insight: id });
                     return
                 }
@@ -150,19 +160,27 @@ function useManageInsight() {
                 });
                 scrollBoxToBottom();
             }
+            setStreamingResponse(false);
 
-            if (insightId) {
+            if (insightId && !controller.signal.aborted) {
                 updateInsightTitle({ 
                     id: insightId, 
-                    title: question 
+                    title: prompt 
                 });
             }
         } else {
+            setAwaitingResponse(false);
+            setStreamingResponse(false);
             console.error("Stream response was not ok.");
         }
     });
 
-    const handleNewInsight = () => {
+    const cancelResponseStream = () => {
+        controller.abort();
+        setStreamingResponse(false);
+    };
+
+    const createNewInsight = () => {
         setConversation([]);
         setActiveInsight(undefined);
 
@@ -176,9 +194,11 @@ function useManageInsight() {
         textareaValue,
         loadingInsight,
         awaitingResponse,
+        streamingResponse,
         setTextareaValue,
-        handlePrompt,
-        handleNewInsight,
+        streamResponse,
+        cancelResponseStream,
+        createNewInsight,
     }
 }
 

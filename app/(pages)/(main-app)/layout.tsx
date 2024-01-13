@@ -10,26 +10,27 @@ import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
-import { useAsyncEffect, useLockFn } from "ahooks";
-import { HttpClient } from "@/app/utils/axiosRequests";
-import { Store } from "@/app/models";
-import useActiveStore from "./hooks/useActiveStore";
+// import { useAsyncEffect, useLockFn } from "ahooks";
+// import { HttpClient } from "@/app/utils/axiosRequests";
+// import { Store } from "@/app/models";
+// import useActiveStore from "./hooks/useActiveStore";
 
+// TODO: Hide textarea on scroll
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     useUnauthenticatedUserCheck(router);
     const pathname = usePathname();
     const checkPath = (path: string) => pathname === path;
 
-    const { setStore } = useActiveStore();
+    // const { setStore } = useActiveStore();
 
-    useAsyncEffect(useLockFn(async () => {
-        const { data } = await HttpClient.get<Store[]>("/stores");
-        if (data) {
-            setStore(data[0].id)
-            // console.log(data[0].id)
-        }
-    }), [])
+    // useAsyncEffect(useLockFn(async () => {
+    //     const { data } = await HttpClient.get<Store[]>("/stores");
+    //     if (data) {
+    //         setStore(data[0].id)
+    //         // console.log(data[0].id)
+    //     }
+    // }), [])
     
     return (
         <div className="w-full h-full flex flex-col">

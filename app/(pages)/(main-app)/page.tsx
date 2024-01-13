@@ -18,9 +18,11 @@ const Home = () => {
         textareaValue,
         loadingInsight,
         awaitingResponse,
+        streamingResponse,
         setTextareaValue,
-        handlePrompt,
-        handleNewInsight
+        streamResponse,
+        cancelResponseStream,
+        createNewInsight
     } = useManageInsight();
  
     const handleInput = () => {
@@ -55,7 +57,7 @@ const Home = () => {
                                     <RiPushpin2Line className="text-[18px]" />
                                 </div>
                                 <button 
-                                    onClick={handleNewInsight}
+                                    onClick={createNewInsight}
                                     className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
                                     text-sm font-bold flex items-center gap-2 hover:shadow-sm"
                                 >
@@ -106,10 +108,18 @@ const Home = () => {
                                     </p>
                                 </div>
                             ))}
-                            {awaitingResponse ? <div>Loading Response...</div> : null}
+                            {awaitingResponse && <div>Loading Response...</div>}
+                            {streamingResponse && 
+                                <button 
+                                    onClick={cancelResponseStream}
+                                    className="mt-3 px-4 py-2.5 rounded-lg border-[1.5px] border-primary-100 text-dark-100"
+                                >
+                                    Stop Responding
+                                </button>
+                            }
                         </section>
                         <form 
-                            onSubmit={handlePrompt}
+                            onSubmit={streamResponse}
                             className="sticky bottom-0 max-sm:px-5 lg:px-7 py-5 w-full bg-light-300 text-sm text-dark-300"
                         >
                             <div className="w-full px-3.5 py-3 bg-light-400 rounded-[15px] border flex gap-2.5 
@@ -125,7 +135,7 @@ const Home = () => {
                                     onInput={handleInput}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
-                                            handlePrompt(e);
+                                            streamResponse(e);
                                         }
                                     }}
                                 />
