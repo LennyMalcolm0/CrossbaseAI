@@ -45,7 +45,7 @@ const Home = () => {
                     <div className="w-full h-full flex flex-col justify-between relative z-[9999]">
                         <div className="max-sm:px-5 lg:px-7 py-4 text-[18px] font-bold text-dark-200 flex items-center justify-between">
                             <h1 className="flex items-center gap-1.5">
-                                <span className="max-w-[200px] line-clamp-1">Insights</span>
+                                <span className="max-w-[200px] line-clamp-1">{activeInsight?.title || "Insights"}</span>
                                 <HiOutlineSparkles />
                             </h1>
                             <div className="flex items-center gap-2.5 text-primary-400">
@@ -107,7 +107,17 @@ const Home = () => {
                                     </p>
                                 </div>
                             ))}
-                            {awaitingResponse && <div>Loading Response...</div>}
+                            {awaitingResponse && (
+                                <div className="w-fit mx-auto flex items-center gap-2 text-primary-200 mb-10">
+                                    <div className="flex gap-1.5 loading-bars h-[25px]">
+                                        <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
+                                        <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
+                                        <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
+                                        <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
+                                    </div>
+                                    <span>Thinking...</span>
+                                </div>
+                            )}
                         </section>
                         <form 
                             onSubmit={streamResponse}

@@ -125,12 +125,6 @@ function useManageInsight() {
             while (true && !controller.signal.aborted) {
                 const { value, done } = await reader.read();
                 if (done) break;
-
-                if (responseChunkCount === 0) {
-                    setAwaitingResponse(false);
-                    scrollBoxToBottom();
-                    responseChunkCount++
-                }
                 
                 if (value.startsWith("___id: ")) {
                     const id = value.split("___id: ")[1];
@@ -156,6 +150,11 @@ function useManageInsight() {
                         }
                     ]
                 });
+
+                if (responseChunkCount === 0) {
+                    setAwaitingResponse(false);
+                    responseChunkCount++
+                }
                 scrollBoxToBottom();
             }
 
