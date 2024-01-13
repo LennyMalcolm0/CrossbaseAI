@@ -6,20 +6,24 @@ function useUpdateSearchParams() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-  const updateSearchParams = (params: any) => {
-    const currentSearchParams = new URLSearchParams(searchParams);
+    const updateSearchParams = (params: any) => {
+      const currentSearchParams = new URLSearchParams(searchParams);
 
-    Object.keys(params).forEach((key) => {
-        const value = params[key];
-        currentSearchParams.set(key, value);
-    });
+      if (Object.keys(params).length === 0) {
+          return router.push(pathname);
+      }
 
-    const newUrl = `${pathname}?${currentSearchParams.toString()}`;
+      Object.keys(params).forEach((key) => {
+          const value = params[key];
+          currentSearchParams.set(key, value);
+      });
 
-    router.push(newUrl);
-  };
+      const newUrl = `${pathname}?${currentSearchParams.toString()}`;
 
-  return { searchParams, updateSearchParams };
+      router.push(newUrl);
+    };
+
+    return { searchParams, updateSearchParams };
 }
 
 export default useUpdateSearchParams;

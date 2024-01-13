@@ -10,6 +10,7 @@ import { useRef, useState } from 'react';
 import { SlClose } from "react-icons/sl";
 import Input from '@/app/components/Input';
 import { FaPlus } from "react-icons/fa6";
+import useInsightActions from '../hooks/useInsightActions';
 
 type InsightCardProps = Omit<Insight, "messages" | "updatedAt">;
 type ActionType = "SHARE" | "RENAME" | "DELETE" | "";
@@ -17,12 +18,20 @@ type ActionType = "SHARE" | "RENAME" | "DELETE" | "";
 // TODO-NN: Route to "/?insights=dvavfv" directly
 // TODO-NN: Update page title based on active insights
 export default function InsightCard({ id, title, pinned }: InsightCardProps) {
+    const {
+        displayPopup,
+        actionType,
+        searchParams,
+        inputValue,
+        setInputValue,
+        setActionType,
+        updateSearchParams,
+        setDisplayPopup,
+        buttonAction,
+    } = useInsightActions(id);
     const menuRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLDivElement>(null);
     const [menuopened, { toggle }] = useToggle(false);
-    const [displayPopup, setDisplayPopup] = useState(false);
-    const [actionType, setActionType] = useState<ActionType>("");
-    const { searchParams, updateSearchParams } = useUpdateSearchParams();
 
     useClickAway(() => {
         menuopened && toggle();
@@ -104,13 +113,16 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
                             className="text-[30px] leading-[1] text-dark-100 hover:scale-[1.1] cursor-pointer" 
                         />
                     </div>
+
                     {actionType === "SHARE" ? (
                         <div className="w-full py-5">
                             <Input 
                                 label="Recipient’s Email Address"
                                 labelFor="emailAddress"
                                 attributes={{ 
-                                    placeholder: "Enter email address"
+                                    placeholder: "Enter email address",
+                                    value: inputValue,
+                                    onChange: (e) => setInputValue(e.target.value)
                                 }}
                             />
                             <button 
@@ -129,7 +141,9 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
                         <div className="w-full py-5">
                             <Input 
                                 attributes={{ 
-                                    placeholder: "Enter name"
+                                    placeholder: "Enter new name",
+                                    value: inputValue,
+                                    onChange: (e) => setInputValue(e.target.value)
                                 }}
                             />
                         </div>
@@ -138,8 +152,9 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
                             You’re about to delete this conversation thread. Do you want to proceed?
                         </p>
                     )}
+
                     <button 
-                        // onClick={logoutUser} 
+                        onClick={buttonAction} 
                         className="w-full py-4 px-[18px] bg-primary-100 text-sm text-dark-100 hover:bg-primary-400 
                         hover:text-light-400 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] font-bold"
                     >

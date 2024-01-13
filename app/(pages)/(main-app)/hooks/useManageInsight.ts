@@ -42,9 +42,12 @@ function useGetInsight() {
     );
 
     useEffect(() => {
-        if (insightId) {
-            fetchInsight();
+        if (!insightId) {
+            setConversation([]);
+            setActiveInsight(undefined);
+            return
         }
+        fetchInsight();
     }, [insightId, fetchInsight]);
 
     return {
@@ -80,7 +83,7 @@ function useManageInsight() {
     const [awaitingResponse, setAwaitingResponse] = useState(false);
 
     const streamResponse = useLockFn(async (e: any) => {
-        e.preventDefault();
+        e?.preventDefault();
         if (!insightsBoxRef.current) return;
 
         const prompt = textareaValue;

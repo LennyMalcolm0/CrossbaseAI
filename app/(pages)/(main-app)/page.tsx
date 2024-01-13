@@ -81,6 +81,10 @@ const Home = () => {
                                 {defaultPrompts.map((prompt, index) => (
                                     <div 
                                         key={index} 
+                                        onClick={() => {
+                                            setTextareaValue(prompt.prompt);
+                                            streamResponse(null);
+                                        }}
                                         className="py-[13px] px-[15px] w-full rounded-[10px] bg-light-400 flex 
                                         items-center gap-[15px] cursor-pointer hover:shadow-sm"
                                     >
@@ -94,7 +98,10 @@ const Home = () => {
                                 ))}
                             </div>
                             {conversation?.map((message, index) => (
-                                <div key={index} className="w-full flex gap-3">
+                                <div 
+                                    key={index} 
+                                    className="w-full flex gap-3"
+                                >
                                     {message.role === "assistant" && (
                                         <img 
                                             src="/home/assistant.png" 

@@ -14,6 +14,7 @@ type ActiveStore = {
     setInsights: (insights: BaseInsight[]) => void;
     updateInsightTitle: ({ id, title }: ManageInsight) => void;
     addNewInsight: ({ id, title }: ManageInsight) => void;
+    deleteInsight: (id: string) => void;
     clearStore: () => void;
 }
 
@@ -55,6 +56,12 @@ export const useActiveStore = create(
                         },
                         ...state.insights
                     ]
+                }))
+            },
+            deleteInsight: (id: string) => {
+                set((state) => ({
+                    ...state,
+                    insights: state.insights.filter(insight => insight.id !== id)
                 }))
             },
             clearStore: () => {
