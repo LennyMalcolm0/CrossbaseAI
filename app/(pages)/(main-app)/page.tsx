@@ -18,10 +18,8 @@ const Home = () => {
         textareaValue,
         loadingInsight,
         awaitingResponse,
-        streamingResponse,
         setTextareaValue,
         streamResponse,
-        cancelResponseStream,
         createNewInsight
     } = useManageInsight();
  
@@ -41,6 +39,7 @@ const Home = () => {
         <main className="h-full lg:py-5">
             <div className="h-full app-container-2 flex gap-5">
                 <InsightHistory />
+
                 <section className="conversation-box lg:border-2 lg:rounded-[20px] lg:border-light-200 relative overflow-hidden">
                     <div className="sm:hid den absolute top-0 h-[110px] w-full primary-gradient" />
                     <div className="w-full h-full flex flex-col justify-between relative z-[9999]">
@@ -109,14 +108,6 @@ const Home = () => {
                                 </div>
                             ))}
                             {awaitingResponse && <div>Loading Response...</div>}
-                            {streamingResponse && 
-                                <button 
-                                    onClick={cancelResponseStream}
-                                    className="mt-3 px-4 py-2.5 rounded-lg border-[1.5px] border-primary-100 text-dark-100"
-                                >
-                                    Stop Responding
-                                </button>
-                            }
                         </section>
                         <form 
                             onSubmit={streamResponse}

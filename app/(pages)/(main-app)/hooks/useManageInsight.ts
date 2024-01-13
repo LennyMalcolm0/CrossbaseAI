@@ -78,7 +78,6 @@ function useManageInsight() {
     const { store, updateInsightTitle, addNewInsight } = useActiveStore();
     const [textareaValue, setTextareaValue] = useState("");
     const [awaitingResponse, setAwaitingResponse] = useState(false);
-    const [streamingResponse, setStreamingResponse] = useState(false);
 
     const streamResponse = useLockFn(async (e: any) => {
         e.preventDefault();
@@ -129,7 +128,6 @@ function useManageInsight() {
 
                 if (responseChunkCount === 0) {
                     setAwaitingResponse(false);
-                    setStreamingResponse(true);
                     scrollBoxToBottom();
                     responseChunkCount++
                 }
@@ -160,7 +158,6 @@ function useManageInsight() {
                 });
                 scrollBoxToBottom();
             }
-            setStreamingResponse(false);
 
             if (insightId && !controller.signal.aborted) {
                 updateInsightTitle({ 
@@ -170,15 +167,9 @@ function useManageInsight() {
             }
         } else {
             setAwaitingResponse(false);
-            setStreamingResponse(false);
             console.error("Stream response was not ok.");
         }
     });
-
-    const cancelResponseStream = () => {
-        controller.abort();
-        setStreamingResponse(false);
-    };
 
     const createNewInsight = () => {
         setConversation([]);
@@ -194,10 +185,8 @@ function useManageInsight() {
         textareaValue,
         loadingInsight,
         awaitingResponse,
-        streamingResponse,
         setTextareaValue,
         streamResponse,
-        cancelResponseStream,
         createNewInsight,
     }
 }
