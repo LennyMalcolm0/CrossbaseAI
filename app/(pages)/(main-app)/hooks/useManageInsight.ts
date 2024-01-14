@@ -28,8 +28,7 @@ function useGetInsight() {
         () => HttpClient.get<Insight>(`/insights/${insightId}`),
         {
             manual: true,
-            onSuccess: (result) => {
-                const { data } = result;
+            onSuccess: ({ data }) => {
                 if (data) {
                     setConversation(data.messages);
                     scrollBoxToBottom();

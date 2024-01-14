@@ -6,10 +6,11 @@ import { auth } from "@/app/firebase";
 import { useLockFn } from "ahooks";
 import { SlClose } from "react-icons/sl";
 import { useRouter } from "next/navigation";
+import useUpdateProfile from "./useUpdateProfile";
 
 const Account = () => {
     const router = useRouter();
-    const [update, setUpdate] = useState(false);
+    const { update, saving, formik, setUpdate } = useUpdateProfile();
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
     
     const logoutUser = useLockFn(async () => {
@@ -24,11 +25,15 @@ const Account = () => {
     
     return (  
         <main className="h-full app-container py-5 max-sm:flex max-sm:flex-col justify-between">
-            <section className="w-full rounded-[20px] bg-light-400 border-2 border-light-200 relative mb-5">
+            <form
+                onSubmit={formik.handleSubmit}
+                className="w-full rounded-[20px] bg-light-400 border-2 border-light-200 relative mb-5"
+            >
                 <div className="flex items-center justify-between font-bold p-5 border-b border-light-200">
                     <h1>Profile</h1>
                     {update ? (
                         <button 
+                            type="button"
                             onClick={() => setUpdate(prev => !prev)}
                             className="flex items-center gap-1.5 text-xs text-primary-400"
                         >
@@ -37,6 +42,7 @@ const Account = () => {
                         </button>
                     ):(
                         <button 
+                            type="button"
                             onClick={() => setUpdate(prev => !prev)}
                             className="flex items-center gap-1.5 text-xs text-primary-400"
                         >
@@ -52,8 +58,11 @@ const Account = () => {
                             <input 
                                 type="text"
                                 name="firstName"
-                                disabled={!update}
+                                value={formik.values.firstName}
+                                onChange={formik.handleChange}
                                 className="profile-input"
+                                disabled={!update}
+                                required
                             />
                         </div>
                         <div className="w-full">
@@ -61,8 +70,11 @@ const Account = () => {
                             <input 
                                 type="text"
                                 name="lastName"
-                                disabled={!update}
+                                value={formik.values.lastName}
+                                onChange={formik.handleChange}
                                 className="profile-input"
+                                disabled={!update}
+                                required
                             />
                         </div>
                     </div>
@@ -71,8 +83,8 @@ const Account = () => {
                         <input 
                             type="text"
                             name="emailAddress"
-                            disabled={!update}
-                            className="profile-input"
+                            className="profile-input opacity-80"
+                            disabled
                         />
                     </div>
                     <div className="w-full">
@@ -80,8 +92,10 @@ const Account = () => {
                         <input 
                             type="text"
                             name="phoneNumber"
-                            disabled={!update}
+                            value={formik.values.phoneNumber}
+                            onChange={formik.handleChange}
                             className="profile-input"
+                            disabled={!update}
                         />
                     </div>
                 </div>
@@ -89,6 +103,8 @@ const Account = () => {
                     <div className="px-5 pb-5 flex justify-between">
                         <div></div>
                         <button 
+                            type="submit"
+                            disabled={saving}
                             className="max-sm:w-full ml-auto py-[15px] px-10 text-sm text-primary-400 font-bold max-sm:mt-3
                             hover:bg-primary-400 hover:text-light-400 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
                             border-2 border-primary-400 max-sm:bg-primary-400 max-sm:text-light-400"
@@ -96,7 +112,7 @@ const Account = () => {
                         </button>
                     </div>
                 )}
-            </section>
+            </form>
             <button 
                 onClick={() => setDisplayLogoutPopup(true)}
                 className="max-sm:w-full ml-auto py-[15px] px-10 bg-light-400 text-sm text-primary-400 font-bold 

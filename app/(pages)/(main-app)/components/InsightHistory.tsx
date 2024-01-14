@@ -1,6 +1,6 @@
 "use client"
 import { HiOutlineSparkles } from "react-icons/hi";
-import { useGetInsights } from "../hooks/useGetInsights";
+import useGetInsights from "../hooks/useGetInsights";
 import InsightCard from "./InsightCard";
 import DateIndicator from "./DateIndicator";
 

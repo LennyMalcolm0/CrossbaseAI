@@ -2,6 +2,7 @@ export type Profile = {
     id: string;
     firstName: string;
     lastName: string;
+    phoneNumber?: string;
 };
    
 enum StoreType {

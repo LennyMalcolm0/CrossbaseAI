@@ -28,15 +28,14 @@ function formatInsights(insights: BaseInsight[]) {
     return insightsByDate;
 }
 
-export function useGetInsights() {
+function useGetInsights() {
     const { store, insights, setInsights } = useActiveStore();
     
     const { run: fetchInsights, loading } = useRequest(
         () => HttpClient.get<BaseInsight[]>(`/insights/${store}/all`),
         {
             manual: true,
-            onSuccess: (result) => {
-                const { data } = result;
+            onSuccess: ({ data }) => {
                 if (data) setInsights(data);
             },
         }
@@ -54,3 +53,5 @@ export function useGetInsights() {
     
     return { insightsByDate, loading }
 }
+
+export default useGetInsights;
