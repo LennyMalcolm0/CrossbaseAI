@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'Manage your e-commerce store data',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -21,3 +21,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+export default RootLayout;

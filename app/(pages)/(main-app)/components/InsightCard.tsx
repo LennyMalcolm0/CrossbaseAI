@@ -1,6 +1,5 @@
 "use client"
 import { Insight } from '@/app/models';
-import useUpdateSearchParams from '../hooks/useCustomSearchParams';
 import { HiDotsHorizontal } from "react-icons/hi";
 import { RiShareBoxLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
@@ -17,7 +16,7 @@ type ActionType = "SHARE" | "RENAME" | "DELETE" | "";
 
 // TODO-NN: Route to "/?insights=dvavfv" directly
 // TODO-NN: Update page title based on active insights
-export default function InsightCard({ id, title, pinned }: InsightCardProps) {
+const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
     const {
         displayPopup,
         actionType,
@@ -38,8 +37,9 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
     }, [menuRef, menuButtonRef]);
 
     const selectInsight = (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = e.target as HTMLElement;
-        if (target.id !== "menu") updateSearchParams({ insight: id });
+        if (e.currentTarget.id !== "menu") {
+            updateSearchParams({ insight: id });
+        }
     };
 
     const openPopup = (type: ActionType) => {
@@ -58,12 +58,17 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
         >
             <span className="w-full ellipses">{title}</span>
             <div className="relative py-0.5">
-                <HiDotsHorizontal 
-                    id="menu"
+                <div 
                     ref={menuButtonRef}
-                    onClick={toggle}
-                    className="text-light-100 text-base hover:scale-[1.1] hover:text-dark-100" 
-                />
+                    id="menu"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        toggle();
+                    }}
+                    className="h-full pl-0.5 text-light-100 text-base hover:scale-[1.1] hover:text-dark-100"
+                >
+                    <HiDotsHorizontal />
+                </div>
                 {menuopened && (
                     <div 
                         ref={menuRef}
@@ -171,3 +176,5 @@ export default function InsightCard({ id, title, pinned }: InsightCardProps) {
         </>
     );
 }
+
+export default InsightCard;

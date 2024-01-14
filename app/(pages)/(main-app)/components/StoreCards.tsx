@@ -9,13 +9,13 @@ type DisconnectedCardProps = {
     connected?: boolean;
     comingSoon?: boolean;
 }
-export function DisconnectedCard ({
+export const DisconnectedCard = ({
     logoUrl,
     logoAltText,
     description,
     connected,
     comingSoon,
-}: DisconnectedCardProps) {
+}: DisconnectedCardProps) => {
     return (
         <>
         {!comingSoon ? (
@@ -66,12 +66,12 @@ type ConnectedCardProps = {
     description: string;
     stores: string[];
 }
-export function ConnectedCard ({
+export const ConnectedCard = ({
     logoUrl,
     logoAltText,
     description,
     stores
-}: ConnectedCardProps) {
+}: ConnectedCardProps) => {
     return (
         <div className="w-full h-[] p-5 rounded-[20px] bg-light-400 flex flex-col justify-between border border-light-200">
             <div className="flex items-center justify-between text-light-200">
