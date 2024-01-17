@@ -18,7 +18,7 @@ import { sendEmailVerification } from "firebase/auth";
 // import { Store } from "@/app/models";
 // import useActiveStore from "./hooks/useActiveStore";
 
-// TODO: Hide textarea on scroll
+// ? TODO: Hide textarea on scroll
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const pathname = usePathname();
@@ -33,7 +33,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
             return
         }
 
-        if (pathname === "/") {
+        if (pathname === "/" && !user) {
             router.push("/sign-in");
         }
     }, [])

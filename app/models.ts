@@ -5,7 +5,7 @@ export type Profile = {
     phoneNumber?: string;
 };
    
-enum StoreType {
+export enum StoreType {
     SHOPIFY = "SHOPIFY",
     AMAZON = "AMAZON",
     WOO_COMMERCE = "WOO_COMMERCE",
@@ -15,7 +15,7 @@ enum StoreType {
 export type Store = {
     id: string;
     type: StoreType;
-    storeUrl: string;
+    url: string;
     updatedAt: string;
 };
    
@@ -39,3 +39,10 @@ export type BaseInsightsByDate = {
     date: string;
     insights: BaseInsight[];
 };
+
+export type NewUserWithStore = {
+    firstName: string;
+    lastName: string;
+    storeDomain?: string;
+    type?: string;
+}

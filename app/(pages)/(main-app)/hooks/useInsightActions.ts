@@ -1,6 +1,6 @@
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useState } from "react";
-import useUpdateSearchParams from "./useCustomSearchParams";
+import useUpdateSearchParams from "../../../hooks/useCustomSearchParams";
 import useActiveStore from "./useActiveStore";
 import { useLockFn } from "ahooks";
 

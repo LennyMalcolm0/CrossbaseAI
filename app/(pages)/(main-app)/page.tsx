@@ -8,9 +8,10 @@ import { FaPlus } from "react-icons/fa6";
 import { useRef } from "react";
 import InsightHistory from "./components/InsightHistory";
 import useManageInsight from "./hooks/useManageInsight";
+import useUserAndParamsCheck from "./hooks/useUserAndParamsCheck";
 
 const Home = () => {
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    useUserAndParamsCheck();
     const {
         insightsBoxRef,
         conversation,
@@ -23,6 +24,8 @@ const Home = () => {
         createNewInsight
     } = useManageInsight();
  
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    
     const handleInput = () => {
         const textarea = textareaRef.current;
         if (!textarea) return;
@@ -83,7 +86,7 @@ const Home = () => {
                                         key={index} 
                                         onClick={() => {
                                             setTextareaValue(prompt.prompt);
-                                            streamResponse(null);
+                                            // setTimeout(() => streamResponse(null), 200);
                                         }}
                                         className="py-[13px] px-[15px] w-full rounded-[10px] bg-light-400 flex 
                                         items-center gap-[15px] cursor-pointer hover:shadow-sm"

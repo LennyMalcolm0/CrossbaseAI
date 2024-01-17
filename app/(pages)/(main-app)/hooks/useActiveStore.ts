@@ -1,4 +1,4 @@
-import { BaseInsight } from "@/app/models";
+import { BaseInsight, Store } from "@/app/models";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 
@@ -7,10 +7,14 @@ type ManageInsight = {
     title: string;
 }
 
+type DefaultStore = Omit<Store, "id" | "updatedAt">;
+
 type ActiveStore = {
-    store: string;
+    store: Store;
+    defaultStore: DefaultStore;
     insights: BaseInsight[];
-    setStore: (store: string) => void;
+    setStore: (store: Store) => void;
+    setDefaultStore: (defaultStore: DefaultStore) => void;
     setInsights: (insights: BaseInsight[]) => void;
     updateInsightTitle: ({ id, title }: ManageInsight) => void;
     addNewInsight: ({ id, title }: ManageInsight) => void;
@@ -25,9 +29,11 @@ type ActiveStore = {
 export const useActiveStore = create(
     persist<ActiveStore>(
         (set) => ({
-            store: "",
+            store: {} as Store,
+            defaultStore: {} as DefaultStore,
             insights: [],
-            setStore: (store: string) => set({ store }),
+            setStore: (store: Store) => set({ store }),
+            setDefaultStore: (defaultStore: DefaultStore) => set({ defaultStore }),
             setInsights: (insights: BaseInsight[]) => set({ insights }),
             updateInsightTitle: ({ id, title }: ManageInsight) => {
                 set((state) => ({
@@ -65,7 +71,7 @@ export const useActiveStore = create(
                 }))
             },
             clearStore: () => {
-                set({ store: "", insights: [] })
+                set({ store: {} as Store, insights: [] })
             },
         }),
         {

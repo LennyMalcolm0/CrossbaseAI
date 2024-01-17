@@ -5,7 +5,7 @@ import { useLockFn, useRequest } from "ahooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useActiveStore from "./useActiveStore";
-import useUpdateSearchParams from "./useCustomSearchParams";
+import useUpdateSearchParams from "../../../hooks/useCustomSearchParams";
 
 function useGetInsight() {
     const searchParams = useSearchParams();
@@ -63,6 +63,10 @@ function useGetInsight() {
 
 const controller = new AbortController();
 
+/**
+ * Custom hook to manage the `Insight Conversation Box`. Used to handle 
+ * `streaming of response`, and for `fetching`, `updating`, and `creating` new insights.
+ */
 function useManageInsight() {
     const router = useRouter();
     const pathname = usePathname();
@@ -83,7 +87,7 @@ function useManageInsight() {
 
     const streamResponse = useLockFn(async (e: any) => {
         e?.preventDefault();
-        if (!insightsBoxRef.current) return;
+        if (!insightsBoxRef.current || !textareaValue) return;
 
         const prompt = textareaValue;
         setTextareaValue("");
