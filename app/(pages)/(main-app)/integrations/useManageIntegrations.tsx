@@ -62,18 +62,18 @@ function formatStoresByType(stores: Store[]): StoresByType[] {
 function useManageIntegrations() {
     const { createdStore, creatingStore } = useConnectStore();
     
-    const { data: stores, loading: loadingStores } = useRequest(
+    const { data: connectedStores, loading: loadingConnectedStores } = useRequest(
         () => HttpClient.get<Store[]>(`/stores`),
         { cacheKey: "userStores" }
     );
 
-    const [storesByType, setStoresByType] = useState<StoresByType[]>([]);
+    const [connectedStoresByType, setStoresByType] = useState<StoresByType[]>([]);
 
     useEffect(() => {
-        if (stores?.data) {
-            setStoresByType(formatStoresByType(stores.data));
+        if (connectedStores?.data) {
+            setStoresByType(formatStoresByType(connectedStores.data));
         }
-    }, [stores?.data]);
+    }, [connectedStores?.data]);
 
     useEffect(() => {
         if (!createdStore) return;
@@ -99,8 +99,8 @@ function useManageIntegrations() {
     }, [createdStore]);
 
     return { 
-        storesByType, 
-        loadingStores, 
+        connectedStoresByType, 
+        loadingConnectedStores, 
         creatingStore, 
         createdStore,
     };

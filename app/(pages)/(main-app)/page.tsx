@@ -119,7 +119,7 @@ const Home = () => {
                             ))}
                             {awaitingResponse && (
                                 <div className="w-fit mx-auto flex items-center gap-2 text-primary-200 mb-10">
-                                    <div className="flex gap-1.5 loading-bars h-[25px]">
+                                    <div className="flex gap-1.5 loading-bars h-[30px]">
                                         <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
                                         <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />
                                         <div className="h-[30px] w-2 my-auto rounded-lg bg-primary-200 loading-bar" />

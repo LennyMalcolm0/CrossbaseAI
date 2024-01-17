@@ -1,0 +1,64 @@
+import { Store } from "@/app/models";
+import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { FiCheckCircle } from "react-icons/fi";
+import { PiWarningOctagonBold } from "react-icons/pi";
+
+type ConnectStoreProps = {
+    creatingStore: boolean;
+    createdStore: Store | undefined;
+}
+const ConnectStore = ({creatingStore, createdStore}: ConnectStoreProps) => {
+    const searchParams = useSearchParams();
+    const type = searchParams.get("type");
+
+    return ( 
+        <div className="fixed inset-0 h-[100svh] w-screen bg-dark-100 bg-opacity-70 bg-blur-[12px] grid place-content-center">
+            <div className="w-[350px] max-w-[92vw] mx-auto flex flex-col p-5 rounded-[20px] bg-light-400 border-2 border-light-200">
+                {creatingStore ? (
+                    <div className="flex gap-1.5 loading-bars h-[32px]">
+                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                    </div>
+                ):(<>
+                    {createdStore ? (
+                        <FiCheckCircle className="text-[32px] text-primary-300" />
+                    ):(
+                        <PiWarningOctagonBold className="text-[32px] text-primary-200" />
+                    )}
+                </>)}
+
+                <Image 
+                    src={"/integrations/shopify.svg"}
+                    alt={type?.toLowerCase() || ""}
+                    width={0} 
+                    height={0} 
+                    className="h-[17px] w-auto mt-5 mb-2.5" 
+                />
+
+                {creatingStore ? (
+                    <p className="text-sm text-dark-400">
+                        Connecting your Shopify store. Please wait...
+                    </p>
+                ):(<>
+                    {createdStore ? (
+                        <p className="text-sm text-dark-400">
+                            Connection successful. 
+                            <Link href="/" className="text-primary-400 font-bold"> Go to homepage</Link>
+                        </p>
+                    ):(
+                        <p className="text-sm text-dark-400">
+                            Failed to connect store.
+                            <Link href="/" className="text-primary-400 font-bold"> Try again</Link>
+                        </p>
+                    )}
+                </>)}
+            </div>
+        </div>
+    );
+}
+ 
+export default ConnectStore;
