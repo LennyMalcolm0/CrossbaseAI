@@ -18,6 +18,19 @@ export type Store = {
     url: string;
     updatedAt: string;
 };
+
+export type StoresByType = {
+    id: string;
+    type: StoreType;
+    stores: Store[];
+};
+
+export type NewUserWithStore = {
+    firstName: string;
+    lastName: string;
+    storeDomain?: string;
+    type?: string;
+}
    
 export type Message = {
     role: "user" | "assistant";
@@ -39,10 +52,3 @@ export type BaseInsightsByDate = {
     date: string;
     insights: BaseInsight[];
 };
-
-export type NewUserWithStore = {
-    firstName: string;
-    lastName: string;
-    storeDomain?: string;
-    type?: string;
-}

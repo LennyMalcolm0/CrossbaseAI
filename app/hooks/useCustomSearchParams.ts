@@ -1,29 +1,29 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /** Custom hook for managing search parameters */ 
-function useUpdateSearchParams() {
+function useCustomSearchParams() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     const updateSearchParams = (params: any) => {
-      const currentSearchParams = new URLSearchParams(searchParams);
+        const currentSearchParams = new URLSearchParams(searchParams);
 
-      if (Object.keys(params).length === 0) {
-          return router.push(pathname);
-      }
+        if (Object.keys(params).length === 0) {
+            return router.push(pathname);
+        }
 
-      Object.keys(params).forEach((key) => {
-          const value = params[key];
-          currentSearchParams.set(key, value);
-      });
+        Object.keys(params).forEach((key) => {
+            const value = params[key];
+            currentSearchParams.set(key, value);
+        });
 
-      const newUrl = `${pathname}?${currentSearchParams.toString()}`;
+        const newUrl = `${pathname}?${currentSearchParams.toString()}`;
 
-      router.push(newUrl);
+        router.push(newUrl);
     };
 
     return { searchParams, updateSearchParams };
 }
 
-export default useUpdateSearchParams;
+export default useCustomSearchParams;

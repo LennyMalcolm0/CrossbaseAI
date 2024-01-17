@@ -1,5 +1,5 @@
-import { ConnectedCard, DisconnectedCard } from "../components/StoreCards";
-
+import ConnectedCard from "./conponents/ConnectedCard";
+import DisconnectedCard from "./conponents/DisconnectedCard";
 
 const Integrations = () => {
     return (  

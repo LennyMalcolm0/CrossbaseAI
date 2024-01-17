@@ -1,13 +1,13 @@
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useState } from "react";
-import useUpdateSearchParams from "../../../hooks/useCustomSearchParams";
+import useCustomSearchParams from "../../../hooks/useCustomSearchParams";
 import useActiveStore from "./useActiveStore";
 import { useLockFn } from "ahooks";
 
 type ActionType = "SHARE" | "RENAME" | "DELETE" | "";
 
 function useInsightActions(insightId: string) {
-    const { searchParams, updateSearchParams } = useUpdateSearchParams();
+    const { searchParams, updateSearchParams } = useCustomSearchParams();
     const [displayPopup, setDisplayPopup] = useState(false);
     const [actionType, setActionType] = useState<ActionType>("");
     const [inputValue, setInputValue] = useState("");

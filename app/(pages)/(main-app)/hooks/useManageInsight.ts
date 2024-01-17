@@ -5,7 +5,7 @@ import { useLockFn, useRequest } from "ahooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useActiveStore from "./useActiveStore";
-import useUpdateSearchParams from "../../../hooks/useCustomSearchParams";
+import useCustomSearchParams from "../../../hooks/useCustomSearchParams";
 
 function useGetInsight() {
     const searchParams = useSearchParams();
@@ -70,7 +70,7 @@ const controller = new AbortController();
 function useManageInsight() {
     const router = useRouter();
     const pathname = usePathname();
-    const { updateSearchParams } = useUpdateSearchParams();
+    const { updateSearchParams } = useCustomSearchParams();
     const {
         insightId,
         insightsBoxRef,
