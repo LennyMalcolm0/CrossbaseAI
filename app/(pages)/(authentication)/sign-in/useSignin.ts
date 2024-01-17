@@ -7,7 +7,7 @@ import {
     signInWithPopup 
 } from "firebase/auth";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SigninForm } from "../models";
 import { signinSchema } from "../schemas";
@@ -15,9 +15,22 @@ import { signinSchema } from "../schemas";
 export function useSignin() {
     const router = useRouter();
     useAuthenticatedUserCheck(router);
+    const searchParams = useSearchParams();
+    const type = searchParams.get("type");
+    const storeDomain = searchParams.get("shop");
+    const newStore = searchParams.get("new");
     const [loading, setLoading] = useState(false);
 
-	const signIn = async (data: SigninForm) => {
+    const navigateToApp = () => {
+        if (type && storeDomain && newStore) {
+            router.push(`/integrations?shop=${storeDomain}&type=${type}`);
+            return
+        }
+
+        router.push("/");
+    };
+
+	const signIn = useLockFn(async (data: SigninForm) => {
         setLoading(true);
         
         const errorFeedbackDisplay = document.querySelectorAll(".error-message") as NodeListOf<HTMLElement>;
@@ -25,13 +38,12 @@ export function useSignin() {
 
         try {
             await signInWithEmailAndPassword(auth, data.emailAddress, data.password);
-            
-            router.push("/");
+
+            navigateToApp();
         } catch (error: any) {
             setLoading(false);
             const errorMessage = error.message as string;
             console.log(errorMessage)
-            console.log(data)
             
             if (errorMessage.toLowerCase().includes("password")) {
                 errorFeedbackDisplay[1].textContent = authErrorsFeedbacks.wrongPassword;
@@ -41,13 +53,13 @@ export function useSignin() {
                 alert("Something went wrong. Please try again.");
             }
         }
-	}; 
+	}); 
     
     const signinWithGoogle = useLockFn(async () => {
         try {
             await signInWithPopup(auth, googleProvider);
             setLoading(true);
-            router.push("/");
+            navigateToApp();
         } catch {
             setLoading(false);
             alert("Something went wrong. Please try again.");
@@ -63,5 +75,11 @@ export function useSignin() {
         onSubmit: (values) => signIn(values)
     });
 
-    return { formik, loading, signinWithGoogle }
+    return { 
+        formik, 
+        loading, 
+        type,
+        storeDomain,
+        signinWithGoogle 
+    }
 }

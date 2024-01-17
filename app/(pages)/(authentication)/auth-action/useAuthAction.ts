@@ -1,6 +1,6 @@
 import { auth } from "@/app/firebase";
 import { getCurrentUser } from "@/app/utils/auth";
-import { useClickAway, useLockFn } from "ahooks";
+import { useClickAway, useLocalStorageState, useLockFn } from "ahooks";
 import { 
     verifyPasswordResetCode, 
     applyActionCode, 
@@ -13,15 +13,22 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { SetNewPasswordForm } from "../models";
 import { setNewPasswordSchema } from "../schemas";
+import { NewUserWithStore } from "@/app/models";
+import { HttpClient } from "@/app/utils/axiosRequests";
 
 function useValidateActionCode() {
     const router = useRouter();
-    const [validActionCode, setValidActionCode] = useState(false);
-    const [verifiedEmail, setVerifiedEmail] = useState(false);
-    const [emailAddress, setEmailAddress] = useState("");
     const searchParams = useSearchParams();
     const actionCode = searchParams.get("oobCode");
     const mode = searchParams.get("mode");
+    const [validActionCode, setValidActionCode] = useState(false);
+    const [verifiedEmail, setVerifiedEmail] = useState(false);
+    const [emailAddress, setEmailAddress] = useState("");
+    const [pageError, setPageError] = useState("");
+    const [pageActionLoading, setPageActionLoading] = useState(false);
+    const [newUserWithStore, setNewUserWithStore] = useLocalStorageState<NewUserWithStore>(
+        "newUserWithStore"
+    );
 
     useEffect(() => {
         if (searchParams.size === 0) return;
@@ -29,7 +36,7 @@ function useValidateActionCode() {
         if (!mode) return;
 
         switch (mode) {
-            case 'resetPassword':
+            case "resetPassword":
                 verifyPasswordResetCode(auth, actionCode).then((email) => {
                     setValidActionCode(true);
                     setEmailAddress(email);
@@ -39,22 +46,45 @@ function useValidateActionCode() {
                     return
                 });
                 break;
-            case 'verifyEmail':
+            case "verifyEmail":
                 applyActionCode(auth, actionCode).then(() => {
+                    setPageActionLoading(true);
                     setVerifiedEmail(true);
                     setValidActionCode(true);
-                    setTimeout(() => router.push("/"), 2000);
+
+                    if (!newUserWithStore) {
+                        setPageActionLoading(false);
+                        setTimeout(() => router.push("/"), 1000);
+                        return
+                    };
+
+                    const { firstName, lastName, storeDomain, type } = newUserWithStore;
+
+                    const navigateToApp = () => {
+                        setNewUserWithStore(undefined);
+                        setPageActionLoading(false);
+                        localStorage.removeItem("newUserWithStore");
+
+                        if (type && storeDomain) {
+                            router.push(`/integrations?shop=${storeDomain}&type=${type}`);
+                        } else {
+                            router.push("/");
+                        }
+                    };
+
+                    HttpClient.post("/profile", { firstName, lastName })
+                        .finally(() => navigateToApp())
                 }).catch(async () => {
                     const user = await getCurrentUser();
 
                     if (user) {
                         await sendEmailVerification(user);
                         alert("Invalid or expired action code. A new verification link has been sent to you.");
-                        router.push("/");
+                        setPageError("A new verification link has been sent to you.");
                         return
                     } else {
-                        alert("Invalid or expired action code. Try again.");
-                        router.push("/");
+                        alert("Invalid or expired action code. Try signing in to get a new verification link.");
+                        router.push("/sign-in");
                         return
                     }
                 });
@@ -62,7 +92,8 @@ function useValidateActionCode() {
             default:
                 router.push("/sign-in");
         }
-    }, [actionCode, mode, router, router.push, searchParams])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newUserWithStore, searchParams])
 
     return { 
         validActionCode,
@@ -70,6 +101,9 @@ function useValidateActionCode() {
         emailAddress, 
         router, 
         searchParams,
+        pageActionLoading,
+        pageError,
+        setPageActionLoading,
     }
 }
 
@@ -79,9 +113,11 @@ export function useAuthAction() {
         verifiedEmail, 
         emailAddress, 
         searchParams, 
-        router 
+        router,
+        pageActionLoading,
+        pageError,
+        setPageActionLoading,
     } = useValidateActionCode();
-    const [loading, setLoading] = useState(false);
     const passwordFieldRef = useRef<HTMLDivElement>(null);
     const [passwordRequirementPopup, setPasswordRequirementPopup] = useState(false);
 
@@ -96,7 +132,7 @@ export function useAuthAction() {
             router.push("/reset-password");
             return
         }
-        setLoading(true);
+        setPageActionLoading(true);
 
         try {
             await confirmPasswordReset(auth, actionCode, data.newPassword);
@@ -106,13 +142,13 @@ export function useAuthAction() {
 
                 router.push("/");
             } catch {
-                setLoading(false);
+                setPageActionLoading(false);
                 alert("An error occured while signing you in.");
                 router.push("/sign-in");
                 return
             }
         } catch {
-            setLoading(false);
+            setPageActionLoading(false);
             alert("An error occurred during confirmation. The code might have expired, try getting a new password reset link.");
         }
     });
@@ -130,9 +166,10 @@ export function useAuthAction() {
         validActionCode, 
         verifiedEmail, 
         formik, 
-        loading, 
+        pageActionLoading, 
         passwordFieldRef,
         passwordRequirementPopup,
+        pageError,
         setPasswordRequirementPopup,
     }
 }

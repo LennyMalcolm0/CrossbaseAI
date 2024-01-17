@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useSignin } from "./useSignin";
 
 const SignIn = () => {
-    const { formik, loading, signinWithGoogle } = useSignin();
+    const { 
+        formik, 
+        loading, 
+        type,
+        storeDomain,
+        signinWithGoogle 
+    } = useSignin();
 
     return (  
         <main className="text-xs pb-10">
@@ -75,7 +81,10 @@ const SignIn = () => {
             </button>
             <p className="text-dark-200 text-center mt-[15px]">
                 {"Don't have an account?"}
-                <Link href="/sign-up" className="auth-sub-link"> Create Account</Link>
+                <Link 
+                    href={"/sign-up" + (type && storeDomain ? `?shop=${storeDomain}&type=${type}` : "")} 
+                    className="auth-sub-link"
+                > Create Account</Link>
             </p>
         </main>
     );

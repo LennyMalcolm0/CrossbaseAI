@@ -144,7 +144,9 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                 </header>
                 <div className="h-full w-full grid place-content-center px-5 text-center">
-                    <h1>Verify your email to continue</h1>
+                    <h1 className="text-dark-100 text-xl leading-[2] mb-5">
+                        Verify your email to continue
+                    </h1>
                     <p className="max-sm:text-sm text-dark-300">
                         A verification link has been sent to your email address.
                     </p>
