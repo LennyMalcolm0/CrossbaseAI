@@ -1,57 +1,28 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { getCurrentUser, useLogoutUser } from "@/app/utils/auth";
+import { useLogoutUser } from "@/app/utils/auth";
 import { FiUser } from "react-icons/fi";
 import { LuSun } from "react-icons/lu";
 import { FaRegMoon } from "react-icons/fa6";
-import { FaChevronDown } from "react-icons/fa";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
-import { useAsyncEffect } from "ahooks";
-import { useState } from "react";
-import { sendEmailVerification } from "firebase/auth";
 import { FiLogOut } from "react-icons/fi";
 import SelectStore from "./components/SelectStore";
-// import { useAsyncEffect, useLockFn } from "ahooks";
-// import { HttpClient } from "@/app/utils/axiosRequests";
-// import { Store } from "@/app/models";
-// import useActiveStore from "./hooks/useActiveStore";
+import { UserStoresContext } from "@/app/context";
+import useManageAppLayout from "./hooks/useManageAppLayout";
 
-// ? TODO: Hide textarea on scroll
+// TODO ? Hide textarea on scroll
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
-    const router = useRouter();
-    const pathname = usePathname();
     const logoutUser = useLogoutUser();
-    const [unverifiedEmail, setUnverifiedEmail] = useState(false);
-
-    useAsyncEffect(async () => {
-        const user = await getCurrentUser();
-
-        if (user && !user.emailVerified) {
-            setUnverifiedEmail(true);
-            await sendEmailVerification(user);
-            return
-        }
-
-        if (pathname !== "/" && !user) {
-            router.push("/sign-in");
-        }
-    }, [])
-    
-    const checkPath = (path: string) => pathname === path;
-
-    // const { setStore } = useActiveStore();
-
-    // useAsyncEffect(useLockFn(async () => {
-    //     const { data } = await HttpClient.get<Store[]>("/stores");
-    //     if (data) {
-    //         setStore(data[0])
-    //         // console.log(data[0].id)
-    //     }
-    // }), [])
+    const {
+        unverifiedEmail,
+        connectedStores,
+        loadingConnectedStores,
+        checkPath,
+        fetchConnectedStores
+    } = useManageAppLayout();
     
     return (
         <div className="w-full h-full flex flex-col">
@@ -63,11 +34,13 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                             alt="crossbase.ai" 
                             width={0} 
                             height={0} 
-                            className="h-auto w-auto sm:scale" 
+                            className="h-auto w-auto" 
                         />
                         <div className="flex items-center gap-2.5">
-                            <SelectStore />
-                            
+                            <SelectStore 
+                                connectedStores={connectedStores}
+                                loadingConnectedStores={loadingConnectedStores}
+                            />
                             <Link 
                                 href="/account"
                                 className="h-[34px] w-[34px] rounded-full bg-light-300 text-[19px] text-light-100
@@ -101,9 +74,15 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                 </header>
 
-                <div className="main-section">
-                    {children}
-                </div>
+                <UserStoresContext.Provider value={{ 
+                    connectedStores, 
+                    loadingConnectedStores, 
+                    fetchConnectedStores 
+                }}>
+                    <div className="main-section">
+                        {children}
+                    </div>
+                </UserStoresContext.Provider>
 
                 <footer className="lg:hidden w-full py-3 bg-light-400 text-center text-xs text-dark-400 border-t border-light-200">
                     <div className="w-fit flex items-center gap-3 mx-auto">

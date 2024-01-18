@@ -36,7 +36,7 @@ const ConnectStore = ({creatingStore, createdStore}: ConnectStoreProps) => {
                     alt={type?.toLowerCase() || ""}
                     width={0} 
                     height={0} 
-                    className="h-[24px] w-auto mt-6 mb-3.5" 
+                    className="h-6 w-auto mt-6 mb-3.5" 
                 />
 
                 {creatingStore ? (

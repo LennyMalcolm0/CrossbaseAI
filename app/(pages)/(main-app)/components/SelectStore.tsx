@@ -7,39 +7,25 @@ import { FaChevronDown } from "react-icons/fa";
 import { FaShopify } from "react-icons/fa";
 import useActiveStore from "../hooks/useActiveStore";
 
-const storesArray: Store[] = Array.from({ length: 10 }, (_, index) => ({
-    id: `store-${index + 1}`,
-    type: StoreType.SHOPIFY, // Assuming you want all stores to be of type SHOPIFY
-    url: `https://store${index + 1}.example.com`,
-    updatedAt: new Date().toISOString(),
-}));
-
-const SelectStore = () => {
+type SelectStoreProps = {
+    connectedStores: Store[];
+    loadingConnectedStores: boolean;
+}
+const SelectStore = ({connectedStores, loadingConnectedStores}: SelectStoreProps) => {
     const { 
         store: activeStore, 
         defaultStore, 
         setStore: setActiveStore,
         setDefaultStore
     } = useActiveStore();
-    const [connectedStores, setConnectedStores] = useState<Store[]>(storesArray);
 
     useEffect(() => {
-        if (connectedStores.length > 1) {
+        if (connectedStores.length > 0) {
             const store = connectedStores.find(store => store.url === defaultStore.url)
             if (store) setActiveStore(store);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connectedStores, defaultStore])
-
-    const { loading: loadingConnectedStores } = useRequest(
-        () => HttpClient.get<Store[]>(`/stores`),
-        { 
-            onSuccess: ({ data }) => {
-                if (data) setConnectedStores(data);
-            },
-            cacheKey: "userStores" 
-        }
-    );
     
     const storeMenuRef = useRef<HTMLDivElement>(null);
     const storeMenuButtonRef = useRef<HTMLDivElement>(null);
@@ -74,11 +60,12 @@ const SelectStore = () => {
                 <FaChevronDown className={`${storeMenuOpened && "rotate-[180deg]"}`} />
             </div>
 
-            {storeMenuOpened && (
+            {(storeMenuOpened && connectedStores.length > 0) && (
                 <div 
                     ref={storeMenuRef}
-                    className="absolute right-0 max-sm:translate-x-[40px] top-[45px] w-[300px] sm:w-[350px] max-h-[320px] py-1 bg-white rounded-[15px] border-[1.5px] 
-                    border-light-200 overflow-x-hidden overflow-y-auto z-[9999999] shadow-[0_0_30px_0_rgba(0,0,0,0.15)]"
+                    className="absolute right-0 max-sm:translate-x-[40px] top-[45px] w-[300px] sm:w-[330px] 
+                    max-h-[320px] py-1 bg-white rounded-[15px] border-[1.5px] border-light-200 
+                    overflow-x-hidden overflow-y-auto z-[9999999] shadow-[0_0_30px_0_rgba(0,0,0,0.15)]"
                 >
                     {connectedStores.map((store, index) => (
                         <button 

@@ -1,8 +1,9 @@
+import { UserStoresContext } from "@/app/context";
 import useCustomSearchParams from "@/app/hooks/useCustomSearchParams";
 import { Store, StoresByType } from "@/app/models";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useAsyncEffect, useLockFn, useRequest } from "ahooks";
-import { useEffect, useState } from "react";
+import { useAsyncEffect, useLockFn } from "ahooks";
+import { useContext, useEffect, useState } from "react";
 
 function useConnectStore() {
     const { searchParams, updateSearchParams } = useCustomSearchParams();
@@ -60,42 +61,25 @@ function formatStoresByType(stores: Store[]): StoresByType[] {
 }
 
 function useManageIntegrations() {
+    const { 
+        connectedStores, 
+        loadingConnectedStores,
+        fetchConnectedStores
+    } = useContext(UserStoresContext);
     const { createdStore, creatingStore } = useConnectStore();
-    
-    const { data: connectedStores, loading: loadingConnectedStores } = useRequest(
-        () => HttpClient.get<Store[]>(`/stores`),
-        { cacheKey: "userStores" }
-    );
-
     const [connectedStoresByType, setStoresByType] = useState<StoresByType[]>([]);
 
     useEffect(() => {
-        if (connectedStores?.data) {
-            setStoresByType(formatStoresByType(connectedStores.data));
+        if (connectedStores) {
+            setStoresByType(formatStoresByType(connectedStores));
         }
-    }, [connectedStores?.data]);
+    }, [connectedStores]);
 
     useEffect(() => {
-        if (!createdStore) return;
-        
-        setStoresByType((prevStoresByType) => {
-            const index = prevStoresByType.findIndex(
-                (group) => group.type === createdStore.type
-            );
-
-            if (index !== -1) {
-                const newStoresByType = [...prevStoresByType];
-                newStoresByType[index].stores.push(createdStore);
-                return newStoresByType;
-            } else {
-                const newGroup: StoresByType = {
-                    id: `${Math.random()}-${Math.random()}`,
-                    type: createdStore.type,
-                    stores: [createdStore]
-                };
-                return [...prevStoresByType, newGroup];
-            }
-        });
+        if (createdStore) {
+            fetchConnectedStores();
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [createdStore]);
 
     return { 
