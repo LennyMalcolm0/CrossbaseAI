@@ -45,6 +45,9 @@ button {
 button:disabled {
   @apply animate-pulse
 }
+button.flat {
+  @apply rounded-none
+}
 
 button.auth {
   @apply w-full py-[15px] mt-6 bg-primary-100 hover:bg-dark-100 hover:text-light-300 font-bold

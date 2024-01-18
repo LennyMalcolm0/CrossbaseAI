@@ -15,19 +15,19 @@ const ConnectStore = ({creatingStore, createdStore}: ConnectStoreProps) => {
 
     return ( 
         <div className="fixed inset-0 h-[100svh] w-screen bg-dark-100 bg-opacity-70 bg-blur-[12px] grid place-content-center">
-            <div className="w-[350px] max-w-[92vw] mx-auto flex flex-col p-5 rounded-[20px] bg-light-400 border-2 border-light-200">
+            <div className="w-[430px] max-w-[92vw] mx-auto p-5 text -sm rounded-[20px] bg-light-400 border-2 border-light-200">
                 {creatingStore ? (
-                    <div className="flex gap-1.5 loading-bars h-[32px]">
-                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[32px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                    <div className="flex gap-1.5 loading-bars h-[40px]">
+                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
+                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
                     </div>
                 ):(<>
                     {createdStore ? (
-                        <FiCheckCircle className="text-[32px] text-primary-300" />
+                        <FiCheckCircle className="text-[40px] text-primary-300" />
                     ):(
-                        <PiWarningOctagonBold className="text-[32px] text-primary-200" />
+                        <PiWarningOctagonBold className="text-[40px] text-primary-200" />
                     )}
                 </>)}
 
@@ -36,21 +36,21 @@ const ConnectStore = ({creatingStore, createdStore}: ConnectStoreProps) => {
                     alt={type?.toLowerCase() || ""}
                     width={0} 
                     height={0} 
-                    className="h-[17px] w-auto mt-5 mb-2.5" 
+                    className="h-[24px] w-auto mt-6 mb-3.5" 
                 />
 
                 {creatingStore ? (
-                    <p className="text-sm text-dark-400">
-                        Connecting your Shopify store. Please wait...
+                    <p className="text-dark-400">
+                        Connecting your <span className="capitalize"> {type?.toLowerCase()} </span> store. Please wait...
                     </p>
                 ):(<>
                     {createdStore ? (
-                        <p className="text-sm text-dark-400">
+                        <p className="text-dark-400">
                             Connection successful. 
                             <Link href="/" className="text-primary-400 font-bold"> Go to homepage</Link>
                         </p>
                     ):(
-                        <p className="text-sm text-dark-400">
+                        <p className="text-dark-400">
                             Failed to connect store.
                             <Link href="/" className="text-primary-400 font-bold"> Try again</Link>
                         </p>

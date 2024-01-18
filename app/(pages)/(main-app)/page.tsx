@@ -52,10 +52,10 @@ const Home = () => {
                                 <HiOutlineSparkles />
                             </h1>
                             <div className="flex items-center gap-2.5 text-primary-400">
-                                <div className="p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
                                     <TbCloudDownload className="text-[18px]" />
                                 </div>
-                                <div className="p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
                                     <RiPushpin2Line className="text-[18px]" />
                                 </div>
                                 <button 

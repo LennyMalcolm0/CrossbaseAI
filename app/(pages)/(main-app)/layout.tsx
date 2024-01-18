@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { getCurrentUser } from "@/app/utils/auth";
+import { getCurrentUser, useLogoutUser } from "@/app/utils/auth";
 import { FiUser } from "react-icons/fi";
 import { LuSun } from "react-icons/lu";
 import { FaRegMoon } from "react-icons/fa6";
@@ -13,6 +13,8 @@ import { BsBookmarkCheck } from "react-icons/bs";
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
 import { sendEmailVerification } from "firebase/auth";
+import { FiLogOut } from "react-icons/fi";
+import SelectStore from "./components/SelectStore";
 // import { useAsyncEffect, useLockFn } from "ahooks";
 // import { HttpClient } from "@/app/utils/axiosRequests";
 // import { Store } from "@/app/models";
@@ -22,6 +24,7 @@ import { sendEmailVerification } from "firebase/auth";
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const pathname = usePathname();
+    const logoutUser = useLogoutUser();
     const [unverifiedEmail, setUnverifiedEmail] = useState(false);
 
     useAsyncEffect(async () => {
@@ -33,7 +36,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
             return
         }
 
-        if (pathname === "/" && !user) {
+        if (pathname !== "/" && !user) {
             router.push("/sign-in");
         }
     }, [])
@@ -63,12 +66,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                             className="h-auto w-auto sm:scale" 
                         />
                         <div className="flex items-center gap-2.5">
-                            <div className="h-[34px] pl-[15px] pr-2.5 bg-light-300 rounded-full text-dark-100 
-                                flex items-center justify-center gap-1.5 text-sm cursor-pointer header-element"
-                            >
-                                <span className="font-medium max-w-[180px] max-sm:max-w-[120px] ellipses">sample.myshopify.com</span>
-                                <FaChevronDown />
-                            </div>
+                            <SelectStore />
+                            
                             <Link 
                                 href="/account"
                                 className="h-[34px] w-[34px] rounded-full bg-light-300 text-[19px] text-light-100
@@ -141,6 +140,14 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                             height={0} 
                             className="h-auto w-auto" 
                         />
+                        <button 
+                            onClick={logoutUser}
+                            className="h-[34px] px-4 bg-light-300 rounded-full text-dark-100 
+                            flex items-center justify-center gap-2 text-sm header-element"
+                        >
+                            <FiLogOut />
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </header>
                 <div className="h-full w-full grid place-content-center px-5 text-center">

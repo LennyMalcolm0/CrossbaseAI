@@ -7,21 +7,13 @@ import { useLockFn } from "ahooks";
 import { SlClose } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import useUpdateProfile from "./useUpdateProfile";
+import { useLogoutUser } from "@/app/utils/auth";
 
 const Account = () => {
     const router = useRouter();
+    const logoutUser = useLogoutUser();
     const { update, saving, formik, setUpdate } = useUpdateProfile();
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
-    
-    const logoutUser = useLockFn(async () => {
-        try {
-            await auth.signOut();
-            
-            router.push("/sign-in");
-        } catch(error) {
-            alert("Something went wrong. Please try again.");
-        }
-    });
     
     return (  
         <main className="h-full app-container py-5 max-sm:flex max-sm:flex-col justify-between">
@@ -134,16 +126,17 @@ const Account = () => {
                         <p className="text-sm my-[30px] text-dark-400">
                             You’re about to logout from Crossbase. Do you want to proceed?
                         </p>
-                        <div className="self-end flex gap-3 text-sm font-bold">
+                        <div className="sm:self-end flex gap-3 text-sm font-bold">
                             <button 
                                 onClick={() => setDisplayLogoutPopup(false)} 
-                                className="py-3 px-[18px] text-dark-100 hover:bg-primary-400 hover:text-light-400"
+                                className="w-full sm:w-[120px] py-3 px-[18px] text-dark-100 hover:bg-primary-400 
+                                hover:text-light-400 max-sm:border-2 border-primary-100 hover:border-primary-400"
                             > Cancel
                             </button>
                             <button 
                                 onClick={logoutUser} 
-                                className="py-3 px-[18px] bg-primary-100 shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
-                                text-dark-100 hover:bg-primary-400 hover:text-light-400"
+                                className="w-full sm:w-[120px] py-3 px-[18px] shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]
+                                bg-primary-100 text-dark-100 hover:bg-primary-400 hover:text-light-400"
                             > Yes, Logout
                             </button>
                         </div>

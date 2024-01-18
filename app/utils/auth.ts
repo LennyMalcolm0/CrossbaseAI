@@ -1,7 +1,8 @@
 import { User } from "firebase/auth";
 import { auth } from "../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useAsyncEffect } from "ahooks";
+import { useAsyncEffect, useLockFn } from "ahooks";
+import router from "next/router";
 
 export async function getCurrentUser() {
     const userPromise = new Promise<User | null>((resolve) => {
@@ -15,6 +16,21 @@ export async function getCurrentUser() {
 
     return user;
 }
+
+export function useLogoutUser() {
+    const logoutUser = useLockFn(async () => {
+        try {
+            await auth.signOut();
+            
+            router.push("/sign-in");
+        } catch(error) {
+            console.log(error)
+            alert("Something went wrong. Please try again.");
+        }
+    })
+
+    return logoutUser;
+};
 
 export const authErrorsFeedbacks = {
     invalidEmail: "Enter a valid email address.",
