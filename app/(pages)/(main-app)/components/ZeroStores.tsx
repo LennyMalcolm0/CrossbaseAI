@@ -44,7 +44,7 @@ const ZeroStores = () => {
                 </div>
                 <p className="text-sm my-5">
                     Watch the video below to see how to install 
-                    <span className="text-primary-400"> CrossbaseAI </span> 
+                    <span className="text-primary-400"> Crossbase </span> 
                     directly in your Shopify store.
                 </p>
                 <div className="h-[280px] w-full rounded-[10px] border border-dark-400 bg-dark-100 bg-opacity-70"></div>

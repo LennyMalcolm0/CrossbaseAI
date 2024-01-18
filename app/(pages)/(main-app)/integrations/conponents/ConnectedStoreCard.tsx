@@ -1,13 +1,18 @@
+"use client"
 import { Store, StoreType } from "@/app/models";
+import { useToggle } from "ahooks";
 import Image from "next/image";
 import { FaPlus } from "react-icons/fa";
+import ConnectStore from "./ConnectStore";
 
-type ConnectedCardProps = {
+type ConnectedStoreCardProps = {
     type: StoreType;
     stores: Store[];
 }
-const ConnectedCard = ({ type, stores }: ConnectedCardProps) => {
-    return (
+const ConnectedStoreCard = ({ type, stores }: ConnectedStoreCardProps) => {
+    const [displayConnectStorePopup, { toggle }] = useToggle(false);
+
+    return (<>
         <div className="w-full h-[] p-5 rounded-[20px] bg-light-400 flex flex-col justify-between border border-light-200">
             <div className="flex items-center justify-between text-light-200">
                 <Image 
@@ -34,12 +39,19 @@ const ConnectedCard = ({ type, stores }: ConnectedCardProps) => {
                     </button>
                 ))}
             </div>
-            <button className="flex items-center gap-1 text-xs font-bold text-primary-400 capitalize">
+            <button 
+                onClick={toggle}
+                className="flex items-center gap-1 text-xs font-bold text-primary-400 capitalize"
+            >
                 <span>Add {type.toLowerCase()} Store</span>
                 <FaPlus />
             </button>
         </div>
-    );
+
+        {displayConnectStorePopup && (
+            <ConnectStore closePopup={toggle} />
+        )}
+    </>);
 }
 
-export default ConnectedCard;
+export default ConnectedStoreCard;

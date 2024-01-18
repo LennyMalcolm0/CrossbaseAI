@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { CgCloseO } from "react-icons/cg";
-import { auth } from "@/app/firebase";
-import { useLockFn } from "ahooks";
 import { SlClose } from "react-icons/sl";
 import { useRouter } from "next/navigation";
 import useUpdateProfile from "./useUpdateProfile";

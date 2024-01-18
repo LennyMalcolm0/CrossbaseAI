@@ -1,23 +1,26 @@
 // "use client"
+import { useToggle } from "ahooks";
 import Image from "next/image";
+import ConnectStore from "./ConnectStore";
 
-type DisconnectedCardProps = {
+type DisconnectedStoreCardProps = {
     logoUrl: string;
     logoAltText: string;
     description: string;
     connected?: boolean;
     comingSoon?: boolean;
 }
-const DisconnectedCard = ({
+const DisconnectedStoreCard = ({
     logoUrl,
     logoAltText,
     description,
     connected,
     comingSoon,
-}: DisconnectedCardProps) => {
-    return (
-        <>
-        {!comingSoon ? (
+}: DisconnectedStoreCardProps) => {
+    const [displayConnectStorePopup, { toggle }] = useToggle(false);
+
+    return (<>
+        {!comingSoon ? (<>
             <div className="p-5 rounded-[20px] bg-light-400 flex flex-col gap-4 justify-between border border-light-200">
                 <Image 
                     src={logoUrl}
@@ -27,12 +30,18 @@ const DisconnectedCard = ({
                     className="h-[17px] w-auto mr-auto" 
                 />
                 <p className="text-xs text-light-100">{description}</p>
-                <button className="w-full py-[13px] bg-primary-100 text-sm font-bold 
+                <button 
+                    onClick={toggle}
+                    className="w-full py-[13px] bg-primary-100 text-sm font-bold 
                     text-dark-100 hover:bg-primary-400 hover:text-light-400"
                 > Connect
                 </button>
             </div>
-        ):(
+
+            {displayConnectStorePopup && (
+                <ConnectStore closePopup={toggle} />
+            )}
+        </>):(
             <div className="p-5 rounded-[20px] border border-light-100 flex flex-col gap-4 justify-between select-none">
                 <div className="flex items-center justify-between text-light-200">
                     <Image 
@@ -55,8 +64,7 @@ const DisconnectedCard = ({
                 </div>
             </div>
         )}
-        </>
-    );
+    </>);
 }
 
-export default DisconnectedCard;
+export default DisconnectedStoreCard;

@@ -1,61 +1,32 @@
-import { Store } from "@/app/models";
-import Image from "next/image";
+"use client"
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { FiCheckCircle } from "react-icons/fi";
-import { PiWarningOctagonBold } from "react-icons/pi";
+import { RiShareBoxLine } from "react-icons/ri";
+import { SlClose } from "react-icons/sl";
 
 type ConnectStoreProps = {
-    creatingStore: boolean;
-    createdStore: Store | undefined;
+    closePopup: () => void;
 }
-const ConnectStore = ({creatingStore, createdStore}: ConnectStoreProps) => {
-    const searchParams = useSearchParams();
-    const type = searchParams.get("type");
-
-    return ( 
+const ConnectStore = ({closePopup}: ConnectStoreProps) => {
+    return (
         <div className="fixed inset-0 h-[100svh] w-screen bg-dark-100 bg-opacity-70 bg-blur-[12px] grid place-content-center">
-            <div className="w-[430px] max-w-[92vw] mx-auto p-5 text -sm rounded-[20px] bg-light-400 border-2 border-light-200">
-                {creatingStore ? (
-                    <div className="flex gap-1.5 loading-bars h-[40px]">
-                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                        <div className="h-[40px] w-2 my-auto rounded-lg bg-primary-100 loading-bar" />
-                    </div>
-                ):(<>
-                    {createdStore ? (
-                        <FiCheckCircle className="text-[40px] text-primary-300" />
-                    ):(
-                        <PiWarningOctagonBold className="text-[40px] text-primary-200" />
-                    )}
-                </>)}
-
-                <Image 
-                    src={"/integrations/shopify.svg"}
-                    alt={type?.toLowerCase() || ""}
-                    width={0} 
-                    height={0} 
-                    className="h-6 w-auto mt-6 mb-3.5" 
-                />
-
-                {creatingStore ? (
-                    <p className="text-dark-400">
-                        Connecting your <span className="capitalize"> {type?.toLowerCase()} </span> store. Please wait...
-                    </p>
-                ):(<>
-                    {createdStore ? (
-                        <p className="text-dark-400">
-                            Connection successful. 
-                            <Link href="/" className="text-primary-400 font-bold"> Go to homepage</Link>
-                        </p>
-                    ):(
-                        <p className="text-dark-400">
-                            Failed to connect store.
-                            <Link href="/" className="text-primary-400 font-bold"> Try again</Link>
-                        </p>
-                    )}
-                </>)}
+            <div className="w-[500px] max-w-[92vw] mx-auto p-5 text-sm rounded-[20px] bg-light-400 border-2 border-light-100">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-[18px] font-bold text-dark-100">Connect Store</h3>
+                    <SlClose
+                        onClick={closePopup} 
+                        className="text-[30px] leading-[1] text-dark-100 hover:scale-[1.1] cursor-pointer" 
+                    />
+                </div>
+                <Link href="/" className="w-fit flex items-center gap-1.5 text-sm font-bold text-primary-400 my-5">
+                    <span>Install in Shopify</span>
+                    <RiShareBoxLine className="text-[18px]" />
+                </Link>
+                <p className="text-sm mb-3">
+                    Watch the video below to see how to install 
+                    <span className="text-primary-400"> Crossbase </span> 
+                    directly in your Shopify store.
+                </p>
+                <div className="h-[250px] w-full rounded-[10px] border border-dark-400 bg-dark-100 bg-opacity-70"></div>
             </div>
         </div>
     );
