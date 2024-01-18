@@ -1,8 +1,9 @@
 import { User } from "firebase/auth";
 import { auth } from "../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useAsyncEffect, useLockFn } from "ahooks";
+import { clearCache, useAsyncEffect, useLockFn } from "ahooks";
 import router from "next/router";
+import useActiveStore from "../(pages)/(main-app)/hooks/useActiveStore";
 
 export async function getCurrentUser() {
     const userPromise = new Promise<User | null>((resolve) => {
@@ -18,10 +19,15 @@ export async function getCurrentUser() {
 }
 
 export function useLogoutUser() {
+    const { clearStore } = useActiveStore();
+
     const logoutUser = useLockFn(async () => {
         try {
             await auth.signOut();
-            
+
+            clearCache("");
+            clearStore();
+
             router.push("/sign-in");
         } catch(error) {
             console.log(error)
