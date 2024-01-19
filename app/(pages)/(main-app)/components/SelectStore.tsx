@@ -64,7 +64,7 @@ const SelectStore = ({connectedStores, loadingConnectedStores}: SelectStoreProps
                 <div 
                     ref={storeMenuRef}
                     className="absolute right-0 max-sm:translate-x-[40px] top-[45px] w-[300px] sm:w-[330px] 
-                    max-h-[320px] py-1 bg-white rounded-[15px] border-[1.5px] border-light-200 
+                    max-h-[320px] bg-white rounded-[15px] border-[1.5px] border-light-200 
                     overflow-x-hidden overflow-y-auto z-[9999999] shadow-[0_0_30px_0_rgba(0,0,0,0.15)]"
                 >
                     {connectedStores.map((store, index) => (

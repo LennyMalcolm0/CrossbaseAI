@@ -106,7 +106,7 @@ function useManageInsight() {
         const requestBody = JSON.stringify({
             prompt, 
             conversation, 
-            storeId: store,
+            storeId: store.id,
             insightId: insightId || undefined
         });
 

@@ -3,8 +3,7 @@ import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useAsyncEffect, useRequest } from "ahooks";
 import { sendEmailVerification } from "firebase/auth";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const storesArray: Store[] = Array.from({ length: 10 }, (_, index) => ({

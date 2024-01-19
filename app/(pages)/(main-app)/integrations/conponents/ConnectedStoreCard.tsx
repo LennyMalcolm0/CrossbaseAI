@@ -27,13 +27,15 @@ const ConnectedStoreCard = ({ type, stores }: ConnectedStoreCardProps) => {
                     <span className="text-sm font-medium text-primary-300">Connected</span>
                 </div>
             </div>
-            <p className="text-xs text-light-100 my-5 capitalize">My {type.toLowerCase()} Store(s)</p>
+            <p className="text-xs text-light-100 my-5">
+                My <span className="capitaliza"> {type.toLowerCase()} </span> Store(s)
+            </p>
             <div className="flex flex-wrap items-center gap-3 mb-[15px]">
                 {stores
                 .sort((a, b) => new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf())
                 .map((store) => (
-                    <button key={store.id} className="w-fit py-2 px-[15px] text-center rounded-[50px] 
-                        border border-dark-100 text-sm font-dedium text-dark-100 hover:bg-primary-100"
+                    <button key={store.id} className="w-fit py-2 px-[15px] text-center rounded-[50px] border border-dark-100 
+                        text-sm font-dedium text-dark-100 hover:bg-primary-400 hover:text-light-400"
                     >  
                         {store.url}
                     </button>

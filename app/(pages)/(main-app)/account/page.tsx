@@ -10,7 +10,13 @@ import { useLogoutUser } from "@/app/utils/auth";
 const Account = () => {
     const router = useRouter();
     const logoutUser = useLogoutUser();
-    const { update, saving, formik, setUpdate } = useUpdateProfile();
+    const { 
+        update, 
+        saving, 
+        formik,
+        emailAddress,
+        setUpdate
+    } = useUpdateProfile();
     const [displayLogoutPopup, setDisplayLogoutPopup] = useState(false);
     
     return (  
@@ -71,6 +77,7 @@ const Account = () => {
                     <div className="w-full">
                         <label htmlFor="emailAddress" className="text-dark-400 leading-[1.6] font-medium capitalize">Email Address</label>
                         <input 
+                            defaultValue={emailAddress}
                             type="text"
                             name="emailAddress"
                             className="profile-input opacity-80"

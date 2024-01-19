@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import { auth } from "../firebase";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { clearCache, useAsyncEffect, useLockFn } from "ahooks";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import useActiveStore from "../(pages)/(main-app)/hooks/useActiveStore";
 
 export async function getCurrentUser() {
@@ -19,6 +19,7 @@ export async function getCurrentUser() {
 }
 
 export function useLogoutUser() {
+    const router = useRouter();
     const { clearStore } = useActiveStore();
 
     const logoutUser = useLockFn(async () => {

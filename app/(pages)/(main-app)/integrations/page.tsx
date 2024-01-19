@@ -20,7 +20,7 @@ const Integrations = () => {
         <main className="h-full py-5 overflow-y-auto">
             <section className="app-container overflow-y-auto pb-5" >
                 <h1 className="mb-5">Connect Ecommerce Channel</h1>
-                {connectedStoresByType.length > 1 && (
+                {connectedStoresByType.length > 0 && (
                     <div className="w-full flex flex-col gap-5 mb-5">
                         {connectedStoresByType.map((group) => (
                             <ConnectedStoreCard

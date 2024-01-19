@@ -1,8 +1,9 @@
 import { Profile } from "@/app/models";
+import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useRequest } from "ahooks";
+import { useAsyncEffect, useRequest } from "ahooks";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 
 export const profileSchema = yup.object().shape({
@@ -15,6 +16,14 @@ function useUpdateProfile() {
     const [profile, setProfile] = useState<Profile>();
     const [update, setUpdate] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [emailAddress, setEmailAddress] = useState("");
+
+    useAsyncEffect(async() => {
+        const user = await getCurrentUser();
+        if (user) {
+            setEmailAddress(user.email || "");
+        }
+    }, [])
     
     useRequest(
         () => HttpClient.get<Profile>(`/profile`),
@@ -22,7 +31,9 @@ function useUpdateProfile() {
             onSuccess: ({ data }) => {
                 if (data) setProfile(data);
             },
-            cacheKey: "profile"
+            cacheKey: "profile",
+            cacheTime: -1,
+            staleTime: 600000 // 10 minutes
         }
     );
 
@@ -60,6 +71,7 @@ function useUpdateProfile() {
         update, 
         saving, 
         formik,
+        emailAddress,
         setUpdate
     }
 }

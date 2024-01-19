@@ -73,7 +73,8 @@ function useManageIntegrations() {
         if (connectedStores) {
             setStoresByType(formatStoresByType(connectedStores));
         }
-    }, [connectedStores]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [connectedStores.length]);
 
     useEffect(() => {
         if (createdStore) {
