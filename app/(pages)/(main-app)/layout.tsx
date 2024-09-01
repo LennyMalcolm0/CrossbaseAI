@@ -26,7 +26,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
     
     return (
         <div className="w-full h-full flex flex-col">
-            {!unverifiedEmail ? (<>
+            {/* {!unverifiedEmail ? (<> */}
                 <header className="w-full bg-light-400 border-b-2 border-light-200">
                     <div className="app-container h-[60px] flex items-center justify-between relative">
                         <Image 
@@ -109,7 +109,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         </Link>
                     </div>
                 </footer>
-            </>):(<>
+            {/* </>):(<>
                 <header className="w-full bg-light-400 border-b-2 border-light-200">
                     <div className="app-container h-[60px] flex items-center justify-between relative">
                         <Image 
@@ -137,7 +137,7 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                         A verification link has been sent to your email address.
                     </p>
                 </div>
-            </>)}
+            </>)} */}
         </div>
     );
 }

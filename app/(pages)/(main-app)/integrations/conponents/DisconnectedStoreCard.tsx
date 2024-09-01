@@ -2,6 +2,7 @@
 import { useToggle } from "ahooks";
 import Image from "next/image";
 import ConnectStore from "./ConnectStore";
+import useCustomSearchParams from "@/app/hooks/useCustomSearchParams";
 
 type DisconnectedStoreCardProps = {
     logoUrl: string;
@@ -18,6 +19,7 @@ const DisconnectedStoreCard = ({
     comingSoon,
 }: DisconnectedStoreCardProps) => {
     const [displayConnectStorePopup, { toggle }] = useToggle(false);
+    const { updateSearchParams } = useCustomSearchParams();
 
     return (<>
         {!comingSoon ? (<>
@@ -31,7 +33,13 @@ const DisconnectedStoreCard = ({
                 />
                 <p className="text-xs text-light-100">{description}</p>
                 <button 
-                    onClick={toggle}
+                    // onClick={toggle}
+                    onClick={() => {
+                        updateSearchParams({
+                            type: "SHOPIFY",
+                            shop: "aaaaaaa"
+                        })
+                    }}
                     className="w-full py-[13px] bg-primary-100 text-sm font-bold 
                     text-dark-100 hover:bg-primary-400 hover:text-light-400"
                 > Connect

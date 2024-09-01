@@ -4,6 +4,7 @@ import { useToggle } from "ahooks";
 import Image from "next/image";
 import { FaPlus } from "react-icons/fa";
 import ConnectStore from "./ConnectStore";
+import useCustomSearchParams from "@/app/hooks/useCustomSearchParams";
 
 type ConnectedStoreCardProps = {
     type: StoreType;
@@ -11,6 +12,7 @@ type ConnectedStoreCardProps = {
 }
 const ConnectedStoreCard = ({ type, stores }: ConnectedStoreCardProps) => {
     const [displayConnectStorePopup, { toggle }] = useToggle(false);
+    const { updateSearchParams } = useCustomSearchParams();
 
     return (<>
         <div className="w-full h-[] p-5 rounded-[20px] bg-light-400 flex flex-col justify-between border border-light-200">
@@ -42,7 +44,13 @@ const ConnectedStoreCard = ({ type, stores }: ConnectedStoreCardProps) => {
                 ))}
             </div>
             <button 
-                onClick={toggle}
+                // onClick={toggle}
+                onClick={() => {
+                    updateSearchParams({
+                        type: "SHOPIFY",
+                        shop: "aaaaaaa"
+                    })
+                }}
                 className="flex items-center gap-1 text-xs font-bold text-primary-400 capitalize"
             >
                 <span>Add {type.toLowerCase()} Store</span>

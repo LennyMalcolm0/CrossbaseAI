@@ -76,15 +76,15 @@ const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
                         text-light-100 font-medium shadow-[-10px_-5px_30px_0px_rgba(0,0,0,0.15)] z-[999] overflow-hidden"
                     >
                         <div 
-                            onClick={() => openPopup("SHARE")}
-                            className="w-full p-2 flex items-center gap-1.5 hover:bg-light-300"
+                            // onClick={() => openPopup("SHARE")}
+                            className="w-full p-2 flex items-center gap-1.5 hover:bg-light-300 cursor-not-allowed"
                         >
                             <RiShareBoxLine />
                             <span>Share</span>
                         </div>
                         <div 
-                            onClick={() => openPopup("RENAME")}
-                            className="w-full p-2 flex items-center gap-1.5 hover:bg-light-300"
+                            // onClick={() => openPopup("RENAME")}
+                            className="w-full p-2 flex items-center gap-1.5 hover:bg-light-300 cursor-not-allowed"
                         >
                             <FiEdit />
                             <span>Rename</span>

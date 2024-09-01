@@ -37,7 +37,7 @@ const ZeroStores = () => {
                         height={0} 
                         className="h-6 w-auto" 
                     />
-                    <Link href="/" className="w-fit flex items-center gap-1.5 text-sm font-bold text-primary-400">
+                    <Link href="/integrations" className="w-fit flex items-center gap-1.5 text-sm font-bold text-primary-400">
                         <span>Install in Shopify</span>
                         <RiShareBoxLine className="text-[18px]" />
                     </Link>

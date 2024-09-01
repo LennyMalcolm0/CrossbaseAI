@@ -11,9 +11,13 @@ import useManageInsight from "./hooks/useManageInsight";
 import useUserAndParamsCheck from "./hooks/useUserAndParamsCheck";
 import ZeroStores from "./components/ZeroStores";
 import { UserStoresContext } from "@/app/context";
+import { useRouter } from "next/navigation";
+import { useUnauthenticatedUserCheck } from "@/app/utils/auth";
 
 const Home = () => {
     useUserAndParamsCheck();
+    const router = useRouter();
+    useUnauthenticatedUserCheck(router);
     const { 
         connectedStores, 
         loadingConnectedStores 
@@ -62,10 +66,10 @@ const Home = () => {
                                         <HiOutlineSparkles />
                                     </h1>
                                     <div className="flex items-center gap-2.5 text-primary-400">
-                                        <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                        <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-not-allowed">
                                             <TbCloudDownload className="text-[18px]" />
                                         </div>
-                                        <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-pointer">
+                                        <div className="max-sm:hidden p-2 rounded-full border border-primary-400 hover:shadow-sm cursor-not-allowed">
                                             <RiPushpin2Line className="text-[18px]" />
                                         </div>
                                         <button 
@@ -159,6 +163,7 @@ const Home = () => {
                                                     streamResponse(e);
                                                 }
                                             }}
+                                            disabled={awaitingResponse}
                                         />
                                         <button type="submit" className="text-2xl text-primary-400 mt-auto">
                                             <PiPaperPlaneRightFill />
@@ -181,14 +186,14 @@ export default Home;
 const defaultPrompts = [
     {
         imageUrl: "/home/file-05.svg",
-        prompt: "How much sales did I make in the past 3 days and which product sold the most within the same period?",
+        prompt: "Create a 5-day meal plan for a vegan diet with a focus on international cuisine.",
     },
     {
         imageUrl: "/home/bar-line-chart.svg",
-        prompt: "Show me my top 10 fulfilled orders by countries.",
+        prompt: "Provide a list of 10 songs from the 80s that would be great for a workout playlist.",
     },
     {
         imageUrl: "/home/line-chart-up.svg",
-        prompt: "Considering my current sales growth rate, how much can I make in the next six months? Don’t include my Amazon FBA sales.",
+        prompt: "Generate a character profile for a protagonist in a fantasy novel, including their backstory, personality, and motivations.",
     },
 ]

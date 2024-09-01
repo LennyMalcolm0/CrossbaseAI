@@ -70,11 +70,11 @@ function useManageIntegrations() {
     const [connectedStoresByType, setStoresByType] = useState<StoresByType[]>([]);
 
     useEffect(() => {
-        if (connectedStores) {
+        if (connectedStores.length) {
             setStoresByType(formatStoresByType(connectedStores));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [connectedStores.length]);
+    }, [loadingConnectedStores]);
 
     useEffect(() => {
         if (createdStore) {

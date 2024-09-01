@@ -71,7 +71,7 @@ export const useActiveStore = create(
                 }))
             },
             clearStore: () => {
-                set({ store: {} as Store, insights: [] })
+                set({ store: {} as Store, insights: [], defaultStore: {} as DefaultStore })
             },
         }),
         {
