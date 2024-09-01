@@ -32,8 +32,6 @@ function useUpdateProfile() {
                 if (data) setProfile(data);
             },
             cacheKey: "profile",
-            cacheTime: -1,
-            staleTime: 600000 // 10 minutes
         }
     );
 
