@@ -1,7 +1,7 @@
 import { authErrorsFeedbacks, useAuthenticatedUserCheck } from "@/app/utils/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SignupForm } from "../models";
-import { auth, googleProvider } from "@/app/firebase";
+import { auth, googleProvider } from "@/app/utils/firebase";
 import { 
     createUserWithEmailAndPassword, 
     sendEmailVerification, 

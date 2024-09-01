@@ -1,4 +1,4 @@
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/utils/firebase";
 import { getCurrentUser } from "@/app/utils/auth";
 import { useClickAway, useLocalStorageState, useLockFn } from "ahooks";
 import { 

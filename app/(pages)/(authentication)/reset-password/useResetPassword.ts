@@ -1,4 +1,4 @@
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/utils/firebase";
 import { useAuthenticatedUserCheck } from "@/app/utils/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useFormik } from "formik";
