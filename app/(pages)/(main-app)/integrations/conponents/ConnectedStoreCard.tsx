@@ -48,7 +48,7 @@ const ConnectedStoreCard = ({ type, stores }: ConnectedStoreCardProps) => {
                 onClick={() => {
                     updateSearchParams({
                         type: "SHOPIFY",
-                        shop: "aaaaaaa"
+                        shop: "true"
                     })
                 }}
                 className="flex items-center gap-1 text-xs font-bold text-primary-400 capitalize"

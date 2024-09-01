@@ -37,7 +37,7 @@ const DisconnectedStoreCard = ({
                     onClick={() => {
                         updateSearchParams({
                             type: "SHOPIFY",
-                            shop: "aaaaaaa"
+                            shop: "true"
                         })
                     }}
                     className="w-full py-[13px] bg-primary-100 text-sm font-bold 
