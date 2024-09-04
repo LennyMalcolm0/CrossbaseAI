@@ -75,7 +75,7 @@ const Home = () => {
                                         <button 
                                             onClick={createNewInsight}
                                             className="px-3.5 py-2.5 rounded-full bg-primary-400 text-light-400
-                                            text-sm font-bold flex items-center gap-2 hover:shadow-sm"
+                                            text-sm font-bold flex items-center gap-2 hover:shadow-sm whitespace-nowrap"
                                         >
                                             <span>New Insight</span>
                                             <FaPlus className="text-[18px]" />
