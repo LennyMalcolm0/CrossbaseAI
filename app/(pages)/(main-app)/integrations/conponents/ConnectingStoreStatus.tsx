@@ -32,7 +32,7 @@ const ConnectingStoreStatus = ({creatingStore, createdStore}: ConnectingStoreSta
                 </>)}
 
                 <Image 
-                    src={"/integrations/shopify.svg"}
+                    src={`/integrations/${type?.toLowerCase() || ""}.svg`}
                     alt={type?.toLowerCase() || ""}
                     width={0} 
                     height={0} 

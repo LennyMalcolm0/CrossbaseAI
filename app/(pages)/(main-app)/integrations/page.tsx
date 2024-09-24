@@ -4,6 +4,7 @@ import ConnectedStoreCard from "./conponents/ConnectedStoreCard";
 import DisconnectedStoreCard from "./conponents/DisconnectedStoreCard";
 import useManageIntegrations from "./useManageIntegrations";
 import ConnectingStoreStatus from "./conponents/ConnectingStoreStatus";
+import { StoreType } from "@/app/models";
 
 const Integrations = () => {
     const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ const Integrations = () => {
         loadingConnectedStores, 
         creatingStore, 
         createdStore,
+        fetchConnectedStores,
     } = useManageIntegrations();
 
     return (
@@ -27,30 +29,33 @@ const Integrations = () => {
                                 key={group.id}
                                 type={group.type}
                                 stores={group.stores}
+                                fetchConnectedStores={fetchConnectedStores}
                             />
                         ))}
                     </div>
                 )}
                 <div className="grid grid-cols-4 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[15px]">
                     <DisconnectedStoreCard 
+                        type={StoreType.SHOPIFY}
                         logoUrl="/integrations/shopify.svg"
                         logoAltText="Shopify"
                         description="Get intelligent insights on your Shopify store."
                     />
                     <DisconnectedStoreCard 
+                        type={StoreType.AMAZON}
                         logoUrl="/integrations/amazon.svg"
                         logoAltText="Amazon"
                         description="Get intelligent insights on your Amazon FBA."
-                        comingSoon
                     />
                     <DisconnectedStoreCard 
+                        type={StoreType.GUMROAD}
                         logoUrl="/integrations/gumroad.svg"
                         logoAltText="Gumroad"
                         description="Get intelligent insights on your Gumroad store."
-                        comingSoon
                     />
                     <DisconnectedStoreCard 
-                        logoUrl="/integrations/woocommerce.svg"
+                        type={StoreType.WOO_COMMERCE}
+                        logoUrl="/integrations/woo_commerce.svg"
                         logoAltText="Woo Commerce"
                         description="Get intelligent insights on your WooCommerce store."
                         comingSoon

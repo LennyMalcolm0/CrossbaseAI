@@ -1,7 +1,7 @@
 import { BaseInsight, Insight, Message } from "@/app/models";
 import { getCurrentUser } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
-import { useLockFn, useRequest } from "ahooks";
+import { useLockFn, useRequest, useUpdateEffect } from "ahooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useActiveStore from "./useActiveStore";
@@ -84,6 +84,12 @@ function useManageInsight() {
     const { store, updateInsightTitle, addNewInsight } = useActiveStore();
     const [textareaValue, setTextareaValue] = useState("");
     const [awaitingResponse, setAwaitingResponse] = useState(false);
+
+    useUpdateEffect(() => {
+        if (!store) return;
+        setConversation([]);
+        setActiveInsight(undefined);
+    }, [store])
 
     const streamResponse = useLockFn(async (e: any) => {
         e?.preventDefault();

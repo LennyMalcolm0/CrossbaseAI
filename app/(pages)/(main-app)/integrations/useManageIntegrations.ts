@@ -88,6 +88,7 @@ function useManageIntegrations() {
         loadingConnectedStores, 
         creatingStore, 
         createdStore,
+        fetchConnectedStores,
     };
 }
 

@@ -7,13 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useActiveStore from "./useActiveStore";
 
-const storesArray: Store[] = Array.from({ length: 10 }, (_, index) => ({
-    id: `store-${index + 1}`,
-    type: StoreType.SHOPIFY, // Assuming you want all stores to be of type SHOPIFY
-    url: `https://store${index + 1}.example.com`,
-    updatedAt: new Date().toISOString(),
-}));
-
 export default function useManageAppLayout() {
     const router = useRouter();
     const pathname = usePathname();
@@ -45,6 +38,9 @@ export default function useManageAppLayout() {
                 if (data) setConnectedStores(data);
                 if (!activeStore?.id && data?.length) {
                     setActiveStore(data[0]);
+                } 
+                if (!data?.length) {
+                    router.push("/integrations");
                 } 
             },
             cacheKey: "userStores",

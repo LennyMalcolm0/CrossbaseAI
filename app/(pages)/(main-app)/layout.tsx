@@ -48,12 +48,12 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                             >
                                 <FiUser />
                             </Link>
-                            <button className="max-sm:hidden h-[34px] w-[60px] p-[3px] bg-light-300 rounded-full flex text-light-400 header-element">
+                            {/* <button className="max-sm:hidden h-[34px] w-[60px] p-[3px] bg-light-300 rounded-full flex text-light-400 header-element">
                                 <div className="h-full w-[28px] bg-light-100 rounded-full text-xl grid place-content-center">
                                     <LuSun />
                                     <FaRegMoon className="hidden" />
                                 </div>
-                            </button>
+                            </button> */}
                         </div>
                         <div className="max-lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3">
                             <Link 

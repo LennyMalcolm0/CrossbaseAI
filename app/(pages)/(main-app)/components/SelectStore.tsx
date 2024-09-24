@@ -1,11 +1,11 @@
 "use client"
 import { Store, StoreType } from "@/app/models";
-import { HttpClient } from "@/app/utils/axiosRequests";
-import { useClickAway, useRequest, useToggle } from "ahooks";
-import { useEffect, useRef, useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { useClickAway, useToggle } from "ahooks";
+import { useEffect, useRef } from "react";
+import { FaAmazon, FaChevronDown } from "react-icons/fa";
 import { FaShopify } from "react-icons/fa";
 import useActiveStore from "../hooks/useActiveStore";
+import { SiGumroad } from "react-icons/si";
 
 type SelectStoreProps = {
     connectedStores: Store[];
@@ -50,7 +50,13 @@ const SelectStore = ({connectedStores, loadingConnectedStores}: SelectStoreProps
                 flex items-center justify-center gap-1.5 text-sm cursor-pointer header-element"
             >
                 {(activeStore || defaultStore) ? (<>
-                    <FaShopify className="text-[#5E8E3E]" />
+                    {activeStore.type === StoreType.SHOPIFY ? (
+                        <FaShopify />
+                    ): activeStore.type === StoreType.AMAZON ? (
+                        <FaAmazon />
+                    ): activeStore.type === StoreType.GUMROAD ? (
+                        <SiGumroad />
+                    ): null}
                     <span className="font-medium max-w-[180px] max-sm:max-w-[120px] ellipses">
                         {activeStore.url || defaultStore.url}
                     </span>
@@ -76,7 +82,13 @@ const SelectStore = ({connectedStores, loadingConnectedStores}: SelectStoreProps
                             `}
                             onClick={() => handleStoreClick(store)}
                         >
-                            <FaShopify className="text-[#5E8E3E]" />
+                            {store.type === StoreType.SHOPIFY ? (
+                                <FaShopify />
+                            ): store.type === StoreType.AMAZON ? (
+                                <FaAmazon />
+                            ): store.type === StoreType.GUMROAD ? (
+                                <SiGumroad />
+                            ): null}
                             <span className="w-full font-medium ellipses">{store.url}</span>
                         </button> 
                     ))}
