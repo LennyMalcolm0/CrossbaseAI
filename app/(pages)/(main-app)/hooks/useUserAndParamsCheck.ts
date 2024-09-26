@@ -16,7 +16,7 @@ function useUserAndParamsCheck() {
         const user = await getCurrentUser();
 
         if (!storeDomain || !type) {
-            if (!user) router.push(`/sign-in`);
+            // if (!user) router.push(`/sign-in`);
             return
         };
 
@@ -36,7 +36,7 @@ function useUserAndParamsCheck() {
             case "existing-store_valid-user":
                 break;
             case "existing-store_invalid-user":
-                router.push(`/sign-in`);
+                // router.push(`/sign-in`);
                 break;
             default:
                 break;

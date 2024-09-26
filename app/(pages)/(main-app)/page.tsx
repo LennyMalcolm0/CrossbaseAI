@@ -53,7 +53,7 @@ const Home = () => {
             {loadingConnectedStores ? (
                 <h1>Loading app...</h1>
             ):(<>
-                {(connectedStores.length > 0) ? (
+                {connectedStores.length ? (
                     <div className="h-full app-container-2 flex gap-5">
                         <InsightHistory />
 

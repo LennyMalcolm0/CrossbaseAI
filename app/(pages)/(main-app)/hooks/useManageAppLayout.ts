@@ -1,5 +1,5 @@
 import { Store, StoreType } from "@/app/models";
-import { getCurrentUser } from "@/app/utils/auth";
+import { getCurrentUser, useUnauthenticatedUserCheck } from "@/app/utils/auth";
 import { HttpClient } from "@/app/utils/axiosRequests";
 import { useAsyncEffect, useRequest } from "ahooks";
 import { sendEmailVerification } from "firebase/auth";
@@ -10,36 +10,38 @@ import useActiveStore from "./useActiveStore";
 export default function useManageAppLayout() {
     const router = useRouter();
     const pathname = usePathname();
-    // TODO ? Use session storage instead
+    useUnauthenticatedUserCheck(router);
     const [unverifiedEmail, setUnverifiedEmail] = useState(false);
     const [connectedStores, setConnectedStores] = useState<Store[]>([]);
     const { store: activeStore,  setStore: setActiveStore } = useActiveStore();
     
     const checkPath = (path: string) => pathname === path;
 
-    useAsyncEffect(async () => {
-        const user = await getCurrentUser();
+    // useAsyncEffect(async () => {
+    //     const user = await getCurrentUser();
 
-        if (user && !user.emailVerified) {
-            setUnverifiedEmail(true);
-            await sendEmailVerification(user);
-            return
-        }
+    //     if (user && !user.emailVerified) {
+    //         setUnverifiedEmail(true);
+    //         await sendEmailVerification(user);
+    //         return
+    //     }
 
-        if (pathname !== "/" && !user) {
-            router.push("/sign-in");
-        }
-    }, [])
+    //     if (pathname !== "/" && !user) {
+    //         router.push("/sign-in");
+    //     }
+    // }, [])
 
     const { run: fetchConnectedStores, loading: loadingConnectedStores,  } = useRequest(
         () => HttpClient.get<Store[]>(`/stores`),
         { 
-            onSuccess: ({ data }) => {
+            onSuccess: async ({ data }) => {
                 if (data) setConnectedStores(data);
                 if (!activeStore?.id && data?.length) {
                     setActiveStore(data[0]);
                 } 
-                if (!data?.length) {
+
+                const user = await getCurrentUser();
+                if (!data?.length && user) {
                     router.push("/integrations");
                 } 
             },
