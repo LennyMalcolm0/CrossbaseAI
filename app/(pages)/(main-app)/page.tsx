@@ -13,6 +13,8 @@ import ZeroStores from "./components/ZeroStores";
 import { UserStoresContext } from "@/app/context";
 import { useRouter } from "next/navigation";
 import { useUnauthenticatedUserCheck } from "@/app/utils/auth";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const Home = () => {
     useUserAndParamsCheck();
@@ -126,9 +128,14 @@ const Home = () => {
                                                     className="rounded-full h-[28px] w-[28px] object-cover" 
                                                 />
                                             )}
-                                            <p className={`${message.role} conversation`}>
+                                            {/* <pre className={`${message.role} conversation whitespace-pre-wrap`}>
                                                 {message.content}
-                                            </p>
+                                            </pre> */}
+                                            <div className={`${message.role} conversation flex flex-col gap-4`}>
+                                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                                    {message.content}
+                                                </ReactMarkdown>
+                                            </div>
                                         </div>
                                     ))}
                                     {awaitingResponse && (
