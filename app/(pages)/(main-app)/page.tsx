@@ -12,9 +12,10 @@ import useUserAndParamsCheck from "./hooks/useUserAndParamsCheck";
 import ZeroStores from "./components/ZeroStores";
 import { UserStoresContext } from "@/app/context";
 import { useRouter } from "next/navigation";
-import { useUnauthenticatedUserCheck } from "@/app/utils/auth";
+import { getCurrentUser, useUnauthenticatedUserCheck } from "@/app/utils/auth";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useAsyncEffect } from "ahooks";
 
 const Home = () => {
     useUserAndParamsCheck();
@@ -35,6 +36,13 @@ const Home = () => {
         streamResponse,
         createNewInsight
     } = useManageInsight();
+
+    useAsyncEffect(async () => {
+        const user = await getCurrentUser();
+        if (!loadingConnectedStores && !connectedStores?.length && user) {
+            router.push("/integrations");
+        } 
+    }, [connectedStores, loadingConnectedStores])
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
  

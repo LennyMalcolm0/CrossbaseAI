@@ -49,6 +49,8 @@ export function useSignin() {
                 errorFeedbackDisplay[1].textContent = authErrorsFeedbacks.wrongPassword;
             } else if (errorMessage.includes(AuthErrorCodes.INVALID_EMAIL)) {
                 errorFeedbackDisplay[0].textContent = authErrorsFeedbacks.invalidUser;
+            } else if (errorMessage.toLowerCase().includes("invalid")) {
+                alert("Username or password is incorrect. Please try again.");
             } else {
                 alert("Something went wrong. Please try again.");
             }

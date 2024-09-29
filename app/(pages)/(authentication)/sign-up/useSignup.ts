@@ -61,8 +61,6 @@ export function useSignup() {
 
             if (errorMessage.toLowerCase().includes("email-already-in-use")) {
                 errorFeedbackDisplay.textContent = authErrorsFeedbacks.existingUser;
-            } else if (errorMessage.toLowerCase().includes("invalid")) {
-                alert("Username or password is incorrect. Please try again.");
             } else {
                 alert("Something went wrong. Please try again.");
             }
