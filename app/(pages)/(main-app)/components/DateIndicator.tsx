@@ -10,18 +10,14 @@ const DateIndicator = ({ date }: DateIndicatorProp) => {
         const today = moment();
         const diff = today.diff(date, "days");
 
-        if (diff > 6) {
+        if (diff > 1) {
             return date.format("MMMM Do YYYY");
         } else {
             switch (diff) {
                 case 0:
                     return "Today";
-                case 1:
-                    return "Yesterday";
-                case 7:
-                    return "Last 7 days";
                 default:
-                    return "Older";
+                    return "Yesterday";
             }
         }
     }

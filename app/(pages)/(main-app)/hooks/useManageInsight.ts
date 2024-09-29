@@ -138,7 +138,7 @@ function useManageInsight() {
                 const { value, done } = await reader.read();
                 if (done) break;
                 
-                if (value.startsWith("___id: ")) {
+                if (value.startsWith("___id: ") || value.includes("___id: ")) {
                     const id = value.split("___id: ")[1];
 
                     addNewInsight({ id, title: prompt });
