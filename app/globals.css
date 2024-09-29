@@ -149,7 +149,7 @@ textarea.prompt::-webkit-scrollbar {
   blockquote {
     @apply sm:pl-5 pl-3 sm:py-2.5 py-2 border-l-4 border-dark-300 italic
   }
-  
+
   table {
     @apply w-full border-collapse shadow-[0px_0px_20px_rgba(0,0,0,0.1)] rounded-[10px] 
     overflow-hidden text-dark-400 border border-[#EEEEEE] text-sm
@@ -162,7 +162,7 @@ textarea.prompt::-webkit-scrollbar {
   }
   thead {
     th {
-      @apply bg-dark-400 bg-opacity-80 text-white
+      @apply bg-dark-400 bg-opacity-80 text-white whitespace-nowrap
     }
   }
   tbody tr {

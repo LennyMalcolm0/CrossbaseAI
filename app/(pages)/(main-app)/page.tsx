@@ -72,7 +72,7 @@ const Home = () => {
                             <div className="w-full h-full flex flex-col justify-between relative z-[9999]">
                                 <div className="max-sm:px-5 lg:px-7 py-4 text-[18px] font-bold text-dark-200 flex items-center justify-between">
                                     <h1 className="flex items-center gap-1.5">
-                                        <span className="max-w-[200px] line-clamp-1">{activeInsight?.title || "Insights"}</span>
+                                        <span className="max-w-[200px] truncate">{activeInsight?.title || "Insights"}</span>
                                         <HiOutlineSparkles />
                                     </h1>
                                     <div className="flex items-center gap-2.5 text-primary-400">
@@ -139,7 +139,7 @@ const Home = () => {
                                             {/* <pre className={`${message.role} conversation whitespace-pre-wrap`}>
                                                 {message.content}
                                             </pre> */}
-                                            <div className={`${message.role} conversation flex flex-col gap-5`}>
+                                            <div className={`${message.role} overflow-x-auto conversation flex flex-col gap-5`}>
                                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                                     {message.content}
                                                 </ReactMarkdown>

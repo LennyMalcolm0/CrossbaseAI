@@ -13,7 +13,7 @@ const InsightHistory = () => {
             <div className="absolute top-0 h-[110px] w-full rounded-t-[20px] primary-gradient" />
             <div className="w-full py-6 h-full flex flex-col relative z-[999]">
                 <h1 className="px-5 text-[18px] font-bold text-dark-200 mb-7">History</h1>
-                <div className="w-full grow px-5 flex flex-col overflow-y -auto">
+                <div className="w-full grow px-5 flex flex-col overflow-y-auto">
                     {(loading && insightsByDate.length < 1) ? (
                         <div className="text-dark-200">Loading...</div>
                     ):(<>

@@ -177,9 +177,10 @@ function useManageInsight() {
                 });
             }
         } else {
-            setAwaitingResponse(false);
             console.error("Stream response was not ok.");
         }
+
+        setAwaitingResponse(false);
     });
 
     const createNewInsight = () => {
