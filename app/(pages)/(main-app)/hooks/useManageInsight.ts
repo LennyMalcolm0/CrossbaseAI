@@ -143,31 +143,30 @@ function useManageInsight() {
 
                     addNewInsight({ id, title: prompt });
                     updateSearchParams({ insight: id });
-                    return
-                }
-                
-                setConversation(prev => {
-                    if (prev[prev.length - 1].role === "user") {
-                        return [
-                            ...prev,
-                            { role: "assistant", content: value }
-                        ]
-                    }
-
-                    return [
-                        ...prev.slice(0, prev.length - 1),
-                        { 
-                            role: "assistant", 
-                            content: prev[prev.length - 1].content + value
+                } else {
+                    setConversation(prev => {
+                        if (prev[prev.length - 1].role === "user") {
+                            return [
+                                ...prev,
+                                { role: "assistant", content: value }
+                            ]
                         }
-                    ]
-                });
-
-                if (responseChunkCount === 0) {
-                    setAwaitingResponse(false);
-                    responseChunkCount++
+    
+                        return [
+                            ...prev.slice(0, prev.length - 1),
+                            { 
+                                role: "assistant", 
+                                content: prev[prev.length - 1].content + value
+                            }
+                        ]
+                    });
+    
+                    if (responseChunkCount === 0) {
+                        setAwaitingResponse(false);
+                        responseChunkCount++
+                    }
+                    scrollBoxToBottom();
                 }
-                scrollBoxToBottom();
             }
 
             if (insightId && !controller.signal.aborted) {
