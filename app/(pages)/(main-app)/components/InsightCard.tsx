@@ -10,13 +10,14 @@ import { SlClose } from "react-icons/sl";
 import Input from '@/app/components/Input';
 import { FaPlus } from "react-icons/fa6";
 import useInsightActions from '../hooks/useInsightActions';
+import { useRouter } from 'next/navigation';
 
 type InsightCardProps = Omit<Insight, "messages" | "updatedAt">;
 type ActionType = "SHARE" | "RENAME" | "DELETE" | "";
 
-// TODO-NN: Route to "/?insights=dvavfv" directly
 // TODO-NN: Update page title based on active insights
 const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
+    const router = useRouter();
     const {
         displayPopup,
         actionType,
@@ -36,12 +37,6 @@ const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
         menuopened && toggle();
     }, [menuRef, menuButtonRef]);
 
-    const selectInsight = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.currentTarget.id !== "menu") {
-            updateSearchParams({ insight: id });
-        }
-    };
-
     const openPopup = (type: ActionType) => {
         setActionType(type)
         setDisplayPopup(true);
@@ -50,29 +45,30 @@ const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
     return (
         <>
         <div
-            onClick={selectInsight}
             className={`w-full py-3 px-2.5 bg-light-400 rounded-[10px] flex items-center 
-                justify-between gap-1.5 text-xs text-dark-400 cursor-pointer 
+                justify-between gap-1.5 text-xs text-dark-400 
                 ${searchParams.get("insight") === id ? "active-insight" : "hover:shadow-md"}
             `}
         >
-            <span className="w-full ellipses">{title}</span>
+            <span 
+                onClick={() => router.push(`/?insight=${id}`)} 
+                className="w-full ellipses cursor-pointer"
+            >
+                {title}
+            </span>
             <div className="relative py-0.5">
                 <div 
                     ref={menuButtonRef}
                     id="menu"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        toggle();
-                    }}
-                    className="h-full pl-0.5 text-light-100 text-base hover:scale-[1.1] hover:text-dark-100"
+                    onClick={toggle}
+                    className="h-full pl-0.5 text-light-100 text-base hover:scale-[1.1] hover:text-dark-100 cursor-pointer"
                 >
                     <HiDotsHorizontal />
                 </div>
                 {menuopened && (
                     <div 
                         ref={menuRef}
-                        className="absolute top-6 left-0 w-[80px] bg-light-400 rounded-[10px] text-sm sm:text-[10px] 
+                        className="absolute top-6 right-0 w-[80px] bg-light-400 rounded-[10px] text-sm sm:text-[10px] 
                         text-light-100 font-medium shadow-[-10px_-5px_30px_0px_rgba(0,0,0,0.15)] z-[999] overflow-hidden"
                     >
                         <div 
@@ -91,7 +87,7 @@ const InsightCard = ({ id, title, pinned }: InsightCardProps) => {
                         </div>
                         <div 
                             onClick={() => openPopup("DELETE")}
-                            className="w-full p-2 flex items-center gap-1.5 text-primary-200 hover:bg-light-300"
+                            className="w-full p-2 flex items-center gap-1.5 text-primary-200 hover:bg-light-300 cursor-pointer"
                         >
                             <HiOutlineTrash />
                             <span>Delete</span>

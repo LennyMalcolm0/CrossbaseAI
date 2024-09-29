@@ -9,7 +9,7 @@ const InsightHistory = () => {
     const { insightsByDate, loading } = useGetInsights();
 
     return (
-        <section className="max-lg:hidden w-[250px] h-full border-2 rounded-[20px] border-light-200 relative">
+        <section className="w-full h-full lg:border-2 rounded-[20px] border-light-200 relative">
             <div className="absolute top-0 h-[110px] w-full rounded-t-[20px] primary-gradient" />
             <div className="w-full py-6 h-full flex flex-col relative z-[999]">
                 <h1 className="px-5 text-[18px] font-bold text-dark-200 mb-7">History</h1>

@@ -6,8 +6,10 @@ function useCustomSearchParams() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const updateSearchParams = (params: any) => {
-        const currentSearchParams = new URLSearchParams(searchParams as unknown as URLSearchParams);
+    const updateSearchParams = (params: any, clean = false) => {
+        const currentSearchParams = new URLSearchParams(
+            !clean ? searchParams as unknown as URLSearchParams : {}
+        );
 
         if (Object.keys(params).length === 0) {
             return router.push(pathname);

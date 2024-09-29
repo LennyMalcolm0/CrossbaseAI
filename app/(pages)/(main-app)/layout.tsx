@@ -8,7 +8,6 @@ import { FaRegMoon } from "react-icons/fa6";
 import { TbHome2 } from "react-icons/tb";
 import { FiLink } from "react-icons/fi";
 import { BsBookmarkCheck } from "react-icons/bs";
-import { FiLogOut } from "react-icons/fi";
 import SelectStore from "./components/SelectStore";
 import { UserStoresContext } from "@/app/context";
 import useManageAppLayout from "./hooks/useManageAppLayout";
@@ -94,8 +93,8 @@ const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
                             <span>Home</span>
                         </Link>
                         <Link 
-                            href="/integrations"
-                            className={`nav-link ${checkPath("/integrations") ? "active" : "inactive"}`}
+                            href="/history"
+                            className={`nav-link ${checkPath("/history") ? "active" : "inactive"}`}
                         >
                             <BsBookmarkCheck className="text-[18px]" />
                             <span>History</span>

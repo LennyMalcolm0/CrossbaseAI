@@ -58,14 +58,16 @@ const Home = () => {
         textarea.style.height = `${newHeight}px`;
     };
     
-    return (  
+    return (
         <main className="h-full lg:py-5">
             {loadingConnectedStores ? (
                 <h1>Loading app...</h1>
             ):(<>
                 {connectedStores.length ? (
                     <div className="h-full app-container-2 flex gap-5">
-                        <InsightHistory />
+                        <section className="max-lg:hidden w-[250px] h-full">
+                            <InsightHistory />
+                        </section>
 
                         <section className="conversation-box lg:border-2 lg:rounded-[20px] lg:border-light-200 relative overflow-hidden">
                             <div className="sm:hid den absolute top-0 h-[110px] w-full primary-gradient" />
