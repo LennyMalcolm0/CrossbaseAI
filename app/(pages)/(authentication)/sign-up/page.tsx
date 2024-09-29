@@ -23,7 +23,7 @@ const SignUp = () => {
                 <h1 className="text-dark-100 text-xl leading-[2] mb-5">Create Account</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="flex flex-col gap-[15px]">
-                        <div className="w-full flex gap-3">
+                        {/* <div className="w-full flex gap-3">
                             <Input 
                                 label="First Name"
                                 labelFor="firstName"
@@ -48,7 +48,7 @@ const SignUp = () => {
                                 }}
                                 error={formik.touched.lastName && formik.errors.lastName}
                             />
-                        </div>
+                        </div> */}
                         <Input 
                             label="Email Address"
                             labelFor="emailAddress"
@@ -84,7 +84,7 @@ const SignUp = () => {
                                         <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
                                         <span>Must be 8 chracters long.</span>
                                     </li>
-                                    <li className="flex items-center">
+                                    {/* <li className="flex items-center">
                                         <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
                                         <span>Must contain 1 small letter (a...z).</span>
                                     </li>
@@ -99,7 +99,7 @@ const SignUp = () => {
                                     <li className="flex items-center">
                                         <i className="fa-solid fa-circle text-[5px] mr-[5px]"></i>
                                         <span>Must contain 1 number (0...9) </span>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             )}
                         </div>

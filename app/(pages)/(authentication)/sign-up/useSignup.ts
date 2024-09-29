@@ -40,21 +40,29 @@ export function useSignup() {
             await createUserWithEmailAndPassword(auth, data.emailAddress, data.password);
             if (!auth.currentUser) return;
             
-            await sendEmailVerification(auth.currentUser);
+            // await sendEmailVerification(auth.currentUser);
 
-            setSentVerificationLink(true);
-            setNewUserWithStore({
-                firstName: data.firstName,
-                lastName: data.lastName,
-                storeDomain: storeDomain || undefined,
-                type: type || undefined
-            });
+            // setSentVerificationLink(true);
+            // setNewUserWithStore({
+            //     firstName: data.firstName,
+            //     lastName: data.lastName,
+            //     storeDomain: storeDomain || undefined,
+            //     type: type || undefined
+            // });
+            
+            if (type && storeDomain) {
+                router.push(`/integrations?shop=${storeDomain}&type=${type}`);
+            } else {
+                router.push("/integrations");
+            }
         } catch (error: any) {
             setLoading(false);
             const errorMessage = error.message as string;
 
             if (errorMessage.toLowerCase().includes("email-already-in-use")) {
                 errorFeedbackDisplay.textContent = authErrorsFeedbacks.existingUser;
+            } else if (errorMessage.toLowerCase().includes("invalid")) {
+                alert("Username or password is incorrect. Please try again.");
             } else {
                 alert("Something went wrong. Please try again.");
             }
@@ -69,7 +77,7 @@ export function useSignup() {
             if (type && storeDomain) {
                 router.push(`/integrations?shop=${storeDomain}&type=${type}`);
             } else {
-                router.push("/");
+                router.push("/integrations");
             }
         } catch (error) {
             setLoading(false);
@@ -79,8 +87,8 @@ export function useSignup() {
 
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
+            // firstName: "",
+            // lastName: "",
             emailAddress: "",
             password: "",
             confirmedPassword: "",

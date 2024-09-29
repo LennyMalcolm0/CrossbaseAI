@@ -131,7 +131,7 @@ const Home = () => {
                                             {/* <pre className={`${message.role} conversation whitespace-pre-wrap`}>
                                                 {message.content}
                                             </pre> */}
-                                            <div className={`${message.role} conversation flex flex-col gap-4`}>
+                                            <div className={`${message.role} conversation flex flex-col gap-5`}>
                                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                                     {message.content}
                                                 </ReactMarkdown>

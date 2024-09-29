@@ -1,6 +1,6 @@
 export type SignupForm = {
-    firstName: string;
-    lastName: string;
+    // firstName: string;
+    // lastName: string;
     emailAddress: string; 
     password: string;
     confirmedPassword: string;
