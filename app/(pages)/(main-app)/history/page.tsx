@@ -5,13 +5,13 @@ import { useEffect } from "react";
 
 const History = () => {
     const router = useRouter(); 
-    const screenWidth = window.innerWidth;
 
     useEffect(() => {
-        if (screenWidth > 1100) {
+        if (!window) return;
+        if (window.innerWidth > 1100) {
             router.push("/");
         }
-    }, [screenWidth, router])
+    }, [router])
     
     return (
         <main className="h-full lg:py-5">
